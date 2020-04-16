@@ -16,7 +16,7 @@ namespace CV19INeedHelp
        public Response GetHelpRequests()
        {
            var connectionString = Environment.GetEnvironmentVariable("CV_19_DB_CONNECTION");
-           var getRequestGateway = new OrganisationVolunteerGateway(connectionString);
+           var getRequestGateway = new INeedHelpGateway(connectionString);
            var getRequestObject = new GetHelpRequestsUseCase(getRequestGateway);
            try
            {
