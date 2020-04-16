@@ -1,0 +1,154 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/cv-19-org-volunteers-test.csproj": {}
+  },
+  "projects": {
+    "/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/cv-19-org-volunteers-test.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/cv-19-org-volunteers-test.csproj",
+        "projectName": "cv-19-org-volunteers-test",
+        "projectPath": "/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/cv-19-org-volunteers-test.csproj",
+        "packagesPath": "/Users/spreston/.nuget/packages/",
+        "outputPath": "/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/spreston/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "https://api.bintray.com/nuget/gov-uk-notify/nuget": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {
+              "/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers/cv-19-org-volunteers.csproj": {
+                "projectPath": "/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers/cv-19-org-volunteers.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[15.9.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.13.1, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.12.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[3.11.0, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    },
+    "/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers/cv-19-org-volunteers.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers/cv-19-org-volunteers.csproj",
+        "projectName": "cv-19-org-volunteers",
+        "projectPath": "/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers/cv-19-org-volunteers.csproj",
+        "packagesPath": "/Users/spreston/.nuget/packages/",
+        "outputPath": "/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/spreston/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "https://api.bintray.com/nuget/gov-uk-notify/nuget": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Amazon.Lambda.Core": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Amazon.Lambda.Serialization.Json": {
+              "target": "Package",
+              "version": "[1.3.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.13.1, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.12.0, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

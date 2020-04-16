@@ -1,0 +1,17 @@
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/bin/Debug/netcoreapp2.1/NUnit3.TestAdapter.dll
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/bin/Debug/netcoreapp2.1/NUnit3.TestAdapter.pdb
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/bin/Debug/netcoreapp2.1/nunit.engine.netstandard.dll
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/bin/Debug/netcoreapp2.1/cv-19-org-volunteers-test.deps.json
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/bin/Debug/netcoreapp2.1/cv-19-org-volunteers-test.runtimeconfig.json
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/bin/Debug/netcoreapp2.1/cv-19-org-volunteers-test.runtimeconfig.dev.json
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/bin/Debug/netcoreapp2.1/cv-19-org-volunteers-test.dll
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/bin/Debug/netcoreapp2.1/cv-19-org-volunteers-test.pdb
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/bin/Debug/netcoreapp2.1/CsharpHandlers.dll
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/bin/Debug/netcoreapp2.1/CsharpHandlers.pdb
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/obj/Debug/netcoreapp2.1/cv-19-org-volunteers-test.csprojAssemblyReference.cache
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/obj/Debug/netcoreapp2.1/cv-19-org-volunteers-test.csproj.CoreCompileInputs.cache
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/obj/Debug/netcoreapp2.1/cv-19-org-volunteers-test.AssemblyInfoInputs.cache
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/obj/Debug/netcoreapp2.1/cv-19-org-volunteers-test.AssemblyInfo.cs
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/obj/Debug/netcoreapp2.1/cv-19-org-volunteers-test.csproj.CopyComplete
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/obj/Debug/netcoreapp2.1/cv-19-org-volunteers-test.dll
+/Users/spreston/Projects/cv-19-org-volunteers/cv-19-org-volunteers-test/obj/Debug/netcoreapp2.1/cv-19-org-volunteers-test.pdb
