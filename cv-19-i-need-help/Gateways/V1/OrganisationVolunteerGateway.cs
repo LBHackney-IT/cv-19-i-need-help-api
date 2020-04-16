@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using CV19INeedHelp.Models.V1;
 using CV19INeedHelp.Data.V1;
 
@@ -14,11 +16,10 @@ namespace CV19INeedHelp.Gateways.V1
             _dbContext = new Cv19SupportDbContext(_connectionString);
         }
 
-        public int GetAllHelpRequests()
+        public List<ResidentSupportAnnex> GetAllHelpRequests()
         {
-            throw new NotImplementedException();
-            //_dbContext.OrganisationsNeedingVolunteers.Add();
-            //return response;
+            var response = _dbContext.ResidentSupportAnnex.ToList();
+            return response;
         }
     }
 }
