@@ -1,3 +1,7 @@
 .DS_Store
 .idea/*
+.cv-19-i-need-help/bin/*
+.cv-19-i-need-help/obj/*
+.cv-19-i-need-help/.serverless/*
+
 cv-19-org-volunteers.sln.DotSettings.user
