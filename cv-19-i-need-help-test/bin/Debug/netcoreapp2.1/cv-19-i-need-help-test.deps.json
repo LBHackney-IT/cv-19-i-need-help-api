@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "7118937105db3d2f5f7a76d034c01c1fce850a6f"
+    "signature": "6c1c8c7faaef2dee2196e7c68cfa4a0d4771f65e"
   },
   "compilationOptions": {},
   "targets": {
@@ -17,6 +17,17 @@
         },
         "runtime": {
           "cv-19-i-need-help-test.dll": {}
+        }
+      },
+      "Amazon.Lambda.APIGatewayEvents/2.0.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Amazon.Lambda.APIGatewayEvents.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.2.0.0"
+          }
         }
       },
       "Amazon.Lambda.Core/1.0.0": {
@@ -1288,6 +1299,7 @@
       },
       "cv-19-org-volunteers/1.0.0": {
         "dependencies": {
+          "Amazon.Lambda.APIGatewayEvents": "2.0.0",
           "Amazon.Lambda.Core": "1.0.0",
           "Amazon.Lambda.Serialization.Json": "1.3.0",
           "Microsoft.EntityFrameworkCore.Design": "3.1.3",
@@ -1307,6 +1319,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Amazon.Lambda.APIGatewayEvents/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GTNa578NqiwUbet3J3UMay4hu6Sl8agNsOrLSWVjRcRpwoRFwezmLLvjgycVtomO1+tOKWjATOCoxZoi6uJPqw==",
+      "path": "amazon.lambda.apigatewayevents/2.0.0",
+      "hashPath": "amazon.lambda.apigatewayevents.2.0.0.nupkg.sha512"
     },
     "Amazon.Lambda.Core/1.0.0": {
       "type": "package",

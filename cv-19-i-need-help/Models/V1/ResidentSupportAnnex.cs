@@ -6,7 +6,7 @@ namespace CV19INeedHelp.Models.V1
     public partial class ResidentSupportAnnex
     {
         public int Id { get; set; }
-        public bool? IsDuplicate { get; set; }
+        public string IsDuplicate { get; set; }
         public bool? OngoingFoodNeed { get; set; }
         public bool? OngoingPrescriptionNeed { get; set; }
         public string FormId { get; set; }

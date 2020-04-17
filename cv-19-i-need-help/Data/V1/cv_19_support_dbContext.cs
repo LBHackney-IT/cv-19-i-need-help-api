@@ -31,7 +31,6 @@ namespace CV19INeedHelp.Data.V1
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<ResidentSupportAnnex>(entity =>
             {
                 entity.ToTable("resident_support_annex");
@@ -116,7 +115,9 @@ namespace CV19INeedHelp.Data.V1
 
                 entity.Property(e => e.IsAnyAgedUnder15).HasColumnName("is_any_aged_under_15");
 
-                entity.Property(e => e.IsDuplicate).HasColumnName("is_duplicate");
+                entity.Property(e => e.IsDuplicate)
+                    .HasColumnName("is_duplicate")
+                    .HasColumnType("character varying");
 
                 entity.Property(e => e.IsHouseholdHelpAvailable).HasColumnName("is_household_help_available");
 
