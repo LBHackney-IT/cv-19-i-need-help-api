@@ -1,24 +1,25 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using CV19INeedHelp.Models.V1;
 using CV19INeedHelp.Data.V1;
 
 namespace CV19INeedHelp.Gateways.V1
 {
-    public class OrganisationVolunteerGateway : IOrganisationVolunteerGateway
+    public class INeedHelpGateway : IINeedHelpGateway
     {
         private readonly string _connectionString;
         private readonly Cv19SupportDbContext _dbContext;
-        public OrganisationVolunteerGateway(string connectionString)
+        public INeedHelpGateway(string connectionString)
         {
             _connectionString = connectionString;
             _dbContext = new Cv19SupportDbContext(_connectionString);
         }
 
-        public int GetAllHelpRequests()
+        public List<ResidentSupportAnnex> GetAllHelpRequests()
         {
-            throw new NotImplementedException();
-            //_dbContext.OrganisationsNeedingVolunteers.Add();
-            //return response;
+            var response = _dbContext.ResidentSupportAnnex.ToList();
+            return response;
         }
     }
 }

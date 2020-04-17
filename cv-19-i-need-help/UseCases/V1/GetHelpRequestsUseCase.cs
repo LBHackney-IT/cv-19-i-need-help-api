@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Models.V1;
 using Amazon.Lambda.Core;
@@ -8,16 +9,16 @@ namespace CV19INeedHelp.UseCases.V1
 {
     public class GetHelpRequestsUseCase : IGetHelpRequestsUseCase
     {
-        private readonly IOrganisationVolunteerGateway _organisationVolunteerGateway;
+        private readonly IINeedHelpGateway _iNeedHelpGateway;
 
-        public GetHelpRequestsUseCase(IOrganisationVolunteerGateway organisationVolunteerGateway)
+        public GetHelpRequestsUseCase(IINeedHelpGateway iNeedHelpGateway)
         {
-            _organisationVolunteerGateway = organisationVolunteerGateway;
+            _iNeedHelpGateway = iNeedHelpGateway;
         }
 
-        public int GetHelpRequests()
+        public List<ResidentSupportAnnex> GetHelpRequests()
         {
-            return _organisationVolunteerGateway.GetAllHelpRequests();
+            return _iNeedHelpGateway.GetAllHelpRequests();
         }
     }
 }

@@ -11,11 +11,11 @@ namespace CV19INeedHelpTest.UseCases.V1
     public class GetHelpRequestsUseCaseTest
     {
         private readonly IGetHelpRequestsUseCase _classUnderTest;
-        private readonly Mock<IOrganisationVolunteerGateway> _fakeGateway;
+        private readonly Mock<IINeedHelpGateway> _fakeGateway;
 
         public GetHelpRequestsUseCaseTest()
         {
-            _fakeGateway = new Mock<IOrganisationVolunteerGateway>();
+            _fakeGateway = new Mock<IINeedHelpGateway>();
             _classUnderTest = new GetHelpRequestsUseCase(_fakeGateway.Object);
         }
         

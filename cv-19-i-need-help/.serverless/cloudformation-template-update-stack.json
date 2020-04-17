@@ -56,10 +56,10 @@
         }
       }
     },
-    "CreateOrganisationVolunteerRequestDashv1LogGroup": {
+    "GetHelpRequestsDashv1LogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/cv-19-org-volunteers-dev-createOrganisationVolunteerRequest-v1"
+        "LogGroupName": "/aws/lambda/cv-19-food-delivery-dev-getHelpRequests-v1"
       }
     },
     "IamRoleLambdaExecution": {
@@ -87,7 +87,7 @@
               "Fn::Join": [
                 "-",
                 [
-                  "cv-19-org-volunteers-dev",
+                  "cv-19-food-delivery-dev",
                   "lambda"
                 ]
               ]
@@ -103,7 +103,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cv-19-org-volunteers-dev*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cv-19-food-delivery-dev*:*"
                     }
                   ]
                 },
@@ -114,7 +114,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cv-19-org-volunteers-dev*:*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cv-19-food-delivery-dev*:*:*"
                     }
                   ]
                 }
@@ -127,7 +127,7 @@
           "Fn::Join": [
             "-",
             [
-              "cv-19-org-volunteers-dev",
+              "cv-19-food-delivery-dev",
               {
                 "Ref": "AWS::Region"
               },
@@ -137,17 +137,17 @@
         }
       }
     },
-    "CreateOrganisationVolunteerRequestDashv1LambdaFunction": {
+    "GetHelpRequestsDashv1LambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/cv-19-org-volunteers/dev/1587028511298-2020-04-16T09:15:11.298Z/cv-19-org-volunteers.zip"
+          "S3Key": "serverless/cv-19-food-delivery/dev/1587038999914-2020-04-16T12:09:59.914Z/cv-19-i-need-help.zip"
         },
-        "FunctionName": "cv-19-org-volunteers-dev-createOrganisationVolunteerRequest-v1",
-        "Handler": "CsharpHandlers::CV19OrgVolunteers.Handler::CreateOrganisationVolunteer",
+        "FunctionName": "cv-19-food-delivery-dev-getHelpRequests-v1",
+        "Handler": "CsharpHandlers::CV19INeedHelp.Handler::GetHelpRequests",
         "MemorySize": 1024,
         "Role": {
           "Fn::GetAtt": [
@@ -159,24 +159,24 @@
         "Timeout": 6
       },
       "DependsOn": [
-        "CreateOrganisationVolunteerRequestDashv1LogGroup",
+        "GetHelpRequestsDashv1LogGroup",
         "IamRoleLambdaExecution"
       ]
     },
-    "CreateOrganisationVolunteerRequestDashv1LambdaVersionHjiAG8F2mTfUdnUB0FvrWuyX2pCdAovlfYKsLYbLKGQ": {
+    "GetHelpRequestsDashv1LambdaVersionVJPVi6ffSr6QkwU8KJqlIpRJguKnxtlQFfzFFUXIb8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "CreateOrganisationVolunteerRequestDashv1LambdaFunction"
+          "Ref": "GetHelpRequestsDashv1LambdaFunction"
         },
-        "CodeSha256": "man1JuJWLwqMbZNWDCFBuYzKpstDTYWz063GGnODMrs="
+        "CodeSha256": "Q68X8kIUT8sScBgWHXahkoeXaBVzHk+byRfD82Q4xCo="
       }
     },
     "ApiGatewayRestApi": {
       "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
-        "Name": "dev-cv-19-org-volunteers",
+        "Name": "dev-cv-19-food-delivery",
         "EndpointConfiguration": {
           "Types": [
             "EDGE"
@@ -185,7 +185,7 @@
         "Policy": ""
       }
     },
-    "ApiGatewayResourceOrganisationDashvolunteers": {
+    "ApiGatewayResourceHelpDashrequests": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
@@ -194,13 +194,13 @@
             "RootResourceId"
           ]
         },
-        "PathPart": "organisation-volunteers",
+        "PathPart": "help-requests",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
       }
     },
-    "ApiGatewayMethodOrganisationDashvolunteersOptions": {
+    "ApiGatewayMethodHelpDashrequestsOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "AuthorizationType": "NONE",
@@ -229,7 +229,7 @@
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
               },
               "ResponseTemplates": {
                 "application/json": ""
@@ -238,20 +238,20 @@
           ]
         },
         "ResourceId": {
-          "Ref": "ApiGatewayResourceOrganisationDashvolunteers"
+          "Ref": "ApiGatewayResourceHelpDashrequests"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
       }
     },
-    "ApiGatewayMethodOrganisationDashvolunteersPost": {
+    "ApiGatewayMethodHelpDashrequestsGet": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
-        "HttpMethod": "POST",
+        "HttpMethod": "GET",
         "RequestParameters": {},
         "ResourceId": {
-          "Ref": "ApiGatewayResourceOrganisationDashvolunteers"
+          "Ref": "ApiGatewayResourceHelpDashrequests"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -276,7 +276,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "CreateOrganisationVolunteerRequestDashv1LambdaFunction",
+                    "GetHelpRequestsDashv1LambdaFunction",
                     "Arn"
                   ]
                 },
@@ -288,7 +288,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1587028510692": {
+    "ApiGatewayDeployment1587038998625": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -297,16 +297,16 @@
         "StageName": "dev"
       },
       "DependsOn": [
-        "ApiGatewayMethodOrganisationDashvolunteersOptions",
-        "ApiGatewayMethodOrganisationDashvolunteersPost"
+        "ApiGatewayMethodHelpDashrequestsOptions",
+        "ApiGatewayMethodHelpDashrequestsGet"
       ]
     },
-    "CreateOrganisationVolunteerRequestDashv1LambdaPermissionApiGateway": {
+    "GetHelpRequestsDashv1LambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "CreateOrganisationVolunteerRequestDashv1LambdaFunction",
+            "GetHelpRequestsDashv1LambdaFunction",
             "Arn"
           ]
         },
@@ -345,10 +345,10 @@
         "Ref": "ServerlessDeploymentBucket"
       }
     },
-    "CreateOrganisationVolunteerRequestDashv1LambdaFunctionQualifiedArn": {
+    "GetHelpRequestsDashv1LambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateOrganisationVolunteerRequestDashv1LambdaVersionHjiAG8F2mTfUdnUB0FvrWuyX2pCdAovlfYKsLYbLKGQ"
+        "Ref": "GetHelpRequestsDashv1LambdaVersionVJPVi6ffSr6QkwU8KJqlIpRJguKnxtlQFfzFFUXIb8"
       }
     },
     "ServiceEndpoint": {
