@@ -4,49 +4,39 @@ executors:
   dotnet-executor:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:2.1
-
     working_directory: cv-19-i-need-help
-
 jobs:
   build:
     executor: dotnet-executor
     steps:
       - checkout
-
       - run:
           name: Install dependencies
           command: dotnet restore
-      
       - run:
           name: Run tests
           command: dotnet test
-
   deploy-dev:
     executor: dotnet-executor
-    
-  steps:
-    - attach_workspace:
-        at: cv-19-i-need-help
-
-    - run:
-        name: Install Node.js
-        command: |
-          curl -sL https://deb.nodesource.com/setup_13.x | bash -
-          apt-get install -y nodejs
-    - run:
-        name: Install Serverless CLI
-        command: npm i -g serverless
-
-    - run:
-        name: NPM Install
-        command: cd src/Lambda && npm install
-
-    - run:
-        name: Set AWS credentials
-        command: serverless config credentials -p aws -k ${DEV_AWS_ACCESS_KEY_ID} -s ${DEV_AWS_SECRET_ACCESS_KEY} -n dev
-
-    - run:
-        name: Deploy application
-        command: cd src/Lambda && ./build.sh && sls deploy -s dev
+    steps:
+      - attach_workspace:
+          at: cv-19-i-need-help
+      - run:
+          name: Install Node.js
+          command: |
+            curl -sL https://deb.nodesource.com/setup_13.x | bash -
+            apt-get install -y nodejs
+      - run:
+          name: Install Serverless CLI
+          command: npm i -g serverless
+      - run:
+          name: NPM Install
+          command: cd src/Lambda && npm install
+      - run:
+          name: Set AWS credentials
+          command: serverless config credentials -p aws -k ${DEV_AWS_ACCESS_KEY_ID} -s ${DEV_AWS_SECRET_ACCESS_KEY} -n dev
+      - run:
+          name: Deploy application
+          command: cd src/Lambda && ./build.sh && sls deploy -s dev
   
       
