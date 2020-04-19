@@ -45,15 +45,12 @@ jobs:
           command: serverless config credentials -p aws -k ${DEV_AWS_ACCESS_KEY_ID} -s ${DEV_AWS_SECRET_ACCESS_KEY}  -n dev
       - run:
           name: Build application
-          command: cd cv-19-i-need-help && ./build.sh
-      - run:
-          name: Deploy application
-          command: cd cv-19-i-need-help && serverless deploy -s dev --aws-profile dev
+          command: cd cv-19-i-need-help && ./build.sh && serverless deploy -s dev --aws-profile dev
   deploy-production:
     executor: dotnet-executor
     steps:
       - attach_workspace:
-          at: cv-19-i-need-help
+          at: ~/cv-19-i-need-help
       - run:
           name: Install Node.js
           command: |
@@ -61,7 +58,7 @@ jobs:
             apt-get install -y nodejs
       - run:
           name: Install Serverless CLI
-          command: npm i -g serverless
+          command: npm i -g serverless && npm install
       - run:
           name: Set AWS credentials
           command: serverless config credentials -p aws -k ${PROD_AWS_ACCESS_KEY_ID} -s ${PROD_AWS_SECRET_ACCESS_KEY} -n production
