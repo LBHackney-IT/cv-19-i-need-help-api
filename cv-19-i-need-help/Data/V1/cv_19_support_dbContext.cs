@@ -19,13 +19,14 @@ namespace CV19INeedHelp.Data.V1
         }
 
         public virtual DbSet<ResidentSupportAnnex> ResidentSupportAnnex { get; set; }
+        public virtual DbSet<FoodDelivery> FoodDeliveries { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql("Host=cv-19-res-support-dev.cxgopqaj01vy.eu-west-2.rds.amazonaws.com;Database=cv_19_support_db;Username=postgres;Password=f&g^xsa3Du");
+                optionsBuilder.UseNpgsql(_connectionString);
             }
         }
 
@@ -184,6 +185,31 @@ namespace CV19INeedHelp.Data.V1
                 entity.Property(e => e.Ward)
                     .HasColumnName("ward")
                     .HasColumnType("character varying");
+            });
+            
+            modelBuilder.Entity<FoodDelivery>(entity =>
+            {
+                entity.ToTable("resident_support_food_deliveries");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.AnnexId).HasColumnName("annexe_id");
+                entity.Property(e => e.ScheduledDeliveryDate).HasColumnName("scheduled_delivery_date");
+                entity.Property(e => e.DeliveryConfirmed).HasColumnName("is_this_delivery_confirmed");
+
+                entity.Property(e => e.ReasonForNonDelivery)
+                    .HasColumnName("reason_for_non_delivery")
+                    .HasColumnType("character varying");
+
+                entity.Property(e => e.UPRN)
+                    .HasColumnName("uprn")
+                    .HasColumnType("character varying");
+
+                entity.Property(e => e.IsThisFirstDelivery).HasColumnName("is_this_first_delivery");
+
+                entity.Property(e => e.RepeatDelivery).HasColumnName("repeat_delivery");
+                entity.Property(e => e.HouseholdSize).HasColumnName("household_size");
+                entity.Property(e => e.FoodPackages).HasColumnName("food_packages");
+
             });
 
             OnModelCreatingPartial(modelBuilder);

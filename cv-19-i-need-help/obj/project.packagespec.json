@@ -1,17 +1,17 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/Users/spreston/Projects/cv-19-i-need-help/cv-19-i-need-help/cv-19-i-need-help.csproj",
-    "projectName": "cv-19-org-volunteers",
-    "projectPath": "/Users/spreston/Projects/cv-19-i-need-help/cv-19-i-need-help/cv-19-i-need-help.csproj",
-    "outputPath": "/Users/spreston/Projects/cv-19-i-need-help/cv-19-i-need-help/obj/",
+    "projectUniqueName": "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/cv-19-i-need-help.csproj",
+    "projectName": "CV19INeedHelp",
+    "projectPath": "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/cv-19-i-need-help.csproj",
+    "outputPath": "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/obj/",
     "projectStyle": "PackageReference",
-    "fallbackFolders": [
-      "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
-    ],
     "originalTargetFrameworks": [
       "netcoreapp2.1"
     ],
+    "sources": {
+      "https://api.nuget.org/v3/index.json": {}
+    },
     "frameworks": {
       "netcoreapp2.1": {
         "projectReferences": {}
@@ -66,10 +66,16 @@
         }
       },
       "imports": [
-        "net461"
+        "net461",
+        "net462",
+        "net47",
+        "net471",
+        "net472",
+        "net48"
       ],
       "assetTargetFallback": true,
-      "warn": true
+      "warn": true,
+      "runtimeIdentifierGraphPath": "/Users/preston/.dotnet/sdk/3.1.201/RuntimeIdentifierGraph.json"
     }
   }
 }

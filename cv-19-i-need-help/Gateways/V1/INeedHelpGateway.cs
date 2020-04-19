@@ -75,6 +75,19 @@ namespace CV19INeedHelp.Gateways.V1
             rec.IsAnyAgedUnder15 = data.IsAnyAgedUnder15;
             _dbContext.SaveChanges();
         }
+        
+        public List<FoodDelivery> GetFoodDeliveriesForForm(int id)
+        {
+            var response = _dbContext.FoodDeliveries.Where(x => x.AnnexId == id).ToList();
+            return response;
+        }
+
+        public int CreateFoodDelivery(FoodDelivery data)
+        {
+            _dbContext.FoodDeliveries.Add(data);
+            _dbContext.SaveChanges();
+            return data.Id;
+        }
 
     }
 }
