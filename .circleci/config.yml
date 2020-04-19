@@ -10,12 +10,20 @@ jobs:
     executor: dotnet-executor
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-
+            - v1-dependencies-
       - run:
           name: Install dependencies
           command: dotnet restore
       - run:
           name: Run tests
           command: dotnet test  
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-
       - persist_to_workspace:
           root: ~/cv-19-i-need-help
           paths: .
@@ -31,10 +39,10 @@ jobs:
             apt-get install -y nodejs
       - run:
           name: Install Serverless CLI
-          command: npm i -g serverless
+          command: sudo npm i -g serverless && npm install
       - run:
           name: Set AWS credentials
-          command: serverless config credentials -p aws -k ${DEV_AWS_ACCESS_KEY_ID} -s ${DEV_AWS_SECRET_ACCESS_KEY} -n dev
+          command: serverless config credentials -p aws -k $DEV_AWS_ACCESS_KEY_ID -s $DEV_AWS_SECRET_ACCESS_KEY -n dev
       - run:
           name: Build application
           command: cd cv-19-i-need-help && ./build.sh
