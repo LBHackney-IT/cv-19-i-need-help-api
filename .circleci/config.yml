@@ -23,7 +23,7 @@ jobs:
           at: cv-19-i-need-help
       - run:
           name: Deploy application
-          command: cd cv-19-i-need-help
+          command: cd cv-19-i-need-help && cd cv-19-i-need-help
       - run:
           name: List
           command: ls
