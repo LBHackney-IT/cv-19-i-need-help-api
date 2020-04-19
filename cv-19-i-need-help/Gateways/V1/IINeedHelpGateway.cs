@@ -10,5 +10,6 @@ namespace CV19INeedHelp.Gateways.V1
         List<FoodDelivery> GetFoodDeliveriesForForm(int id);
 
         int CreateFoodDelivery(FoodDelivery data);
+        void UpdateFoodDelivery(FoodDelivery data);
     }
 }

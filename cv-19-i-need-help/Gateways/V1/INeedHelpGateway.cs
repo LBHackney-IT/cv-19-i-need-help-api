@@ -88,6 +88,22 @@ namespace CV19INeedHelp.Gateways.V1
             _dbContext.SaveChanges();
             return data.Id;
         }
+        
+        public void UpdateFoodDelivery(FoodDelivery data)
+        {
+            var rec = _dbContext.FoodDeliveries.SingleOrDefault(x => x.Id == data.Id);
+            if (rec.ScheduledDeliveryDate != null)
+            {
+                rec.ScheduledDeliveryDate = data.ScheduledDeliveryDate;
+            }
+            rec.DeliveryConfirmed = data.DeliveryConfirmed;
+            rec.ReasonForNonDelivery = data.ReasonForNonDelivery;
+            rec.IsThisFirstDelivery = data.IsThisFirstDelivery;
+            rec.RepeatDelivery = data.RepeatDelivery;
+            rec.HouseholdSize = data.HouseholdSize;
+            rec.FoodPackages = data.FoodPackages;
+            _dbContext.SaveChanges();
+        }
 
     }
 }

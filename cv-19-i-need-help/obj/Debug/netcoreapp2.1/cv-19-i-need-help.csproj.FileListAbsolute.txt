@@ -20,4 +20,3 @@
 /Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/obj/Debug/netcoreapp2.1/cv-19-i-need-help.AssemblyInfo.cs
 /Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/obj/Debug/netcoreapp2.1/CsharpHandlers.dll
 /Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/obj/Debug/netcoreapp2.1/CsharpHandlers.pdb
-/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/obj/Debug/netcoreapp2.1/cv-19-i-need-help.genruntimeconfig.cache
