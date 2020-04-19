@@ -22,19 +22,8 @@ jobs:
       - attach_workspace:
           at: cv-19-i-need-help
       - run:
-          name: Install Node.js
-          command: |
-            curl -sL https://deb.nodesource.com/setup_13.x | bash -
-            apt-get install -y nodejs
-      - run:
-          name: Install Serverless CLI
-          command: npm i -g serverless
-      - run:
-          name: Set AWS credentials
-          command: serverless config credentials -p aws -k ${DEV_AWS_ACCESS_KEY_ID} -s ${DEV_AWS_SECRET_ACCESS_KEY} -n dev
-      - run:
           name: Deploy application
-          command: ls
+          command: cd cv-19-i-need-help && ls
   deploy-production:
     executor: dotnet-executor
     steps:
@@ -53,7 +42,7 @@ jobs:
           command: serverless config credentials -p aws -k ${PROD_AWS_ACCESS_KEY_ID} -s ${PROD_AWS_SECRET_ACCESS_KEY} -n production
       - run:
           name: Deploy application
-          command: cd ~/cv-19-i-need-help/cv-19-i-need-help && ./build.sh && sls deploy -s production
+          command: cd cv-19-i-need-help && ./build.sh && sls deploy -s production
 
 workflows:
   version: 2
