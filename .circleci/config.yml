@@ -20,10 +20,10 @@ jobs:
     executor: dotnet-executor
     steps:
       - attach_workspace:
-          at: cv-19-i-need-help/cv-19-i-need-help
+          at: cv-19-i-need-help
       - run:
           name: Deploy application
-          command: ls
+          command: ls cv-19-i-need-help
   deploy-production:
     executor: dotnet-executor
     steps:
