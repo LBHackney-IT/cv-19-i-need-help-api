@@ -40,6 +40,29 @@ jobs:
           name: Deploy application
           command: cd src/Lambda && ./build.sh && sls deploy -s dev
 
+  deploy-production:
+    executor: dotnet-executor
+    steps:
+      - attach_workspace:
+          at: cv-19-i-need-help
+      - run:
+          name: Install Node.js
+          command: |
+            curl -sL https://deb.nodesource.com/setup_13.x | bash -
+            apt-get install -y nodejs
+      - run:
+          name: Install Serverless CLI
+          command: npm i -g serverless
+      - run:
+          name: NPM Install
+          command: cd src/Lambda && npm install
+      - run:
+          name: Set AWS credentials
+          command: serverless config credentials -p aws -k ${PROD_AWS_ACCESS_KEY_ID} -s ${PROD_AWS_SECRET_ACCESS_KEY} -n production
+      - run:
+          name: Deploy application
+          command: cd src/Lambda && ./build.sh && sls deploy -s production
+
   workflows:
     version: 2
     continuous-delivery:
