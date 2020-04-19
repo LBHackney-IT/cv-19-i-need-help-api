@@ -15,9 +15,6 @@ jobs:
             - v1-dependencies-
             - v1-dependencies-
       - run:
-          name: Env Test
-          command: echo $DEV_AWS_ACCESS_KEY_ID
-      - run:
           name: Install dependencies
           command: dotnet restore
       - run:
@@ -45,13 +42,13 @@ jobs:
           command: npm i -g serverless && npm install
       - run:
           name: Set AWS credentials
-          command: serverless config credentials -p aws -k $DEV_AWS_ACCESS_KEY_ID -s $DEV_AWS_SECRET_ACCESS_KEY -n dev
+          command: serverless config credentials -p aws -k ${DEV_AWS_ACCESS_KEY_ID} -s ${DEV_AWS_SECRET_ACCESS_KEY}  -n dev
       - run:
           name: Build application
           command: cd cv-19-i-need-help && ./build.sh
       - run:
           name: Deploy application
-          command: cd cv-19-i-need-help && serverless deploy -s dev
+          command: cd cv-19-i-need-help && serverless deploy -s dev --aws-profile dev
   deploy-production:
     executor: dotnet-executor
     steps:
@@ -73,8 +70,7 @@ jobs:
           command: cd cv-19-i-need-help && ./build.sh
       - run:
           name: Deploy application
-          command: serverless deploy -s production
-
+          command: serverless deploy -s production --aws-profile production
 workflows:
   version: 2
   ci-cd:
