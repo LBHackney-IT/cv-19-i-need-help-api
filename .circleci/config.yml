@@ -34,7 +34,7 @@ jobs:
           command: serverless config credentials -p aws -k ${DEV_AWS_ACCESS_KEY_ID} -s ${DEV_AWS_SECRET_ACCESS_KEY} -n dev
       - run:
           name: Deploy application
-          command: cd ~/cv-19-i-need-help/cv-19-i-need-help && ./build.sh && sls deploy -s dev    
+          command: ls
   deploy-production:
     executor: dotnet-executor
     steps:
