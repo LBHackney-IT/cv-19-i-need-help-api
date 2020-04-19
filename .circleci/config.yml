@@ -15,8 +15,7 @@ jobs:
           command: dotnet restore
       - run:
           name: Run tests
-          command: dotnet test       
-          
+          command: dotnet test         
   deploy-dev:
     executor: dotnet-executor
     steps:
@@ -35,8 +34,7 @@ jobs:
           command: serverless config credentials -p aws -k ${DEV_AWS_ACCESS_KEY_ID} -s ${DEV_AWS_SECRET_ACCESS_KEY} -n dev
       - run:
           name: Deploy application
-          command: cd cv-19-i-need-help && ./build.sh && sls deploy -s dev
-          
+          command: cd cv-19-i-need-help && ./build.sh && sls deploy -s dev    
   deploy-production:
     executor: dotnet-executor
     steps:
