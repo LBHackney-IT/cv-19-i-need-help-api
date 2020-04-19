@@ -1,20 +1,82 @@
 version: 2.1
 
+executors:
+  dotnet-executor:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:2.1
+    working_directory: ~/cv-19-i-need-help
 jobs:
   build:
-    docker:
-      - image: microsoft/aspnetcore-build:2.0
+    executor: dotnet-executor
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-
+            - v1-dependencies-
       - run:
-          name: Restore
+          name: Install dependencies
           command: dotnet restore
-          working_directory: cv-19-i-need-help
       - run:
-          name: Build
-          command: dotnet build -c Release
-          working_directory: cv-19-i-need-help
+          name: Run tests
+          command: dotnet test  
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-
+      - persist_to_workspace:
+          root: ~/cv-19-i-need-help
+          paths: .
+  deploy-dev:
+    executor: dotnet-executor
+    steps:
+      - attach_workspace:
+          at: ~/cv-19-i-need-help
       - run:
-          name: Running Tests
-          command: dotnet test
-          working_directory: cv-19-i-need-help-test
+          name: Install Node.js
+          command: |
+            curl -sL https://deb.nodesource.com/setup_13.x | bash -
+            apt-get install -y nodejs
+      - run:
+          name: Install Serverless CLI
+          command: npm i -g serverless && npm install
+      - run:
+          name: Set AWS credentials
+          command: serverless config credentials -p aws -k ${DEV_AWS_ACCESS_KEY_ID} -s ${DEV_AWS_SECRET_ACCESS_KEY}  -n dev
+      - run:
+          name: Build and deploy application
+          command: cd cv-19-i-need-help && ./build.sh && serverless deploy -s dev --aws-profile dev
+  deploy-production:
+    executor: dotnet-executor
+    steps:
+      - attach_workspace:
+          at: ~/cv-19-i-need-help
+      - run:
+          name: Install Node.js
+          command: |
+            curl -sL https://deb.nodesource.com/setup_13.x | bash -
+            apt-get install -y nodejs
+      - run:
+          name: Install Serverless CLI
+          command: npm i -g serverless && npm install
+      - run:
+          name: Set AWS credentials
+          command: serverless config credentials -p aws -k ${PROD_AWS_ACCESS_KEY_ID} -s ${PROD_AWS_SECRET_ACCESS_KEY} -n production
+      - run:
+          name: Build and deploy application
+          command: cd cv-19-i-need-help && ./build.sh && serverless deploy -s production --aws-profile production
+workflows:
+  version: 2
+  ci-cd:
+    jobs:
+      - build
+      - deploy-dev:
+          requires:
+            - build
+      - permit-deploy-production:
+          type: approval
+          requires:
+            - deploy-dev
+      - deploy-production:
+          requires:
+            - permit-deploy-production    
