@@ -1,20 +1,52 @@
 version: 2.1
 
+executors:
+  dotnet-executor:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:2.1
+
+    working_directory: cv-19-i-need-help
+
 jobs:
   build:
-    docker:
-      - image: microsoft/aspnetcore-build:2.0
+    executor: dotnet-executor
     steps:
       - checkout
+
       - run:
-          name: Restore
+          name: Install dependencies
           command: dotnet restore
-          working_directory: cv-19-i-need-help
+      
       - run:
-          name: Build
-          command: dotnet build -c Release
-          working_directory: cv-19-i-need-help
-      - run:
-          name: Running Tests
+          name: Run tests
           command: dotnet test
-          working_directory: cv-19-i-need-help-test
+
+  deploy-dev:
+    executor: dotnet-executor
+    
+  steps:
+    - attach_workspace:
+        at: cv-19-i-need-help
+
+    - run:
+        name: Install Node.js
+        command: |
+          curl -sL https://deb.nodesource.com/setup_13.x | bash -
+          apt-get install -y nodejs
+    - run:
+        name: Install Serverless CLI
+        command: npm i -g serverless
+
+    - run:
+        name: NPM Install
+        command: cd src/Lambda && npm install
+
+    - run:
+        name: Set AWS credentials
+        command: serverless config credentials -p aws -k ${DEV_AWS_ACCESS_KEY_ID} -s ${DEV_AWS_SECRET_ACCESS_KEY} -n dev
+
+    - run:
+        name: Deploy application
+        command: cd src/Lambda && ./build.sh && sls deploy -s dev
+  
+      
