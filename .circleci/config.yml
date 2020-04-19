@@ -4,7 +4,7 @@ executors:
   dotnet-executor:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:2.1
-    working_directory: cv-19-i-need-help
+    working_directory: ~/cv-19-i-need-help
 jobs:
   build:
     executor: dotnet-executor
@@ -15,12 +15,15 @@ jobs:
           command: dotnet restore
       - run:
           name: Run tests
-          command: dotnet test         
+          command: dotnet test  
+      - persist_to_workspace:
+          root: ~/cv-19-i-need-help
+          paths: .
   deploy-dev:
     executor: dotnet-executor
     steps:
       - attach_workspace:
-          at: cv-19-i-need-help
+          at: ~/cv-19-i-need-help
       - run:
           name: Install Node.js
           command: |
