@@ -64,10 +64,7 @@ jobs:
           command: serverless config credentials -p aws -k ${PROD_AWS_ACCESS_KEY_ID} -s ${PROD_AWS_SECRET_ACCESS_KEY} -n production
       - run:
           name: Build application
-          command: cd cv-19-i-need-help && ./build.sh
-      - run:
-          name: Deploy application
-          command: serverless deploy -s production --aws-profile production
+          command: cd cv-19-i-need-help && ./build.sh && serverless deploy -s production --aws-profile production
 workflows:
   version: 2
   ci-cd:
@@ -76,6 +73,10 @@ workflows:
       - deploy-dev:
           requires:
             - build
+          filters:
+            branches:
+              only:
+                - master
       - permit-deploy-production:
           type: approval
           requires:
