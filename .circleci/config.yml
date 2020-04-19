@@ -39,7 +39,7 @@ jobs:
             apt-get install -y nodejs
       - run:
           name: Install Serverless CLI
-          command: sudo npm i -g serverless && npm install
+          command: npm i -g serverless && npm install
       - run:
           name: Set AWS credentials
           command: serverless config credentials -p aws -k $DEV_AWS_ACCESS_KEY_ID -s $DEV_AWS_SECRET_ACCESS_KEY -n dev
