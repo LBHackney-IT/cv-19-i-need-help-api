@@ -15,8 +15,7 @@ jobs:
           command: dotnet restore
       - run:
           name: Run tests
-          command: dotnet test
-          
+          command: dotnet test       
   deploy-dev:
     executor: dotnet-executor
     steps:
@@ -39,7 +38,6 @@ jobs:
       - run:
           name: Deploy application
           command: cd src/Lambda && ./build.sh && sls deploy -s dev
-
   deploy-production:
     executor: dotnet-executor
     steps:
