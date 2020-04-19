@@ -40,7 +40,7 @@ jobs:
           command: cd cv-19-i-need-help && ./build.sh
       - run:
           name: Deploy application
-          command: serveless deploy -s dev
+          command: serverless deploy -s dev
   deploy-production:
     executor: dotnet-executor
     steps:
@@ -62,7 +62,7 @@ jobs:
           command: cd cv-19-i-need-help && ./build.sh
       - run:
           name: Deploy application
-          command: serveless deploy -s production
+          command: serverless deploy -s production
 
 workflows:
   version: 2
