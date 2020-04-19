@@ -23,7 +23,10 @@ jobs:
           at: cv-19-i-need-help
       - run:
           name: Deploy application
-          command: cd cv-19-i-need-help && ls
+          command: cd cv-19-i-need-help
+      - run:
+          name: List
+          command: ls
   deploy-production:
     executor: dotnet-executor
     steps:
