@@ -1,9 +1,86 @@
 {
   "format": 1,
   "restore": {
-    "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/cv-19-i-need-help.csproj": {}
+    "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help-test/cv-19-i-need-help-test.csproj": {}
   },
   "projects": {
+    "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help-test/cv-19-i-need-help-test.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help-test/cv-19-i-need-help-test.csproj",
+        "projectName": "cv-19-i-need-help-test",
+        "projectPath": "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help-test/cv-19-i-need-help-test.csproj",
+        "packagesPath": "/Users/preston/.nuget/packages/",
+        "outputPath": "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help-test/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/preston/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {
+              "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/cv-19-i-need-help.csproj": {
+                "projectPath": "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/cv-19-i-need-help.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[15.9.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.13.1, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.12.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[3.11.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/Users/preston/.dotnet/sdk/3.1.201/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/cv-19-i-need-help.csproj": {
       "version": "1.0.0",
       "restore": {

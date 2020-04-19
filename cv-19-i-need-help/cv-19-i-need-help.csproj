@@ -4,8 +4,8 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <AssemblyName>CsharpHandlers</AssemblyName>
-    <PackageId>cv-19-org-volunteers</PackageId>
-    <RootNamespace>cv-19-org-volunteers</RootNamespace>
+    <PackageId>CV19INeedHelp</PackageId>
+    <RootNamespace>CV19INeedHelp</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

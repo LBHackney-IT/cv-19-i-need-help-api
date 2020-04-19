@@ -9,3 +9,15 @@
 /Users/spreston/Projects/cv-19-i-need-help/cv-19-i-need-help/obj/Debug/netcoreapp2.1/cv-19-i-need-help.AssemblyInfo.cs
 /Users/spreston/Projects/cv-19-i-need-help/cv-19-i-need-help/obj/Debug/netcoreapp2.1/CsharpHandlers.dll
 /Users/spreston/Projects/cv-19-i-need-help/cv-19-i-need-help/obj/Debug/netcoreapp2.1/CsharpHandlers.pdb
+/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/bin/Debug/netcoreapp2.1/CsharpHandlers.deps.json
+/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/bin/Debug/netcoreapp2.1/CsharpHandlers.runtimeconfig.json
+/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/bin/Debug/netcoreapp2.1/CsharpHandlers.runtimeconfig.dev.json
+/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/bin/Debug/netcoreapp2.1/CsharpHandlers.dll
+/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/bin/Debug/netcoreapp2.1/CsharpHandlers.pdb
+/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/obj/Debug/netcoreapp2.1/cv-19-i-need-help.csprojAssemblyReference.cache
+/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/obj/Debug/netcoreapp2.1/cv-19-i-need-help.csproj.CoreCompileInputs.cache
+/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/obj/Debug/netcoreapp2.1/cv-19-i-need-help.AssemblyInfoInputs.cache
+/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/obj/Debug/netcoreapp2.1/cv-19-i-need-help.AssemblyInfo.cs
+/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/obj/Debug/netcoreapp2.1/CsharpHandlers.dll
+/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/obj/Debug/netcoreapp2.1/CsharpHandlers.pdb
+/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help/obj/Debug/netcoreapp2.1/cv-19-i-need-help.genruntimeconfig.cache
