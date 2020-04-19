@@ -14,7 +14,7 @@ jobs:
           keys:
             - v1-dependencies-
             - v1-dependencies-
-      -run:
+      - run:
           name: Env Test
           command: echo $DEV_AWS_ACCESS_KEY_ID
       - run:
