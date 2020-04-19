@@ -44,7 +44,7 @@ jobs:
           name: Set AWS credentials
           command: serverless config credentials -p aws -k ${DEV_AWS_ACCESS_KEY_ID} -s ${DEV_AWS_SECRET_ACCESS_KEY}  -n dev
       - run:
-          name: Build application
+          name: Build and deploy application
           command: cd cv-19-i-need-help && ./build.sh && serverless deploy -s dev --aws-profile dev
   deploy-production:
     executor: dotnet-executor
@@ -63,7 +63,7 @@ jobs:
           name: Set AWS credentials
           command: serverless config credentials -p aws -k ${PROD_AWS_ACCESS_KEY_ID} -s ${PROD_AWS_SECRET_ACCESS_KEY} -n production
       - run:
-          name: Build application
+          name: Build and deploy application
           command: cd cv-19-i-need-help && ./build.sh && serverless deploy -s production --aws-profile production
 workflows:
   version: 2
@@ -73,10 +73,6 @@ workflows:
       - deploy-dev:
           requires:
             - build
-          filters:
-            branches:
-              only:
-                - master
       - permit-deploy-production:
           type: approval
           requires:
