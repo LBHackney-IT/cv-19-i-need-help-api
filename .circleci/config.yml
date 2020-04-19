@@ -16,6 +16,7 @@ jobs:
       - run:
           name: Run tests
           command: dotnet test       
+          
   deploy-dev:
     executor: dotnet-executor
     steps:
@@ -38,6 +39,7 @@ jobs:
       - run:
           name: Deploy application
           command: cd src/Lambda && ./build.sh && sls deploy -s dev
+          
   deploy-production:
     executor: dotnet-executor
     steps:
@@ -61,18 +63,18 @@ jobs:
           name: Deploy application
           command: cd src/Lambda && ./build.sh && sls deploy -s production
 
-  workflows:
-    version: 2
-    continuous-delivery:
-      jobs:
-        - build
-        - deploy-dev:
-            requires:
-              - build
-        - permit-deploy-production:
-            type: approval
-            requires:
-              - deploy-dev
-        - deploy-production:
-            requires:
-              - permit-deploy-production    
+workflows:
+  version: 2
+  continuous-delivery:
+    jobs:
+      - build
+      - deploy-dev:
+          requires:
+            - build
+      - permit-deploy-production:
+          type: approval
+          requires:
+            - deploy-dev
+      - deploy-production:
+          requires:
+            - permit-deploy-production    
