@@ -14,6 +14,9 @@ jobs:
           keys:
             - v1-dependencies-
             - v1-dependencies-
+      -run:
+          name: Env Test
+          command: echo $DEV_AWS_ACCESS_KEY_ID
       - run:
           name: Install dependencies
           command: dotnet restore
