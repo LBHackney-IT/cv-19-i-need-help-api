@@ -6,6 +6,9 @@
     "projectPath": "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help-test/cv-19-i-need-help-test.csproj",
     "outputPath": "/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help-test/obj/",
     "projectStyle": "PackageReference",
+    "fallbackFolders": [
+      "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+    ],
     "originalTargetFrameworks": [
       "netcoreapp2.1"
     ],
@@ -58,16 +61,10 @@
         }
       },
       "imports": [
-        "net461",
-        "net462",
-        "net47",
-        "net471",
-        "net472",
-        "net48"
+        "net461"
       ],
       "assetTargetFallback": true,
-      "warn": true,
-      "runtimeIdentifierGraphPath": "/Users/preston/.dotnet/sdk/3.1.201/RuntimeIdentifierGraph.json"
+      "warn": true
     }
   }
 }

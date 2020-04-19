@@ -63,7 +63,6 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
-
   getFoodDeliveryRequestsForForm-v1:
     handler: CsharpHandlers::CV19INeedHelp.Handler::GetFoodDeliveriesRequestForForm
     package:
@@ -81,8 +80,7 @@ functions:
               - X-Api-Key
               - X-Amz-Security-Token
               - X-Amz-User-Agent
-            allowCredentials: false
-            
+            allowCredentials: false        
   createFoodDeliveryRequest-v1:
     handler: CsharpHandlers::CV19INeedHelp.Handler::CreateFoodDeliveryRequest
     package:
@@ -91,6 +89,24 @@ functions:
       - http:
           path: help-requests/{id}/food-deliveries
           method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+  updateFoodDeliveryRequest-v1:
+    handler: CsharpHandlers::CV19INeedHelp.Handler::UpdateFoodDeliveryRequest
+    package:
+      artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
+    events:
+      - http:
+          path: help-requests/{id}/food-deliveries
+          method: put
           cors:
             origin: '*'
             headers:

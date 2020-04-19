@@ -153,6 +153,32 @@ namespace CV19INeedHelp
                 return response;
             }
         }
+        
+        public Response UpdateFoodDeliveryRequest(APIGatewayProxyRequest request, ILambdaContext context)
+        {
+            var updateRequestGateway = new INeedHelpGateway(_connectionString);
+            var updateRequestObject = new UpdateFoodDeliveryUseCase(updateRequestGateway);
+            try
+            {
+                var request_params = request.PathParameters;
+                var data = JsonConvert.DeserializeObject<FoodDelivery>(request.Body);
+                updateRequestObject.UpdateFoodDelivery(data);
+                LambdaLogger.Log(("Records update success."));
+                var response = new Response();
+                response.isBase64Encoded = true;
+                response.statusCode = "200";
+                return response;
+            }
+            catch (Exception e)
+            {
+                LambdaLogger.Log("Error: " + e.Message);
+                var response = new Response();
+                response.isBase64Encoded = true;
+                response.statusCode = "500";
+                response.body = "Error processing request: " + ". Error Details: " + e.Message + e.StackTrace;
+                return response;
+            }
+        }
     }
 
     public class Response

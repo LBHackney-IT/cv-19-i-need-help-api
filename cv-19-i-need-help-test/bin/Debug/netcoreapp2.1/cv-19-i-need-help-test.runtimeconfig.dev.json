@@ -2,7 +2,8 @@
   "runtimeOptions": {
     "additionalProbingPaths": [
       "/Users/preston/.dotnet/store/|arch|/|tfm|",
-      "/Users/preston/.nuget/packages"
+      "/Users/preston/.nuget/packages",
+      "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
     ]
   }
 }

@@ -32,4 +32,3 @@
 /Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help-test/obj/Debug/netcoreapp2.1/cv-19-i-need-help-test.csproj.CopyComplete
 /Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help-test/obj/Debug/netcoreapp2.1/cv-19-i-need-help-test.dll
 /Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help-test/obj/Debug/netcoreapp2.1/cv-19-i-need-help-test.pdb
-/Users/preston/projects/cv-19-i-need-help-api/cv-19-i-need-help-test/obj/Debug/netcoreapp2.1/cv-19-i-need-help-test.genruntimeconfig.cache
