@@ -73,6 +73,8 @@ namespace CV19INeedHelp.Gateways.V1
             rec.IsUrgentPrescription = data.IsUrgentPrescription;
             rec.AnyHelpAvailable = data.AnyHelpAvailable;
             rec.IsAnyAgedUnder15 = data.IsAnyAgedUnder15;
+            rec.LastConfirmedFoodDelivery = data.LastConfirmedFoodDelivery;
+            rec.RecordStatus = data.RecordStatus;
             _dbContext.SaveChanges();
         }
         
