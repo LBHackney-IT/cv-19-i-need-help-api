@@ -6,10 +6,8 @@ cv-19-i-need-help/.serverless/*
 cv-19-i-need-help-test/obj/*
 cv-19-i-need-help-test/bin/*
 
-cv-19-org-volunteers.sln.DotSettings.user
-/cv-19-i-need-help/.serverless/
-/cv-19-i-need-help/obj/
-/cv-19-i-need-help/cv-19-i-need-help/obj/
-/cv-19-i-need-help/cv-19-i-need-help/bin/
-/cv-19-i-need-help/obj/Debug/
-/cv-19-i-need-help/.serverless/
+cv-19-i-need-help-test/obj/Debug/netcoreapp2.1/cv-19-i-need-help-test.assets.cache
+cv-19-i-need-help-test/obj/Debug/netcoreapp2.1/cv-19-i-need-help-test.dll
+cv-19-i-need-help-test/obj/Debug/netcoreapp2.1/cv-19-i-need-help-test.pdb
+cv-19-i-need-help-test/obj/cv-19-i-need-help-test.csproj.nuget.dgspec.json
+cv-19-i-need-help-test/obj/project.packagespec.json
