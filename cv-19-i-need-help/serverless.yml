@@ -17,6 +17,10 @@ functions:
       - http:
           path: help-requests
           method: get
+          request:
+            parameters:
+              querystrings:
+                uprn: true
           cors:
             origin: '*'
             headers:
@@ -44,7 +48,7 @@ functions:
               - X-Api-Key
               - X-Amz-Security-Token
               - X-Amz-User-Agent
-            allowCredentials: false
+            allowCredentials: false 
   updateHelpRequest-v1:
     handler: CsharpHandlers::CV19INeedHelp.Handler::UpdateHelpRequest
     package:

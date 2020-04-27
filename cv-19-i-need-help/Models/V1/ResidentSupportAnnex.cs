@@ -51,5 +51,8 @@ namespace CV19INeedHelp.Models.V1
         public bool? IsUrgentPrescription { get; set; }
         public bool? AnyHelpAvailable { get; set; }
         public bool? IsAnyAgedUnder15 { get; set; }
+        public DateTime? LastConfirmedFoodDelivery { get; set; }
+        public string RecordStatus { get; set; }
+        
     }
 }

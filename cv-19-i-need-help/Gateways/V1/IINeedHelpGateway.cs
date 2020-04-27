@@ -4,7 +4,7 @@ namespace CV19INeedHelp.Gateways.V1
 {
     public interface IINeedHelpGateway
     {
-        List<ResidentSupportAnnex> GetAllHelpRequests();
+        List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn);
         ResidentSupportAnnex GetSingleHelpRequest(int id);
         void UpdateHelpRequest(ResidentSupportAnnex data);
         List<FoodDelivery> GetFoodDeliveriesForForm(int id);

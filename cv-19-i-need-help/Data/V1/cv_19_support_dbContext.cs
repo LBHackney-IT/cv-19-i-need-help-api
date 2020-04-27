@@ -185,6 +185,12 @@ namespace CV19INeedHelp.Data.V1
                 entity.Property(e => e.Ward)
                     .HasColumnName("ward")
                     .HasColumnType("character varying");
+                
+                entity.Property(e => e.LastConfirmedFoodDelivery).HasColumnName("last_confirmed_food_delivery");
+                
+                entity.Property(e => e.RecordStatus)
+                    .HasColumnName("record_status")
+                    .HasColumnType("character varying");
             });
             
             modelBuilder.Entity<FoodDelivery>(entity =>

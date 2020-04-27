@@ -22,8 +22,9 @@ namespace CV19INeedHelpTest.UseCases.V1
         [TestCase]
         public void CanCallTheDatabaseGetAllMethod()
         {
-            _classUnderTest.GetHelpRequests();
-            _fakeGateway.Verify(m => m.GetAllHelpRequests(), Times.Once);
+            string uprn = "";
+            _classUnderTest.GetHelpRequests(uprn);
+            _fakeGateway.Verify(m => m.GetHelpRequestsForUprn(uprn), Times.Once);
         }
     }
 }
