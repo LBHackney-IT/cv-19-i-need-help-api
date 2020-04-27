@@ -18,7 +18,7 @@ namespace CV19INeedHelp.Gateways.V1
 
         public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn)
         {
-            var response = _dbContext.ResidentSupportAnnex.Where(x => x.Uprn == uprn).ToList();
+            var response = _dbContext.ResidentSupportAnnex.Where(x => x.Uprn == uprn && x.RecordStatus.ToUpper() == "MASTER").ToList();
             return response;
         }
         
