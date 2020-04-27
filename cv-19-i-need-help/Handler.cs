@@ -20,13 +20,15 @@ namespace CV19INeedHelp
        {
            _connectionString = Environment.GetEnvironmentVariable("CV_19_DB_CONNECTION");
        }
-       public Response GetHelpRequests()
+       public Response GetHelpRequests(APIGatewayProxyRequest request, ILambdaContext context)
        {
            var getRequestGateway = new INeedHelpGateway(_connectionString);
            var getRequestObject = new GetHelpRequestsUseCase(getRequestGateway);
+           var request_params = request.PathParameters;
+           var request_id = Int32.Parse(request_params["uprn"]);
            try
            {
-               var resp = getRequestObject.GetHelpRequests();
+               var resp = getRequestObject.GetHelpRequests(uprn);
                LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
                var response = new Response();
                response.isBase64Encoded = true;

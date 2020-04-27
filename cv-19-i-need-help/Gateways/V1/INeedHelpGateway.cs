@@ -16,9 +16,9 @@ namespace CV19INeedHelp.Gateways.V1
             _dbContext = new Cv19SupportDbContext(_connectionString);
         }
 
-        public List<ResidentSupportAnnex> GetAllHelpRequests()
+        public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn)
         {
-            var response = _dbContext.ResidentSupportAnnex.ToList();
+            var response = _dbContext.ResidentSupportAnnex.Where(x => x.Uprn == uprn).ToList();
             return response;
         }
         
