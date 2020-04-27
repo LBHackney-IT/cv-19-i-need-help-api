@@ -24,7 +24,7 @@ namespace CV19INeedHelp
        {
            var getRequestGateway = new INeedHelpGateway(_connectionString);
            var getRequestObject = new GetHelpRequestsUseCase(getRequestGateway);
-           var request_params = request.PathParameters;
+           var request_params = request.QueryStringParameters;
            string uprn = request_params["uprn"];
            try
            {
