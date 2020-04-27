@@ -23,4 +23,38 @@
     <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ResolveComReferenceCache Remove="obj\Debug\netcoreapp2.1\cv-19-i-need-help.csproj.ResolveComReference.cache" />
+    <_ResolveComReferenceCache Remove="obj\Debug\netcoreapp2.1\cv-19-i-need-help.csproj.ResolveComReference.cache" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <IntermediateAssembly Remove="obj\Debug\netcoreapp2.1\CsharpHandlers.dll" />
+    <IntermediateAssembly Remove="obj\Debug\netcoreapp2.1\CsharpHandlers.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_DebugSymbolsIntermediatePath Remove="obj\Debug\netcoreapp2.1\CsharpHandlers.pdb" />
+    <_DebugSymbolsIntermediatePath Remove="obj\Debug\netcoreapp2.1\CsharpHandlers.pdb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_DeploymentManifestEntryPoint Remove="obj\Debug\netcoreapp2.1\CsharpHandlers.dll" />
+    <_DeploymentManifestEntryPoint Remove="obj\Debug\netcoreapp2.1\CsharpHandlers.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ApplicationManifest Remove="obj\Debug\netcoreapp2.1\Native.CsharpHandlers.manifest" />
+    <ApplicationManifest Remove="obj\Debug\netcoreapp2.1\Native.CsharpHandlers.manifest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DeployManifest Remove="obj\Debug\netcoreapp2.1\CsharpHandlers.application" />
+    <DeployManifest Remove="obj\Debug\netcoreapp2.1\CsharpHandlers.application" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_UnmanagedRegistrationCache Remove="obj\cv-19-i-need-help.csproj.UnmanagedRegistration.cache" />
+  </ItemGroup>
+
 </Project>
