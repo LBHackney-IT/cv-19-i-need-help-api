@@ -21,5 +21,10 @@ namespace CV19INeedHelp.UseCases.V1
             data.Id = id;
             _iNeedHelpGateway.UpdateHelpRequest(data);
         }
+
+        public void PatchHelpRequest(int id, ResidentSupportAnnexPatch data_items)
+        {
+            _iNeedHelpGateway.PatchHelpRequest(id, data_items);
+        }
     }
 }

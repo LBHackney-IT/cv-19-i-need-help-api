@@ -56,6 +56,24 @@ functions:
     events:
       - http:
           path: help-requests/{id}
+          method: patch
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+  patchHelpRequest-v1:
+    handler: CsharpHandlers::CV19INeedHelp.Handler::PatchHelpRequest
+    package:
+      artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
+    events:
+      - http:
+          path: help-requests/{id}
           method: put
           cors:
             origin: '*'

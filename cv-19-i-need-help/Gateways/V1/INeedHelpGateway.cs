@@ -107,5 +107,25 @@ namespace CV19INeedHelp.Gateways.V1
             _dbContext.SaveChanges();
         }
 
+        public void PatchHelpRequest(int id, ResidentSupportAnnexPatch dataItems)
+        {
+            var rec = _dbContext.ResidentSupportAnnex.SingleOrDefault(x => x.Id == id);
+            if (dataItems.OngoingFoodNeed != null)
+            {
+                rec.OngoingFoodNeed = dataItems.OngoingFoodNeed;
+            }
+
+            if (dataItems.NumberOfPeopleInHouse != null)
+            {
+                rec.NumberOfPeopleInHouse = dataItems.NumberOfPeopleInHouse;
+            }
+
+            if (dataItems.LastConfirmedFoodDelivery != null)
+            {
+                rec.LastConfirmedFoodDelivery = dataItems.LastConfirmedFoodDelivery;
+            }
+
+            _dbContext.SaveChanges();
+        }
     }
 }
