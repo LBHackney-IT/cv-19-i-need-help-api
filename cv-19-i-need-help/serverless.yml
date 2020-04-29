@@ -56,7 +56,7 @@ functions:
     events:
       - http:
           path: help-requests/{id}
-          method: patch
+          method: put
           cors:
             origin: '*'
             headers:
@@ -74,7 +74,7 @@ functions:
     events:
       - http:
           path: help-requests/{id}
-          method: put
+          method: patch
           cors:
             origin: '*'
             headers:
