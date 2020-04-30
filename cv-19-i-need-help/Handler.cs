@@ -102,6 +102,35 @@ namespace CV19INeedHelp
            }
        }
 
+       public Response PatchHelpRequest(APIGatewayProxyRequest request, ILambdaContext context)
+       {
+           var getRequestGateway = new INeedHelpGateway(_connectionString);
+           var updateRequestObject = new UpdateHelpRequestUseCase(getRequestGateway);
+           var request_params = request.PathParameters;
+           var request_data = JsonConvert.DeserializeObject<ResidentSupportAnnexPatch>(request.Body);
+           var request_id = Int32.Parse(request_params["id"]);
+           try
+           {
+               LambdaLogger.Log(request.Body);
+               updateRequestObject.PatchHelpRequest(request_id, request_data);
+               LambdaLogger.Log(("Record update success"));
+               var response = new Response();
+               response.isBase64Encoded = true;
+               response.statusCode = "200";
+               response.body = "Record Updated";
+               return response;
+           }
+           catch(Exception e)
+           {
+               LambdaLogger.Log("Error: " + e.Message);
+               var response = new Response();
+               response.isBase64Encoded = true;
+               response.statusCode = "500";
+               response.body = "Error processing request: " + ". Error Details: " + e.Message + e.StackTrace;
+               return response;
+           }
+       }
+
         public Response GetFoodDeliveriesRequestForForm(APIGatewayProxyRequest request, ILambdaContext context)
         {
             var getRequestGateway = new INeedHelpGateway(_connectionString);

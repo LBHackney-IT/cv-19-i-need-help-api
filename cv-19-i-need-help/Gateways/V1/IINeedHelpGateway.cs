@@ -11,5 +11,6 @@ namespace CV19INeedHelp.Gateways.V1
 
         int CreateFoodDelivery(FoodDelivery data);
         void UpdateFoodDelivery(FoodDelivery data);
+        void PatchHelpRequest(int id, ResidentSupportAnnexPatch dataItems);
     }
 }
