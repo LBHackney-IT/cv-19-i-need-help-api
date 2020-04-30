@@ -111,6 +111,7 @@ namespace CV19INeedHelp
            var request_id = Int32.Parse(request_params["id"]);
            try
            {
+               LambdaLogger.Log(request.Body);
                updateRequestObject.PatchHelpRequest(request_id, request_data);
                LambdaLogger.Log(("Record update success"));
                var response = new Response();

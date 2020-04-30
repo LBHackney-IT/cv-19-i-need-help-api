@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CV19INeedHelp.UseCases.V1;
 using CV19INeedHelp.Gateways.V1;
@@ -26,5 +27,16 @@ namespace CV19INeedHelpTest.UseCases.V1
             _classUnderTest.GetHelpRequests(uprn);
             _fakeGateway.Verify(m => m.GetHelpRequestsForUprn(uprn), Times.Once);
         }
+        
+        [TestCase]
+        public void CanRaiseErrorIfNoUprnIsProvided()
+        {
+            string uprn = "";
+            _classUnderTest.GetHelpRequests(uprn);
+            //Assert.Throws<Exception>(_classUnderTest.GetHelpRequests(uprn));
+        }
+
+        
+        
     }
 }

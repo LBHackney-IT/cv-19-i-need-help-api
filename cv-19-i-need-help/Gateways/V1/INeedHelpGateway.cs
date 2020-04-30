@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Amazon.Lambda.Core;
 using CV19INeedHelp.Models.V1;
 using CV19INeedHelp.Data.V1;
+using Newtonsoft.Json;
 
 namespace CV19INeedHelp.Gateways.V1
 {
@@ -109,6 +111,7 @@ namespace CV19INeedHelp.Gateways.V1
 
         public void PatchHelpRequest(int id, ResidentSupportAnnexPatch dataItems)
         {
+            LambdaLogger.Log("Updating: " + JsonConvert.SerializeObject(dataItems));
             var rec = _dbContext.ResidentSupportAnnex.SingleOrDefault(x => x.Id == id);
             if (dataItems.OngoingFoodNeed != null)
             {
