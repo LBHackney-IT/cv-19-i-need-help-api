@@ -4,6 +4,6 @@ namespace CV19INeedHelp.UseCases.V1
 {
     public interface IGetHelpRequestsUseCase
     {
-        List<ResidentSupportAnnex> GetHelpRequests(string uprn);
+        List<ResidentSupportAnnex> GetHelpRequests(string uprn, string exceptions);
     }
 }

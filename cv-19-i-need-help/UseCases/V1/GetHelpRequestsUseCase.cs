@@ -16,9 +16,13 @@ namespace CV19INeedHelp.UseCases.V1
             _iNeedHelpGateway = iNeedHelpGateway;
         }
 
-        public List<ResidentSupportAnnex> GetHelpRequests(string uprn)
+        public List<ResidentSupportAnnex> GetHelpRequests(string uprn, string exceptions)
         {
-            return _iNeedHelpGateway.GetHelpRequestsForUprn(uprn);
+            if (string.IsNullOrEmpty(uprn) && string.IsNullOrEmpty(exceptions))
+            {
+                throw new ArgumentException("UPRN must be provided or exception flag set.");
+            }
+            return _iNeedHelpGateway.GetHelpRequestsForUprn(uprn, exceptions);
         }
     }
 }

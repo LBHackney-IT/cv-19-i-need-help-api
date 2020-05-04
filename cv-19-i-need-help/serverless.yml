@@ -17,10 +17,6 @@ functions:
       - http:
           path: help-requests
           method: get
-          request:
-            parameters:
-              querystrings:
-                uprn: true
           cors:
             origin: '*'
             headers:

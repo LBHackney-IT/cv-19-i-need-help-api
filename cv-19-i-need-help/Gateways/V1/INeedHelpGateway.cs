@@ -18,10 +18,28 @@ namespace CV19INeedHelp.Gateways.V1
             _dbContext = new Cv19SupportDbContext(_connectionString);
         }
 
-        public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn)
+        public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn, string exceptions)
         {
-            var response = _dbContext.ResidentSupportAnnex.Where(x => x.Uprn == uprn && x.RecordStatus.ToUpper() == "MASTER").ToList();
-            return response;
+            List<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
+            if (string.IsNullOrEmpty(uprn) && exceptions == "true")
+            {
+                response = _dbContext.ResidentSupportAnnex
+                    .Where(x => x.RecordStatus.ToUpper() == "EXCEPTION").ToList();
+                return response;
+            }
+
+            else if (string.IsNullOrEmpty(exceptions) && !string.IsNullOrEmpty(uprn))
+            {
+                response = _dbContext.ResidentSupportAnnex
+                    .Where(x => x.Uprn == uprn && x.RecordStatus.ToUpper() == "MASTER").ToList();
+                return response;
+            }
+            else
+            {
+                response = _dbContext.ResidentSupportAnnex
+                    .Where(x => x.Uprn == uprn && x.RecordStatus.ToUpper() == "EXCEPTION").ToList();
+                return response;
+            }
         }
         
         public ResidentSupportAnnex GetSingleHelpRequest(int id)

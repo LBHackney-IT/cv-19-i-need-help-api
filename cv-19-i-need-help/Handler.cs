@@ -25,10 +25,11 @@ namespace CV19INeedHelp
            var getRequestGateway = new INeedHelpGateway(_connectionString);
            var getRequestObject = new GetHelpRequestsUseCase(getRequestGateway);
            var request_params = request.QueryStringParameters;
+           string exceptions = request_params["exceptions"];
            string uprn = request_params["uprn"];
            try
            {
-               var resp = getRequestObject.GetHelpRequests(uprn);
+               var resp = getRequestObject.GetHelpRequests(uprn, exceptions);
                LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
                var response = new Response();
                response.isBase64Encoded = true;
