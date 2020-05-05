@@ -7,7 +7,6 @@ provider:
   region: eu-west-2
 package:
   individually: true
-
 functions:
   getHelpRequests-v1:
     handler: CsharpHandlers::CV19INeedHelp.Handler::GetHelpRequests
@@ -16,6 +15,28 @@ functions:
     events:
       - http:
           path: help-requests
+          method: get
+          request:
+            parameters:
+              querystrings:
+                uprn: true,
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+  getHelpRequestExceptions-v1:
+    handler: CsharpHandlers::CV19INeedHelp.Handler::GetHelpRequestExceptions
+    package:
+      artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
+    events:
+      - http:
+          path: help-requests/exceptions
           method: get
           cors:
             origin: '*'

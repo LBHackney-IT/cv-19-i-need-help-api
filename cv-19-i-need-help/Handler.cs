@@ -24,12 +24,39 @@ namespace CV19INeedHelp
        {
            var getRequestGateway = new INeedHelpGateway(_connectionString);
            var getRequestObject = new GetHelpRequestsUseCase(getRequestGateway);
-           var request_params = request.QueryStringParameters;
-           string exceptions = request_params["exceptions"];
-           string uprn = request_params["uprn"];
+           var requestParams = request.QueryStringParameters;
+           //LambdaLogger.Log(("Request params: " + requestParams.ToString()));
+           //string exceptions = requestParams["exceptions"];
+           string uprn = requestParams["uprn"];
            try
            {
-               var resp = getRequestObject.GetHelpRequests(uprn, exceptions);
+               var resp = getRequestObject.GetHelpRequests(uprn);
+               LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
+               var response = new Response();
+               response.isBase64Encoded = true;
+               response.statusCode = "200";
+               response.body = JsonConvert.SerializeObject(resp);
+               return response;
+           }
+           catch(Exception e)
+           {
+               LambdaLogger.Log("Error: " + e.Message);
+               var response = new Response();
+               response.isBase64Encoded = true;
+               response.statusCode = "500";
+               response.body = "Error processing request: " + ". Error Details: " + e.Message + e.StackTrace;
+               return response;
+           }
+       }
+       
+       public Response GetHelpRequestExceptions(APIGatewayProxyRequest request, ILambdaContext context)
+       {
+           var getRequestGateway = new INeedHelpGateway(_connectionString);
+           var getRequestObject = new GetHelpRequestsUseCase(getRequestGateway);
+           //LambdaLogger.Log(("Begin request"));
+           try
+           {
+               var resp = getRequestObject.GetHelpRequestExceptions();
                LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
                var response = new Response();
                response.isBase64Encoded = true;

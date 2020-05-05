@@ -4,7 +4,7 @@ namespace CV19INeedHelp.Gateways.V1
 {
     public interface IINeedHelpGateway
     {
-        List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn, string exceptions);
+        List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn);
         ResidentSupportAnnex GetSingleHelpRequest(int id);
         void UpdateHelpRequest(ResidentSupportAnnex data);
         List<FoodDelivery> GetFoodDeliveriesForForm(int id);
@@ -12,5 +12,6 @@ namespace CV19INeedHelp.Gateways.V1
         int CreateFoodDelivery(FoodDelivery data);
         void UpdateFoodDelivery(FoodDelivery data);
         void PatchHelpRequest(int id, ResidentSupportAnnexPatch dataItems);
+        List<ResidentSupportAnnex> GetRequestExceptions();
     }
 }

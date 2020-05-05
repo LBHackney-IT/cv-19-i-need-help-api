@@ -18,28 +18,12 @@ namespace CV19INeedHelp.Gateways.V1
             _dbContext = new Cv19SupportDbContext(_connectionString);
         }
 
-        public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn, string exceptions)
+        public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn)
         {
             List<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
-            if (string.IsNullOrEmpty(uprn) && exceptions == "true")
-            {
-                response = _dbContext.ResidentSupportAnnex
-                    .Where(x => x.RecordStatus.ToUpper() == "EXCEPTION").ToList();
-                return response;
-            }
-
-            else if (string.IsNullOrEmpty(exceptions) && !string.IsNullOrEmpty(uprn))
-            {
-                response = _dbContext.ResidentSupportAnnex
-                    .Where(x => x.Uprn == uprn && x.RecordStatus.ToUpper() == "MASTER").ToList();
-                return response;
-            }
-            else
-            {
-                response = _dbContext.ResidentSupportAnnex
-                    .Where(x => x.Uprn == uprn && x.RecordStatus.ToUpper() == "EXCEPTION").ToList();
-                return response;
-            }
+            response = _dbContext.ResidentSupportAnnex
+                .Where(x => x.Uprn == uprn).ToList();
+            return response;
         }
         
         public ResidentSupportAnnex GetSingleHelpRequest(int id)
@@ -145,8 +129,52 @@ namespace CV19INeedHelp.Gateways.V1
             {
                 rec.LastConfirmedFoodDelivery = dataItems.LastConfirmedFoodDelivery;
             }
+            
+            if (dataItems.IsDuplicate != null)
+            {
+                rec.IsDuplicate = dataItems.IsDuplicate;
+            }
+
+            if (dataItems.DobDay != null)
+            {
+                rec.DobDay = dataItems.DobDay;
+            }
+
+            if (dataItems.DobMonth != null)
+            {
+                rec.DobMonth = dataItems.DobMonth;
+            }
+
+            if (dataItems.DobYear != null)
+            {
+                rec.DobYear = dataItems.DobYear;
+            }
+
+            if (dataItems.ContactTelephoneNumber != null)
+            {
+                rec.ContactTelephoneNumber = dataItems.ContactTelephoneNumber;
+            }
+
+            if (dataItems.ContactMobileNumber != null)
+            {
+                rec.ContactMobileNumber = dataItems.ContactMobileNumber;
+            }
+
+            if (dataItems.RecordStatus != null)
+            {
+                rec.RecordStatus = dataItems.RecordStatus;
+            }
+
 
             _dbContext.SaveChanges();
+        }
+
+        public List<ResidentSupportAnnex> GetRequestExceptions()
+        {
+            List<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
+            response = _dbContext.ResidentSupportAnnex
+                .Where(x => x.RecordStatus.ToUpper() == "EXCEPTION").ToList();
+            return response;
         }
     }
 }
