@@ -79,24 +79,22 @@ namespace CV19INeedHelpTest.UseCases.V1
         public void CanCallTheDatabaseGetAllMethod()
         {
             string uprn = "123";
-            string exceptions = "false";
-            _classUnderTest.GetHelpRequests(uprn, exceptions);
-            _fakeGateway.Verify(m => m.GetHelpRequestsForUprn(uprn, exceptions), Times.Once);
+            _classUnderTest.GetHelpRequests(uprn);
+            _fakeGateway.Verify(m => m.GetHelpRequestsForUprn(uprn), Times.Once);
         }
         
         [TestCase]
-        public void CanRaiseErrorIfNoUprnorExceptionFlagIsProvided()
+        public void CanRaiseErrorIfNoUprnIsProvided()
         {
             string uprn = "";
-            string exceptions = "";
-            Assert.Throws<ArgumentException>(() =>_classUnderTest.GetHelpRequests(uprn, exceptions));
+            Assert.Throws<ArgumentException>(() =>_classUnderTest.GetHelpRequests(uprn));
         }
         
-        [TestCase("123", "false")]
-        public void GetsAListOfHelpRequestsIfValidUprnIsProvided(string uprn, string exceptions)
+        [TestCase("123")]
+        public void GetsAListOfHelpRequestsIfValidUprnIsProvided(string uprn)
         {
-            _fakeGateway.Setup(x => x.GetHelpRequestsForUprn(uprn, exceptions)).Returns(response_data);
-            var response = _classUnderTest.GetHelpRequests(uprn, exceptions);
+            _fakeGateway.Setup(x => x.GetHelpRequestsForUprn(uprn)).Returns(response_data);
+            var response = _classUnderTest.GetHelpRequests(uprn);
             Assert.AreEqual(response, response_data);
             response.Should().Equal(response_data);
         }

@@ -6,36 +6,35 @@ using NUnit.Framework;
 namespace CV19INeedHelpTest.Models.V1
 {
     [TestFixture]
-    public class ResidentSupportAnnexPatchTest
+    public class FoodDeliveryTest
     {
         [TestCase]
-        public void ResidentSupportAnnexPatchShouldHaveCorrectProperties()
+        public void FoodDeliveryRecordShouldHaveCorrectProperties()
         {
-            Type type = typeof(ResidentSupportAnnexPatch);
+            Type type = typeof(FoodDelivery);
             type.GetProperties().Length.Should().Be(10);
-            ResidentSupportAnnexPatch _classUnderTest = new ResidentSupportAnnexPatch
+            FoodDelivery _classUnderTest = new FoodDelivery
             {
-                IsDuplicate = "FALSE",
-                OngoingFoodNeed = true,
-                DobDay = "01",
-                DobMonth = "02",
-                DobYear = "1992",
-                ContactTelephoneNumber = "123",
-                ContactMobileNumber = "123",
-                NumberOfPeopleInHouse = "1",
-                LastConfirmedFoodDelivery = DateTime.Now,
-                RecordStatus = "MASTER"
+                Id = 1,
+                AnnexId = 123,
+                ScheduledDeliveryDate = DateTime.Now,
+                DeliveryConfirmed = true,
+                ReasonForNonDelivery = "TEST",
+                UPRN = "TEST",
+                IsThisFirstDelivery = false,
+                RepeatDelivery = 1,
+                HouseholdSize = 1,
+                FoodPackages = 1
             };
-            Assert.That(_classUnderTest, Has.Property("IsDuplicate").InstanceOf(typeof(string)));
-            Assert.That(_classUnderTest, Has.Property("OngoingFoodNeed").InstanceOf(typeof(bool)));
-            Assert.That(_classUnderTest, Has.Property("DobDay").InstanceOf(typeof(string)));
-            Assert.That(_classUnderTest, Has.Property("DobMonth").InstanceOf(typeof(string)));
-            Assert.That(_classUnderTest, Has.Property("DobYear").InstanceOf(typeof(string)));
-            Assert.That(_classUnderTest, Has.Property("ContactTelephoneNumber").InstanceOf(typeof(string)));
-            Assert.That(_classUnderTest, Has.Property("ContactMobileNumber").InstanceOf(typeof(string)));
-            Assert.That(_classUnderTest, Has.Property("NumberOfPeopleInHouse").InstanceOf(typeof(string)));
-            Assert.That(_classUnderTest, Has.Property("LastConfirmedFoodDelivery").InstanceOf(typeof(DateTime)));
-            Assert.That(_classUnderTest, Has.Property("RecordStatus").InstanceOf(typeof(string)));
+            Assert.That(_classUnderTest, Has.Property("Id").InstanceOf(typeof(Int32)));
+            Assert.That(_classUnderTest, Has.Property("AnnexId").InstanceOf(typeof(Int32)));
+            Assert.That(_classUnderTest, Has.Property("ScheduledDeliveryDate").InstanceOf(typeof(DateTime)));
+            Assert.That(_classUnderTest, Has.Property("DeliveryConfirmed").InstanceOf(typeof(bool)));
+            Assert.That(_classUnderTest, Has.Property("ReasonForNonDelivery").InstanceOf(typeof(string)));
+            Assert.That(_classUnderTest, Has.Property("UPRN").InstanceOf(typeof(string)));
+            Assert.That(_classUnderTest, Has.Property("IsThisFirstDelivery").InstanceOf(typeof(bool)));
+            Assert.That(_classUnderTest, Has.Property("HouseholdSize").InstanceOf(typeof(Int32)));
+            Assert.That(_classUnderTest, Has.Property("FoodPackages").InstanceOf(typeof(Int32)));
         }
     }
 }
