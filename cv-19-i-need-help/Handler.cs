@@ -15,14 +15,16 @@ namespace CV19INeedHelp
     public class Handler
     {
        private readonly string _connectionString;
+       private Cv19SupportDbContext _context;
        
        public Handler()
        {
            _connectionString = Environment.GetEnvironmentVariable("CV_19_DB_CONNECTION");
+           _context = new Cv19SupportDbContext(_connectionString);
        }
        public Response GetHelpRequests(APIGatewayProxyRequest request, ILambdaContext context)
        {
-           var getRequestGateway = new INeedHelpGateway(_connectionString);
+           var getRequestGateway = new INeedHelpGateway(_context);
            var getRequestObject = new GetHelpRequestsUseCase(getRequestGateway);
            var requestParams = request.QueryStringParameters;
            //LambdaLogger.Log(("Request params: " + requestParams.ToString()));
@@ -51,7 +53,7 @@ namespace CV19INeedHelp
        
        public Response GetHelpRequestExceptions(APIGatewayProxyRequest request, ILambdaContext context)
        {
-           var getRequestGateway = new INeedHelpGateway(_connectionString);
+           var getRequestGateway = new INeedHelpGateway(_context);
            var getRequestObject = new GetHelpRequestsUseCase(getRequestGateway);
            //LambdaLogger.Log(("Begin request"));
            try
@@ -77,7 +79,7 @@ namespace CV19INeedHelp
        
        public Response GetHelpRequest(APIGatewayProxyRequest request, ILambdaContext context)
        {
-           var getRequestGateway = new INeedHelpGateway(_connectionString);
+           var getRequestGateway = new INeedHelpGateway(_context);
            var getRequestObject = new GetHelpRequestUseCase(getRequestGateway);
            var request_params = request.PathParameters;
            var request_id = Int32.Parse(request_params["id"]);
@@ -104,7 +106,7 @@ namespace CV19INeedHelp
        
        public Response UpdateHelpRequest(APIGatewayProxyRequest request, ILambdaContext context)
        {
-           var getRequestGateway = new INeedHelpGateway(_connectionString);
+           var getRequestGateway = new INeedHelpGateway(_context);
            var updateRequestObject = new UpdateHelpRequestUseCase(getRequestGateway);
            var request_params = request.PathParameters;
            var request_data = JsonConvert.DeserializeObject<ResidentSupportAnnex>(request.Body);
@@ -132,7 +134,7 @@ namespace CV19INeedHelp
 
        public Response PatchHelpRequest(APIGatewayProxyRequest request, ILambdaContext context)
        {
-           var getRequestGateway = new INeedHelpGateway(_connectionString);
+           var getRequestGateway = new INeedHelpGateway(_context);
            var updateRequestObject = new UpdateHelpRequestUseCase(getRequestGateway);
            var request_params = request.PathParameters;
            var request_data = JsonConvert.DeserializeObject<ResidentSupportAnnexPatch>(request.Body);
@@ -161,7 +163,7 @@ namespace CV19INeedHelp
 
         public Response GetFoodDeliveriesRequestForForm(APIGatewayProxyRequest request, ILambdaContext context)
         {
-            var getRequestGateway = new INeedHelpGateway(_connectionString);
+            var getRequestGateway = new INeedHelpGateway(_context);
             var getRequestsForFormObject = new GetFoodDeliveriesForFormUseCase(getRequestGateway);
             try
             {
@@ -188,7 +190,7 @@ namespace CV19INeedHelp
         
         public Response CreateFoodDeliveryRequest(APIGatewayProxyRequest request, ILambdaContext context)
         {
-            var createRequestGateway = new INeedHelpGateway(_connectionString);
+            var createRequestGateway = new INeedHelpGateway(_context);
             var createRequestObject = new CreateFoodDeliveryUseCase(createRequestGateway);
             try
             {
@@ -215,7 +217,7 @@ namespace CV19INeedHelp
         
         public Response UpdateFoodDeliveryRequest(APIGatewayProxyRequest request, ILambdaContext context)
         {
-            var updateRequestGateway = new INeedHelpGateway(_connectionString);
+            var updateRequestGateway = new INeedHelpGateway(_context);
             var updateRequestObject = new UpdateFoodDeliveryUseCase(updateRequestGateway);
             try
             {

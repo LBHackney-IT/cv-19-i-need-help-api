@@ -10,12 +10,10 @@ namespace CV19INeedHelp.Gateways.V1
 {
     public class INeedHelpGateway : IINeedHelpGateway
     {
-        private readonly string _connectionString;
         private readonly Cv19SupportDbContext _dbContext;
-        public INeedHelpGateway(string connectionString)
+        public INeedHelpGateway(Cv19SupportDbContext context)
         {
-            _connectionString = connectionString;
-            _dbContext = new Cv19SupportDbContext(_connectionString);
+            _dbContext = context;
         }
 
         public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn)
