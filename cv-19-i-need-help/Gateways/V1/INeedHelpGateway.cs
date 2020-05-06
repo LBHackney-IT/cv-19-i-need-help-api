@@ -35,6 +35,7 @@ namespace CV19INeedHelp.Gateways.V1
         public ResidentSupportAnnex GetSingleHelpRequest(int id)
         {
             var response = _dbContext.ResidentSupportAnnex.SingleOrDefault(x => x.Id == id);
+            LambdaLogger.Log("Got record " + id + " with: " + JsonConvert.SerializeObject(response));
             return response;
         }
         
@@ -119,7 +120,7 @@ namespace CV19INeedHelp.Gateways.V1
 
         public void PatchHelpRequest(int id, ResidentSupportAnnexPatch dataItems)
         {
-            LambdaLogger.Log("Updating: " + JsonConvert.SerializeObject(dataItems));
+            LambdaLogger.Log("Updating record " + id + " with: " + JsonConvert.SerializeObject(dataItems));
             var rec = _dbContext.ResidentSupportAnnex.SingleOrDefault(x => x.Id == id);
             if (dataItems.OngoingFoodNeed != null)
             {
@@ -170,8 +171,6 @@ namespace CV19INeedHelp.Gateways.V1
             {
                 rec.RecordStatus = dataItems.RecordStatus;
             }
-
-
             _dbContext.SaveChanges();
         }
 

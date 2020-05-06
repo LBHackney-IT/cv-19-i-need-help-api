@@ -2,7 +2,6 @@ service: cv-19-food-delivery
 provider:
   name: aws
   runtime: dotnetcore2.1
-
   stage: dev
   region: eu-west-2
 package:

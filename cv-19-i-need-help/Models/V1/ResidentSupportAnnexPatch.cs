@@ -12,7 +12,6 @@ namespace CV19INeedHelp.Models.V1
         public string DobYear { get; set; }
         public string ContactTelephoneNumber { get; set; }
         public string ContactMobileNumber { get; set; }
-
         public string NumberOfPeopleInHouse { get; set; }
         public DateTime? LastConfirmedFoodDelivery { get; set; } 
         public string RecordStatus { get; set; }
