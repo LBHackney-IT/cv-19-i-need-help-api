@@ -20,6 +20,7 @@ functions:
             parameters:
               querystrings:
                 uprn: true,
+                master: false
           cors:
             origin: '*'
             headers:

@@ -16,11 +16,19 @@ namespace CV19INeedHelp.Gateways.V1
             _dbContext = context;
         }
 
-        public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn)
+        public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn, bool isMaster)
         {
             List<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
-            response = _dbContext.ResidentSupportAnnex
-                .Where(x => x.Uprn == uprn).ToList();
+            if (isMaster == true)
+            {
+                response = _dbContext.ResidentSupportAnnex
+                    .Where(x => x.Uprn == uprn && x.RecordStatus.ToUpper() == "MASTER").ToList();
+            }
+            else
+            {   
+                response = _dbContext.ResidentSupportAnnex
+                    .Where(x => x.Uprn == uprn).ToList();   
+            }
             return response;
         }
         

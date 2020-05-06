@@ -27,12 +27,21 @@ namespace CV19INeedHelp
            var getRequestGateway = new INeedHelpGateway(_context);
            var getRequestObject = new GetHelpRequestsUseCase(getRequestGateway);
            var requestParams = request.QueryStringParameters;
-           //LambdaLogger.Log(("Request params: " + requestParams.ToString()));
-           //string exceptions = requestParams["exceptions"];
+           bool master = false;
+           try
+           {
+               master = bool.Parse(requestParams["master"]);
+               LambdaLogger.Log("master: " + master);
+           }
+           catch (Exception e)
+           {
+               LambdaLogger.Log("master parameter not provided.");
+           }
+
            string uprn = requestParams["uprn"];
            try
            {
-               var resp = getRequestObject.GetHelpRequests(uprn);
+               var resp = getRequestObject.GetHelpRequests(uprn, master);
                LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
                var response = new Response();
                response.isBase64Encoded = true;
