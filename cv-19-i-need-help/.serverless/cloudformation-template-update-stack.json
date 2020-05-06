@@ -59,37 +59,49 @@
     "GetHelpRequestsDashv1LogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/cv-19-food-delivery-production-getHelpRequests-v1"
+        "LogGroupName": "/aws/lambda/cv-19-food-delivery-dev-getHelpRequests-v1"
+      }
+    },
+    "GetHelpRequestExceptionsDashv1LogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/cv-19-food-delivery-dev-getHelpRequestExceptions-v1"
       }
     },
     "GetHelpRequestDashv1LogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/cv-19-food-delivery-production-getHelpRequest-v1"
+        "LogGroupName": "/aws/lambda/cv-19-food-delivery-dev-getHelpRequest-v1"
       }
     },
     "UpdateHelpRequestDashv1LogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/cv-19-food-delivery-production-updateHelpRequest-v1"
+        "LogGroupName": "/aws/lambda/cv-19-food-delivery-dev-updateHelpRequest-v1"
+      }
+    },
+    "PatchHelpRequestDashv1LogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/cv-19-food-delivery-dev-patchHelpRequest-v1"
       }
     },
     "GetFoodDeliveryRequestsForFormDashv1LogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/cv-19-food-delivery-production-getFoodDeliveryRequestsForForm-v1"
+        "LogGroupName": "/aws/lambda/cv-19-food-delivery-dev-getFoodDeliveryRequestsForForm-v1"
       }
     },
     "CreateFoodDeliveryRequestDashv1LogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/cv-19-food-delivery-production-createFoodDeliveryRequest-v1"
+        "LogGroupName": "/aws/lambda/cv-19-food-delivery-dev-createFoodDeliveryRequest-v1"
       }
     },
     "UpdateFoodDeliveryRequestDashv1LogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/cv-19-food-delivery-production-updateFoodDeliveryRequest-v1"
+        "LogGroupName": "/aws/lambda/cv-19-food-delivery-dev-updateFoodDeliveryRequest-v1"
       }
     },
     "IamRoleLambdaExecution": {
@@ -117,7 +129,7 @@
               "Fn::Join": [
                 "-",
                 [
-                  "cv-19-food-delivery-production",
+                  "cv-19-food-delivery-dev",
                   "lambda"
                 ]
               ]
@@ -133,7 +145,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cv-19-food-delivery-production*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cv-19-food-delivery-dev*:*"
                     }
                   ]
                 },
@@ -144,7 +156,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cv-19-food-delivery-production*:*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cv-19-food-delivery-dev*:*:*"
                     }
                   ]
                 }
@@ -157,7 +169,7 @@
           "Fn::Join": [
             "-",
             [
-              "cv-19-food-delivery-production",
+              "cv-19-food-delivery-dev",
               {
                 "Ref": "AWS::Region"
               },
@@ -174,9 +186,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/cv-19-food-delivery/production/1587310937274-2020-04-19T15:42:17.274Z/cv-19-i-need-help.zip"
+          "S3Key": "serverless/cv-19-food-delivery/dev/1588776602256-2020-05-06T14:50:02.256Z/cv-19-i-need-help.zip"
         },
-        "FunctionName": "cv-19-food-delivery-production-getHelpRequests-v1",
+        "FunctionName": "cv-19-food-delivery-dev-getHelpRequests-v1",
         "Handler": "CsharpHandlers::CV19INeedHelp.Handler::GetHelpRequests",
         "MemorySize": 1024,
         "Role": {
@@ -193,14 +205,50 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "GetHelpRequestsDashv1LambdaVersionAuW7gr3YPvlhytGsSGfHVJPpkUUMXs87ezZtVpCFmGE": {
+    "GetHelpRequestsDashv1LambdaVersionsiBce8A8lUCo3tMstRTAkfTCT9fpECp8DQHkCOdmM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetHelpRequestsDashv1LambdaFunction"
         },
-        "CodeSha256": "qwp04rSswwMA2QSuaFlTUE6iLcxGaN3co0evxq8caeI="
+        "CodeSha256": "b7UnIdFoVJjdrD3XWKtuwihiELRmAxMyYvR6x02Iq3A="
+      }
+    },
+    "GetHelpRequestExceptionsDashv1LambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/cv-19-food-delivery/dev/1588776602256-2020-05-06T14:50:02.256Z/cv-19-i-need-help.zip"
+        },
+        "FunctionName": "cv-19-food-delivery-dev-getHelpRequestExceptions-v1",
+        "Handler": "CsharpHandlers::CV19INeedHelp.Handler::GetHelpRequestExceptions",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "dotnetcore2.1",
+        "Timeout": 6
+      },
+      "DependsOn": [
+        "GetHelpRequestExceptionsDashv1LogGroup",
+        "IamRoleLambdaExecution"
+      ]
+    },
+    "GetHelpRequestExceptionsDashv1LambdaVersionpghhSDx0InuJ62WgxZWBpa4fFFoi0l2s55mQhudHKc": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "GetHelpRequestExceptionsDashv1LambdaFunction"
+        },
+        "CodeSha256": "b7UnIdFoVJjdrD3XWKtuwihiELRmAxMyYvR6x02Iq3A="
       }
     },
     "GetHelpRequestDashv1LambdaFunction": {
@@ -210,9 +258,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/cv-19-food-delivery/production/1587310937274-2020-04-19T15:42:17.274Z/cv-19-i-need-help.zip"
+          "S3Key": "serverless/cv-19-food-delivery/dev/1588776602256-2020-05-06T14:50:02.256Z/cv-19-i-need-help.zip"
         },
-        "FunctionName": "cv-19-food-delivery-production-getHelpRequest-v1",
+        "FunctionName": "cv-19-food-delivery-dev-getHelpRequest-v1",
         "Handler": "CsharpHandlers::CV19INeedHelp.Handler::GetHelpRequest",
         "MemorySize": 1024,
         "Role": {
@@ -229,14 +277,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "GetHelpRequestDashv1LambdaVersionS4ZZyhwPQDp3eu1BzoBs7FCALz2AA611fc1gSo25Q0": {
+    "GetHelpRequestDashv1LambdaVersioniGACBtSC2jr8TnJnZ4WNp18Zv3HKJaKSvNPNrB8fqo": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetHelpRequestDashv1LambdaFunction"
         },
-        "CodeSha256": "qwp04rSswwMA2QSuaFlTUE6iLcxGaN3co0evxq8caeI="
+        "CodeSha256": "b7UnIdFoVJjdrD3XWKtuwihiELRmAxMyYvR6x02Iq3A="
       }
     },
     "UpdateHelpRequestDashv1LambdaFunction": {
@@ -246,9 +294,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/cv-19-food-delivery/production/1587310937274-2020-04-19T15:42:17.274Z/cv-19-i-need-help.zip"
+          "S3Key": "serverless/cv-19-food-delivery/dev/1588776602256-2020-05-06T14:50:02.256Z/cv-19-i-need-help.zip"
         },
-        "FunctionName": "cv-19-food-delivery-production-updateHelpRequest-v1",
+        "FunctionName": "cv-19-food-delivery-dev-updateHelpRequest-v1",
         "Handler": "CsharpHandlers::CV19INeedHelp.Handler::UpdateHelpRequest",
         "MemorySize": 1024,
         "Role": {
@@ -265,14 +313,50 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "UpdateHelpRequestDashv1LambdaVersion8bSyY2OWCjjMQw5BSrWRQsleZAoQnn9rFFIjVruYblw": {
+    "UpdateHelpRequestDashv1LambdaVersionGxUfrVFHwmfwjBIHiwgYnq5zZ2hXpLLTtjgf051T0U": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UpdateHelpRequestDashv1LambdaFunction"
         },
-        "CodeSha256": "qwp04rSswwMA2QSuaFlTUE6iLcxGaN3co0evxq8caeI="
+        "CodeSha256": "b7UnIdFoVJjdrD3XWKtuwihiELRmAxMyYvR6x02Iq3A="
+      }
+    },
+    "PatchHelpRequestDashv1LambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/cv-19-food-delivery/dev/1588776602256-2020-05-06T14:50:02.256Z/cv-19-i-need-help.zip"
+        },
+        "FunctionName": "cv-19-food-delivery-dev-patchHelpRequest-v1",
+        "Handler": "CsharpHandlers::CV19INeedHelp.Handler::PatchHelpRequest",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "dotnetcore2.1",
+        "Timeout": 6
+      },
+      "DependsOn": [
+        "PatchHelpRequestDashv1LogGroup",
+        "IamRoleLambdaExecution"
+      ]
+    },
+    "PatchHelpRequestDashv1LambdaVersionwcHf6BpEOzzY9xbk4oilBdp3f2bYmBferYi4boKs": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "PatchHelpRequestDashv1LambdaFunction"
+        },
+        "CodeSha256": "b7UnIdFoVJjdrD3XWKtuwihiELRmAxMyYvR6x02Iq3A="
       }
     },
     "GetFoodDeliveryRequestsForFormDashv1LambdaFunction": {
@@ -282,9 +366,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/cv-19-food-delivery/production/1587310937274-2020-04-19T15:42:17.274Z/cv-19-i-need-help.zip"
+          "S3Key": "serverless/cv-19-food-delivery/dev/1588776602256-2020-05-06T14:50:02.256Z/cv-19-i-need-help.zip"
         },
-        "FunctionName": "cv-19-food-delivery-production-getFoodDeliveryRequestsForForm-v1",
+        "FunctionName": "cv-19-food-delivery-dev-getFoodDeliveryRequestsForForm-v1",
         "Handler": "CsharpHandlers::CV19INeedHelp.Handler::GetFoodDeliveriesRequestForForm",
         "MemorySize": 1024,
         "Role": {
@@ -301,14 +385,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "GetFoodDeliveryRequestsForFormDashv1LambdaVersionLBFyL2XnOd9ZweSxHand2PpwHxuiwdaKM6IEwazc": {
+    "GetFoodDeliveryRequestsForFormDashv1LambdaVersionH1YFvy0Nqu1zAZnVZ87XyE5gWDO1aNyQcbboe8Qk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetFoodDeliveryRequestsForFormDashv1LambdaFunction"
         },
-        "CodeSha256": "qwp04rSswwMA2QSuaFlTUE6iLcxGaN3co0evxq8caeI="
+        "CodeSha256": "b7UnIdFoVJjdrD3XWKtuwihiELRmAxMyYvR6x02Iq3A="
       }
     },
     "CreateFoodDeliveryRequestDashv1LambdaFunction": {
@@ -318,9 +402,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/cv-19-food-delivery/production/1587310937274-2020-04-19T15:42:17.274Z/cv-19-i-need-help.zip"
+          "S3Key": "serverless/cv-19-food-delivery/dev/1588776602256-2020-05-06T14:50:02.256Z/cv-19-i-need-help.zip"
         },
-        "FunctionName": "cv-19-food-delivery-production-createFoodDeliveryRequest-v1",
+        "FunctionName": "cv-19-food-delivery-dev-createFoodDeliveryRequest-v1",
         "Handler": "CsharpHandlers::CV19INeedHelp.Handler::CreateFoodDeliveryRequest",
         "MemorySize": 1024,
         "Role": {
@@ -337,14 +421,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "CreateFoodDeliveryRequestDashv1LambdaVersionS7zqnvvKbGg5zRrAA76PsfSEjvODm6aJFNGsU1MHZs": {
+    "CreateFoodDeliveryRequestDashv1LambdaVersionNKNIwYPJTvyYxAhGonzn3DNnmy0qgYfYNIHPdReyM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateFoodDeliveryRequestDashv1LambdaFunction"
         },
-        "CodeSha256": "qwp04rSswwMA2QSuaFlTUE6iLcxGaN3co0evxq8caeI="
+        "CodeSha256": "b7UnIdFoVJjdrD3XWKtuwihiELRmAxMyYvR6x02Iq3A="
       }
     },
     "UpdateFoodDeliveryRequestDashv1LambdaFunction": {
@@ -354,9 +438,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/cv-19-food-delivery/production/1587310937274-2020-04-19T15:42:17.274Z/cv-19-i-need-help.zip"
+          "S3Key": "serverless/cv-19-food-delivery/dev/1588776602256-2020-05-06T14:50:02.256Z/cv-19-i-need-help.zip"
         },
-        "FunctionName": "cv-19-food-delivery-production-updateFoodDeliveryRequest-v1",
+        "FunctionName": "cv-19-food-delivery-dev-updateFoodDeliveryRequest-v1",
         "Handler": "CsharpHandlers::CV19INeedHelp.Handler::UpdateFoodDeliveryRequest",
         "MemorySize": 1024,
         "Role": {
@@ -373,20 +457,20 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "UpdateFoodDeliveryRequestDashv1LambdaVersionfpVDpLbzOrQ7B8vF4UIwQXfz7P4DeiHcMSNJflh34": {
+    "UpdateFoodDeliveryRequestDashv1LambdaVersion7bzWKxBnsGgpuhMpjRKR3iECBrBpLIquDweIC5UY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UpdateFoodDeliveryRequestDashv1LambdaFunction"
         },
-        "CodeSha256": "qwp04rSswwMA2QSuaFlTUE6iLcxGaN3co0evxq8caeI="
+        "CodeSha256": "b7UnIdFoVJjdrD3XWKtuwihiELRmAxMyYvR6x02Iq3A="
       }
     },
     "ApiGatewayRestApi": {
       "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
-        "Name": "production-cv-19-food-delivery",
+        "Name": "dev-cv-19-food-delivery",
         "EndpointConfiguration": {
           "Types": [
             "EDGE"
@@ -405,6 +489,18 @@
           ]
         },
         "PathPart": "help-requests",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceHelpDashrequestsExceptions": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceHelpDashrequests"
+        },
+        "PathPart": "exceptions",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -479,6 +575,51 @@
         }
       }
     },
+    "ApiGatewayMethodHelpDashrequestsExceptionsOptions": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "ContentHandling": "CONVERT_TO_TEXT",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+              },
+              "ResponseTemplates": {
+                "application/json": ""
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceHelpDashrequestsExceptions"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
     "ApiGatewayMethodHelpDashrequestsIdVarOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
@@ -508,7 +649,7 @@
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,PUT,GET'"
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,PATCH,PUT,GET'"
               },
               "ResponseTemplates": {
                 "application/json": ""
@@ -573,7 +714,10 @@
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "HttpMethod": "GET",
-        "RequestParameters": {},
+        "RequestParameters": {
+          "method.request.querystring.uprn": "true,",
+          "method.request.querystring.master": false
+        },
         "ResourceId": {
           "Ref": "ApiGatewayResourceHelpDashrequests"
         },
@@ -601,6 +745,49 @@
                 {
                   "Fn::GetAtt": [
                     "GetHelpRequestsDashv1LambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayMethodHelpDashrequestsExceptionsGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceHelpDashrequestsExceptions"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "GetHelpRequestExceptionsDashv1LambdaFunction",
                     "Arn"
                   ]
                 },
@@ -687,6 +874,49 @@
                 {
                   "Fn::GetAtt": [
                     "UpdateHelpRequestDashv1LambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayMethodHelpDashrequestsIdVarPatch": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "PATCH",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceHelpDashrequestsIdVar"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "PatchHelpRequestDashv1LambdaFunction",
                     "Arn"
                   ]
                 },
@@ -827,21 +1057,24 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1587310936302": {
+    "ApiGatewayDeployment1588776600789": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         },
-        "StageName": "production"
+        "StageName": "dev"
       },
       "DependsOn": [
         "ApiGatewayMethodHelpDashrequestsOptions",
+        "ApiGatewayMethodHelpDashrequestsExceptionsOptions",
         "ApiGatewayMethodHelpDashrequestsIdVarOptions",
         "ApiGatewayMethodHelpDashrequestsIdVarFoodDashdeliveriesOptions",
         "ApiGatewayMethodHelpDashrequestsGet",
+        "ApiGatewayMethodHelpDashrequestsExceptionsGet",
         "ApiGatewayMethodHelpDashrequestsIdVarGet",
         "ApiGatewayMethodHelpDashrequestsIdVarPut",
+        "ApiGatewayMethodHelpDashrequestsIdVarPatch",
         "ApiGatewayMethodHelpDashrequestsIdVarFoodDashdeliveriesGet",
         "ApiGatewayMethodHelpDashrequestsIdVarFoodDashdeliveriesPost",
         "ApiGatewayMethodHelpDashrequestsIdVarFoodDashdeliveriesPut"
@@ -853,6 +1086,43 @@
         "FunctionName": {
           "Fn::GetAtt": [
             "GetHelpRequestsDashv1LambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "GetHelpRequestExceptionsDashv1LambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "GetHelpRequestExceptionsDashv1LambdaFunction",
             "Arn"
           ]
         },
@@ -927,6 +1197,43 @@
         "FunctionName": {
           "Fn::GetAtt": [
             "UpdateHelpRequestDashv1LambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "PatchHelpRequestDashv1LambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "PatchHelpRequestDashv1LambdaFunction",
             "Arn"
           ]
         },
@@ -1079,37 +1386,49 @@
     "GetHelpRequestsDashv1LambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetHelpRequestsDashv1LambdaVersionAuW7gr3YPvlhytGsSGfHVJPpkUUMXs87ezZtVpCFmGE"
+        "Ref": "GetHelpRequestsDashv1LambdaVersionsiBce8A8lUCo3tMstRTAkfTCT9fpECp8DQHkCOdmM"
+      }
+    },
+    "GetHelpRequestExceptionsDashv1LambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "GetHelpRequestExceptionsDashv1LambdaVersionpghhSDx0InuJ62WgxZWBpa4fFFoi0l2s55mQhudHKc"
       }
     },
     "GetHelpRequestDashv1LambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetHelpRequestDashv1LambdaVersionS4ZZyhwPQDp3eu1BzoBs7FCALz2AA611fc1gSo25Q0"
+        "Ref": "GetHelpRequestDashv1LambdaVersioniGACBtSC2jr8TnJnZ4WNp18Zv3HKJaKSvNPNrB8fqo"
       }
     },
     "UpdateHelpRequestDashv1LambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdateHelpRequestDashv1LambdaVersion8bSyY2OWCjjMQw5BSrWRQsleZAoQnn9rFFIjVruYblw"
+        "Ref": "UpdateHelpRequestDashv1LambdaVersionGxUfrVFHwmfwjBIHiwgYnq5zZ2hXpLLTtjgf051T0U"
+      }
+    },
+    "PatchHelpRequestDashv1LambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "PatchHelpRequestDashv1LambdaVersionwcHf6BpEOzzY9xbk4oilBdp3f2bYmBferYi4boKs"
       }
     },
     "GetFoodDeliveryRequestsForFormDashv1LambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetFoodDeliveryRequestsForFormDashv1LambdaVersionLBFyL2XnOd9ZweSxHand2PpwHxuiwdaKM6IEwazc"
+        "Ref": "GetFoodDeliveryRequestsForFormDashv1LambdaVersionH1YFvy0Nqu1zAZnVZ87XyE5gWDO1aNyQcbboe8Qk"
       }
     },
     "CreateFoodDeliveryRequestDashv1LambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateFoodDeliveryRequestDashv1LambdaVersionS7zqnvvKbGg5zRrAA76PsfSEjvODm6aJFNGsU1MHZs"
+        "Ref": "CreateFoodDeliveryRequestDashv1LambdaVersionNKNIwYPJTvyYxAhGonzn3DNnmy0qgYfYNIHPdReyM"
       }
     },
     "UpdateFoodDeliveryRequestDashv1LambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdateFoodDeliveryRequestDashv1LambdaVersionfpVDpLbzOrQ7B8vF4UIwQXfz7P4DeiHcMSNJflh34"
+        "Ref": "UpdateFoodDeliveryRequestDashv1LambdaVersion7bzWKxBnsGgpuhMpjRKR3iECBrBpLIquDweIC5UY"
       }
     },
     "ServiceEndpoint": {
@@ -1130,7 +1449,7 @@
             {
               "Ref": "AWS::URLSuffix"
             },
-            "/production"
+            "/dev"
           ]
         ]
       }

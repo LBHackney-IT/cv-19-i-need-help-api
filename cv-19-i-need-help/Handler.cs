@@ -15,20 +15,59 @@ namespace CV19INeedHelp
     public class Handler
     {
        private readonly string _connectionString;
+       private Cv19SupportDbContext _context;
        
        public Handler()
        {
            _connectionString = Environment.GetEnvironmentVariable("CV_19_DB_CONNECTION");
+           _context = new Cv19SupportDbContext(_connectionString);
        }
        public Response GetHelpRequests(APIGatewayProxyRequest request, ILambdaContext context)
        {
-           var getRequestGateway = new INeedHelpGateway(_connectionString);
+           var getRequestGateway = new INeedHelpGateway(_context);
            var getRequestObject = new GetHelpRequestsUseCase(getRequestGateway);
-           var request_params = request.QueryStringParameters;
-           string uprn = request_params["uprn"];
+           var requestParams = request.QueryStringParameters;
+           bool master = false;
            try
            {
-               var resp = getRequestObject.GetHelpRequests(uprn);
+               master = bool.Parse(requestParams["master"]);
+               LambdaLogger.Log("master: " + master);
+           }
+           catch (Exception e)
+           {
+               LambdaLogger.Log("master parameter not provided.");
+           }
+
+           string uprn = requestParams["uprn"];
+           try
+           {
+               var resp = getRequestObject.GetHelpRequests(uprn, master);
+               LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
+               var response = new Response();
+               response.isBase64Encoded = true;
+               response.statusCode = "200";
+               response.body = JsonConvert.SerializeObject(resp);
+               return response;
+           }
+           catch(Exception e)
+           {
+               LambdaLogger.Log("Error: " + e.Message);
+               var response = new Response();
+               response.isBase64Encoded = true;
+               response.statusCode = "500";
+               response.body = "Error processing request: " + ". Error Details: " + e.Message + e.StackTrace;
+               return response;
+           }
+       }
+       
+       public Response GetHelpRequestExceptions(APIGatewayProxyRequest request, ILambdaContext context)
+       {
+           var getRequestGateway = new INeedHelpGateway(_context);
+           var getRequestObject = new GetHelpRequestsUseCase(getRequestGateway);
+           //LambdaLogger.Log(("Begin request"));
+           try
+           {
+               var resp = getRequestObject.GetHelpRequestExceptions();
                LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
                var response = new Response();
                response.isBase64Encoded = true;
@@ -49,7 +88,7 @@ namespace CV19INeedHelp
        
        public Response GetHelpRequest(APIGatewayProxyRequest request, ILambdaContext context)
        {
-           var getRequestGateway = new INeedHelpGateway(_connectionString);
+           var getRequestGateway = new INeedHelpGateway(_context);
            var getRequestObject = new GetHelpRequestUseCase(getRequestGateway);
            var request_params = request.PathParameters;
            var request_id = Int32.Parse(request_params["id"]);
@@ -76,7 +115,7 @@ namespace CV19INeedHelp
        
        public Response UpdateHelpRequest(APIGatewayProxyRequest request, ILambdaContext context)
        {
-           var getRequestGateway = new INeedHelpGateway(_connectionString);
+           var getRequestGateway = new INeedHelpGateway(_context);
            var updateRequestObject = new UpdateHelpRequestUseCase(getRequestGateway);
            var request_params = request.PathParameters;
            var request_data = JsonConvert.DeserializeObject<ResidentSupportAnnex>(request.Body);
@@ -104,7 +143,7 @@ namespace CV19INeedHelp
 
        public Response PatchHelpRequest(APIGatewayProxyRequest request, ILambdaContext context)
        {
-           var getRequestGateway = new INeedHelpGateway(_connectionString);
+           var getRequestGateway = new INeedHelpGateway(_context);
            var updateRequestObject = new UpdateHelpRequestUseCase(getRequestGateway);
            var request_params = request.PathParameters;
            var request_data = JsonConvert.DeserializeObject<ResidentSupportAnnexPatch>(request.Body);
@@ -133,7 +172,7 @@ namespace CV19INeedHelp
 
         public Response GetFoodDeliveriesRequestForForm(APIGatewayProxyRequest request, ILambdaContext context)
         {
-            var getRequestGateway = new INeedHelpGateway(_connectionString);
+            var getRequestGateway = new INeedHelpGateway(_context);
             var getRequestsForFormObject = new GetFoodDeliveriesForFormUseCase(getRequestGateway);
             try
             {
@@ -160,7 +199,7 @@ namespace CV19INeedHelp
         
         public Response CreateFoodDeliveryRequest(APIGatewayProxyRequest request, ILambdaContext context)
         {
-            var createRequestGateway = new INeedHelpGateway(_connectionString);
+            var createRequestGateway = new INeedHelpGateway(_context);
             var createRequestObject = new CreateFoodDeliveryUseCase(createRequestGateway);
             try
             {
@@ -187,7 +226,7 @@ namespace CV19INeedHelp
         
         public Response UpdateFoodDeliveryRequest(APIGatewayProxyRequest request, ILambdaContext context)
         {
-            var updateRequestGateway = new INeedHelpGateway(_connectionString);
+            var updateRequestGateway = new INeedHelpGateway(_context);
             var updateRequestObject = new UpdateFoodDeliveryUseCase(updateRequestGateway);
             try
             {

@@ -10,23 +10,32 @@ namespace CV19INeedHelp.Gateways.V1
 {
     public class INeedHelpGateway : IINeedHelpGateway
     {
-        private readonly string _connectionString;
         private readonly Cv19SupportDbContext _dbContext;
-        public INeedHelpGateway(string connectionString)
+        public INeedHelpGateway(Cv19SupportDbContext context)
         {
-            _connectionString = connectionString;
-            _dbContext = new Cv19SupportDbContext(_connectionString);
+            _dbContext = context;
         }
 
-        public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn)
+        public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn, bool isMaster)
         {
-            var response = _dbContext.ResidentSupportAnnex.Where(x => x.Uprn == uprn && x.RecordStatus.ToUpper() == "MASTER").ToList();
+            List<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
+            if (isMaster == true)
+            {
+                response = _dbContext.ResidentSupportAnnex
+                    .Where(x => x.Uprn == uprn && x.RecordStatus.ToUpper() == "MASTER").ToList();
+            }
+            else
+            {   
+                response = _dbContext.ResidentSupportAnnex
+                    .Where(x => x.Uprn == uprn).ToList();   
+            }
             return response;
         }
         
         public ResidentSupportAnnex GetSingleHelpRequest(int id)
         {
             var response = _dbContext.ResidentSupportAnnex.SingleOrDefault(x => x.Id == id);
+            LambdaLogger.Log("Got record " + id + " with: " + JsonConvert.SerializeObject(response));
             return response;
         }
         
@@ -111,7 +120,7 @@ namespace CV19INeedHelp.Gateways.V1
 
         public void PatchHelpRequest(int id, ResidentSupportAnnexPatch dataItems)
         {
-            LambdaLogger.Log("Updating: " + JsonConvert.SerializeObject(dataItems));
+            LambdaLogger.Log("Updating record " + id + " with: " + JsonConvert.SerializeObject(dataItems));
             var rec = _dbContext.ResidentSupportAnnex.SingleOrDefault(x => x.Id == id);
             if (dataItems.OngoingFoodNeed != null)
             {
@@ -127,8 +136,50 @@ namespace CV19INeedHelp.Gateways.V1
             {
                 rec.LastConfirmedFoodDelivery = dataItems.LastConfirmedFoodDelivery;
             }
+            
+            if (dataItems.IsDuplicate != null)
+            {
+                rec.IsDuplicate = dataItems.IsDuplicate;
+            }
 
+            if (dataItems.DobDay != null)
+            {
+                rec.DobDay = dataItems.DobDay;
+            }
+
+            if (dataItems.DobMonth != null)
+            {
+                rec.DobMonth = dataItems.DobMonth;
+            }
+
+            if (dataItems.DobYear != null)
+            {
+                rec.DobYear = dataItems.DobYear;
+            }
+
+            if (dataItems.ContactTelephoneNumber != null)
+            {
+                rec.ContactTelephoneNumber = dataItems.ContactTelephoneNumber;
+            }
+
+            if (dataItems.ContactMobileNumber != null)
+            {
+                rec.ContactMobileNumber = dataItems.ContactMobileNumber;
+            }
+
+            if (dataItems.RecordStatus != null)
+            {
+                rec.RecordStatus = dataItems.RecordStatus;
+            }
             _dbContext.SaveChanges();
+        }
+
+        public List<ResidentSupportAnnex> GetRequestExceptions()
+        {
+            List<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
+            response = _dbContext.ResidentSupportAnnex
+                .Where(x => x.RecordStatus.ToUpper() == "EXCEPTION").ToList();
+            return response;
         }
     }
 }
