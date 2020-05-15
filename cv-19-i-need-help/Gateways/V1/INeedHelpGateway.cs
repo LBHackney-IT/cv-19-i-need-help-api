@@ -86,6 +86,8 @@ namespace CV19INeedHelp.Gateways.V1
             rec.IsAnyAgedUnder15 = data.IsAnyAgedUnder15;
             rec.LastConfirmedFoodDelivery = data.LastConfirmedFoodDelivery;
             rec.RecordStatus = data.RecordStatus;
+            rec.DeliveryNotes = data.DeliveryNotes;
+            rec.CaseNotes = data.CaseNotes;
             _dbContext.SaveChanges();
         }
         
@@ -170,6 +172,16 @@ namespace CV19INeedHelp.Gateways.V1
             if (dataItems.RecordStatus != null)
             {
                 rec.RecordStatus = dataItems.RecordStatus;
+            }
+
+            if (dataItems.DeliveryNotes != null)
+            {
+                rec.DeliveryNotes = dataItems.DeliveryNotes;
+            }
+            
+            if (dataItems.CaseNotes != null)
+            {
+                rec.CaseNotes = dataItems.CaseNotes;
             }
             _dbContext.SaveChanges();
         }

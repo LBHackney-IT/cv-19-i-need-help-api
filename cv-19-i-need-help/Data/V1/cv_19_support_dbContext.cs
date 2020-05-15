@@ -190,6 +190,14 @@ namespace CV19INeedHelp.Data.V1
                 entity.Property(e => e.RecordStatus)
                     .HasColumnName("record_status")
                     .HasColumnType("character varying");
+                
+                entity.Property(e => e.DeliveryNotes)
+                    .HasColumnName("delivery_notes")
+                    .HasColumnType("character varying");
+                
+                entity.Property(e => e.CaseNotes)
+                    .HasColumnName("case_notes")
+                    .HasColumnType("character varying");
             });
             
             modelBuilder.Entity<FoodDelivery>(entity =>

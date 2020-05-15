@@ -15,6 +15,8 @@ namespace CV19INeedHelp.Models.V1
         public string NumberOfPeopleInHouse { get; set; }
         public DateTime? LastConfirmedFoodDelivery { get; set; } 
         public string RecordStatus { get; set; }
+        public string DeliveryNotes { get; set; }
+        public string CaseNotes { get; set; }
 
     }
 }
