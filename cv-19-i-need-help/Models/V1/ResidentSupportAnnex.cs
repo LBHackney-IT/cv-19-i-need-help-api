@@ -53,6 +53,7 @@ namespace CV19INeedHelp.Models.V1
         public bool? IsAnyAgedUnder15 { get; set; }
         public DateTime? LastConfirmedFoodDelivery { get; set; }
         public string RecordStatus { get; set; }
-        
+        public string DeliveryNotes { get; set; }
+        public string CaseNotes { get; set; }
     }
 }

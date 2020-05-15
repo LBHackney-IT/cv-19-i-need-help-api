@@ -12,7 +12,7 @@ namespace CV19INeedHelpTest.Models.V1
         public void ResidentSupportAnnexPatchShouldHaveCorrectProperties()
         {
             Type type = typeof(ResidentSupportAnnex);
-            type.GetProperties().Length.Should().Be(48);
+            type.GetProperties().Length.Should().Be(50);
             ResidentSupportAnnex _classUnderTest = new ResidentSupportAnnex
             {
                 Id = 1,
@@ -62,7 +62,9 @@ namespace CV19INeedHelpTest.Models.V1
                 AnyHelpAvailable = true,
                 IsAnyAgedUnder15 = false,
                 LastConfirmedFoodDelivery = DateTime.Now,
-                RecordStatus = "MASTER"
+                RecordStatus = "MASTER",
+                DeliveryNotes = "Test",
+                CaseNotes = "Test"
             };
             Assert.That(_classUnderTest, Has.Property("Id").InstanceOf(typeof(Int32)));
             Assert.That(_classUnderTest, Has.Property("IsDuplicate").InstanceOf(typeof(string)));
@@ -112,6 +114,8 @@ namespace CV19INeedHelpTest.Models.V1
             Assert.That(_classUnderTest, Has.Property("IsAnyAgedUnder15").InstanceOf(typeof(bool)));
             Assert.That(_classUnderTest, Has.Property("LastConfirmedFoodDelivery").InstanceOf(typeof(DateTime)));
             Assert.That(_classUnderTest, Has.Property("RecordStatus").InstanceOf(typeof(string)));
+            Assert.That(_classUnderTest, Has.Property("DeliveryNotes").InstanceOf(typeof(string)));
+            Assert.That(_classUnderTest, Has.Property("CaseNotes").InstanceOf(typeof(string)));
         }
     }
 }
