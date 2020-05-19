@@ -29,10 +29,17 @@ namespace CV19INeedHelp.Gateways.V1
                 response = _dbContext.ResidentSupportAnnex
                     .Where(x => x.Uprn == uprn).ToList();   
             }
-            else if(!string.IsNullOrEmpty(postcode.Trim()))
-            {   
-                response = _dbContext.ResidentSupportAnnex
-                    .Where(x => x.Postcode.Contains(postcode)).ToList();   
+            else if(postcode != null)
+            {
+                if (string.IsNullOrEmpty(postcode.Trim()))
+                {
+                    response = null;
+                }
+                else
+                {
+                    response = _dbContext.ResidentSupportAnnex
+                        .Where(x => x.Postcode.Contains(postcode)).ToList();   
+                }
             }
             else
             {
