@@ -83,15 +83,7 @@ namespace CV19INeedHelpTest.UseCases.V1
             _classUnderTest.GetHelpRequests(uprn, isMaster);
             _fakeGateway.Verify(m => m.GetHelpRequestsForUprn(uprn, isMaster), Times.Once);
         }
-        
-        [TestCase]
-        public void CanRaiseErrorIfNoUprnIsProvided()
-        {
-            string uprn = "";
-            bool isMaster = false;
-            Assert.Throws<ArgumentException>(() =>_classUnderTest.GetHelpRequests(uprn, isMaster));
-        }
-        
+
         [TestCase("123", false)]
         public void GetsAListOfHelpRequestsIfValidUprnIsProvided(string uprn, bool isMaster)
         {
