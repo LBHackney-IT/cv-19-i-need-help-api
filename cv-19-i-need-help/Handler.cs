@@ -38,7 +38,7 @@ namespace CV19INeedHelp
            }
            try
            {
-               uprn = requestParams["master"];
+               uprn = requestParams["uprn"];
                LambdaLogger.Log("uprn: " + uprn);
            }
            catch (Exception e)
