@@ -4,6 +4,7 @@ using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Models.V1;
 using Amazon.Lambda.Core;
 using Newtonsoft.Json;
+using Npgsql;
 
 namespace CV19INeedHelp.UseCases.V1
 {
@@ -16,9 +17,9 @@ namespace CV19INeedHelp.UseCases.V1
             _iNeedHelpGateway = iNeedHelpGateway;
         }
 
-        public List<ResidentSupportAnnex> GetHelpRequests(string uprn, bool isMaster)
+        public List<ResidentSupportAnnex> GetHelpRequests(string uprn, string postcode, bool isMaster)
         {
-            return _iNeedHelpGateway.GetHelpRequestsForUprn(uprn, isMaster);
+            return _iNeedHelpGateway.GetHelpRequestsForUprn(uprn, postcode, isMaster);
         }
 
         public List<ResidentSupportAnnex> GetHelpRequestExceptions()
