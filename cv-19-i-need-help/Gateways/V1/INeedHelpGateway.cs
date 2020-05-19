@@ -16,7 +16,7 @@ namespace CV19INeedHelp.Gateways.V1
             _dbContext = context;
         }
 
-        public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn, bool isMaster)
+        public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn, string postcode, bool isMaster)
         {
             List<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
             if (isMaster == true)
@@ -28,6 +28,11 @@ namespace CV19INeedHelp.Gateways.V1
             {   
                 response = _dbContext.ResidentSupportAnnex
                     .Where(x => x.Uprn == uprn).ToList();   
+            }
+            else if(postcode != null)
+            {   
+                response = _dbContext.ResidentSupportAnnex
+                    .Where(x => x.Postcode.Contains(postcode)).ToList();   
             }
             else
             {
@@ -166,6 +171,7 @@ namespace CV19INeedHelp.Gateways.V1
             }
             if (dataItems.RecordStatus != null)
             {
+                
                 rec.RecordStatus = dataItems.RecordStatus;
             }
             if (dataItems.DeliveryNotes != null)

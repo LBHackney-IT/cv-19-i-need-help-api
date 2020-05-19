@@ -27,6 +27,7 @@ namespace CV19INeedHelp
            var requestParams = request.QueryStringParameters;
            bool master = false;
            string uprn = null;
+           string postcode = null;
            try
            {
                master = bool.Parse(requestParams["master"]);
@@ -47,7 +48,16 @@ namespace CV19INeedHelp
            }
            try
            {
-               var resp = getRequestObject.GetHelpRequests(uprn, master);
+               postcode = requestParams["postcode"];
+               LambdaLogger.Log("postcode: " + postcode);
+           }
+           catch (Exception e)
+           {
+               LambdaLogger.Log("postcode parameter not provided.");
+           }
+           try
+           {
+               var resp = getRequestObject.GetHelpRequests(uprn, postcode, master);
                LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
                var response = new Response();
                response.isBase64Encoded = true;

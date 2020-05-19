@@ -19,7 +19,8 @@ functions:
             parameters:
               querystrings:
                 uprn: false,
-                master: false
+                master: false,
+                postcode: false,
           cors:
             origin: '*'
             headers:

@@ -79,16 +79,17 @@ namespace CV19INeedHelpTest.UseCases.V1
         public void CanCallTheDatabaseGetAllMethod()
         {
             string uprn = "123";
+            string postcode = "test";
             bool isMaster = false;
-            _classUnderTest.GetHelpRequests(uprn, isMaster);
-            _fakeGateway.Verify(m => m.GetHelpRequestsForUprn(uprn, isMaster), Times.Once);
+            _classUnderTest.GetHelpRequests(uprn, postcode, isMaster);
+            _fakeGateway.Verify(m => m.GetHelpRequestsForUprn(uprn, postcode, isMaster), Times.Once);
         }
 
-        [TestCase("123", false)]
-        public void GetsAListOfHelpRequestsIfValidUprnIsProvided(string uprn, bool isMaster)
+        [TestCase("123", "test", false)]
+        public void GetsAListOfHelpRequestsIfValidUprnIsProvided(string uprn, string postcode, bool isMaster)
         {
-            _fakeGateway.Setup(x => x.GetHelpRequestsForUprn(uprn, isMaster)).Returns(response_data);
-            var response = _classUnderTest.GetHelpRequests(uprn, isMaster);
+            _fakeGateway.Setup(x => x.GetHelpRequestsForUprn(uprn, postcode, isMaster)).Returns(response_data);
+            var response = _classUnderTest.GetHelpRequests(uprn, postcode, isMaster);
             Assert.AreEqual(response, response_data);
             response.Should().Equal(response_data);
         }
