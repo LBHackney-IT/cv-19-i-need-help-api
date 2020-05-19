@@ -26,6 +26,7 @@ namespace CV19INeedHelp
            var getRequestObject = new GetHelpRequestsUseCase(getRequestGateway);
            var requestParams = request.QueryStringParameters;
            bool master = false;
+           string uprn = null;
            try
            {
                master = bool.Parse(requestParams["master"]);
@@ -35,8 +36,15 @@ namespace CV19INeedHelp
            {
                LambdaLogger.Log("master parameter not provided.");
            }
-
-           string uprn = requestParams["uprn"];
+           try
+           {
+               uprn = requestParams["master"];
+               LambdaLogger.Log("uprn: " + uprn);
+           }
+           catch (Exception e)
+           {
+               LambdaLogger.Log("uprn parameter not provided.");
+           }
            try
            {
                var resp = getRequestObject.GetHelpRequests(uprn, master);

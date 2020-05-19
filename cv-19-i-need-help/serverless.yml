@@ -18,7 +18,7 @@ functions:
           request:
             parameters:
               querystrings:
-                uprn: true,
+                uprn: false,
                 master: false
           cors:
             origin: '*'

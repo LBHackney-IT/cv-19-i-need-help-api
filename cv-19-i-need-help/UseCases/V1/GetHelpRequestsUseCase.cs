@@ -18,10 +18,6 @@ namespace CV19INeedHelp.UseCases.V1
 
         public List<ResidentSupportAnnex> GetHelpRequests(string uprn, bool isMaster)
         {
-            if (string.IsNullOrEmpty(uprn))
-            {
-                throw new ArgumentException("UPRN must be provided.");
-            }
             return _iNeedHelpGateway.GetHelpRequestsForUprn(uprn, isMaster);
         }
 

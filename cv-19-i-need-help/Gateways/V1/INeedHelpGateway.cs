@@ -24,10 +24,14 @@ namespace CV19INeedHelp.Gateways.V1
                 response = _dbContext.ResidentSupportAnnex
                     .Where(x => x.Uprn == uprn && x.RecordStatus.ToUpper() == "MASTER").ToList();
             }
-            else
+            else if(uprn != null)
             {   
                 response = _dbContext.ResidentSupportAnnex
                     .Where(x => x.Uprn == uprn).ToList();   
+            }
+            else
+            {
+                response = _dbContext.ResidentSupportAnnex.ToList();
             }
             return response;
         }
