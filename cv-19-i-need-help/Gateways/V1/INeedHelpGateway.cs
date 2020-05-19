@@ -29,7 +29,7 @@ namespace CV19INeedHelp.Gateways.V1
                 response = _dbContext.ResidentSupportAnnex
                     .Where(x => x.Uprn == uprn).ToList();   
             }
-            else if(postcode != null)
+            else if(!string.IsNullOrEmpty(postcode))
             {   
                 response = _dbContext.ResidentSupportAnnex
                     .Where(x => x.Postcode.Contains(postcode)).ToList();   
