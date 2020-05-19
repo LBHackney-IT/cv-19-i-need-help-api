@@ -31,11 +31,7 @@ namespace CV19INeedHelp.Gateways.V1
             }
             else if(postcode != null)
             {
-                if (string.IsNullOrEmpty(postcode.Trim()))
-                {
-                    response = null;
-                }
-                else
+                if (!string.IsNullOrEmpty(postcode.Trim()))
                 {
                     response = _dbContext.ResidentSupportAnnex
                         .Where(x => x.Postcode.Contains(postcode)).ToList();   
