@@ -132,57 +132,46 @@ namespace CV19INeedHelp.Gateways.V1
             {
                 rec.OngoingFoodNeed = dataItems.OngoingFoodNeed;
             }
-
             if (dataItems.NumberOfPeopleInHouse != null)
             {
                 rec.NumberOfPeopleInHouse = dataItems.NumberOfPeopleInHouse;
             }
-
             if (dataItems.LastConfirmedFoodDelivery != null)
             {
                 rec.LastConfirmedFoodDelivery = dataItems.LastConfirmedFoodDelivery;
             }
-            
             if (dataItems.IsDuplicate != null)
             {
                 rec.IsDuplicate = dataItems.IsDuplicate;
             }
-
             if (dataItems.DobDay != null)
             {
                 rec.DobDay = dataItems.DobDay;
             }
-
             if (dataItems.DobMonth != null)
             {
                 rec.DobMonth = dataItems.DobMonth;
             }
-
             if (dataItems.DobYear != null)
             {
                 rec.DobYear = dataItems.DobYear;
             }
-
             if (dataItems.ContactTelephoneNumber != null)
             {
                 rec.ContactTelephoneNumber = dataItems.ContactTelephoneNumber;
             }
-
             if (dataItems.ContactMobileNumber != null)
             {
                 rec.ContactMobileNumber = dataItems.ContactMobileNumber;
             }
-
             if (dataItems.RecordStatus != null)
             {
                 rec.RecordStatus = dataItems.RecordStatus;
             }
-
             if (dataItems.DeliveryNotes != null)
             {
                 rec.DeliveryNotes = dataItems.DeliveryNotes;
             }
-            
             if (dataItems.CaseNotes != null)
             {
                 rec.CaseNotes = dataItems.CaseNotes;
