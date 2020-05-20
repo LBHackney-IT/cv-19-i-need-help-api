@@ -34,7 +34,8 @@ namespace CV19INeedHelp.Gateways.V1
             }
             else
             {
-                response = _dbContext.ResidentSupportAnnex.ToList();
+                response = _dbContext.ResidentSupportAnnex
+                    .Where(x => x==x).ToList();
             }
             if (isMaster == true)
             {
