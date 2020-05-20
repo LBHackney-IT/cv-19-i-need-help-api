@@ -34,13 +34,12 @@ namespace CV19INeedHelp.Gateways.V1
             }
             else
             {
-                response = _dbContext.ResidentSupportAnnex
-                    .Where(x => x==x).ToList();
+                response = _dbContext.ResidentSupportAnnex.ToList();
             }
             if (isMaster == true)
             {
                 response = response
-                    .Where(x => x.RecordStatus.ToUpper() == "MASTER").ToList();
+                    .Where(x => true).ToList();
             }
             return response;
         }
