@@ -19,12 +19,7 @@ namespace CV19INeedHelp.Gateways.V1
         public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn, string postcode, bool isMaster)
         {
             List<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
-            if (isMaster == true)
-            {
-                response = _dbContext.ResidentSupportAnnex
-                    .Where(x => x.Uprn == uprn && x.RecordStatus.ToUpper() == "MASTER").ToList();
-            }
-            else if(uprn != null)
+            if(uprn != null)
             {   
                 response = _dbContext.ResidentSupportAnnex
                     .Where(x => x.Uprn == uprn).ToList();   
@@ -40,6 +35,11 @@ namespace CV19INeedHelp.Gateways.V1
             else
             {
                 response = _dbContext.ResidentSupportAnnex.ToList();
+            }
+            if (isMaster == true)
+            {
+                response = response
+                    .Where(x => x.RecordStatus.ToUpper() == "MASTER").ToList();
             }
             return response;
         }
