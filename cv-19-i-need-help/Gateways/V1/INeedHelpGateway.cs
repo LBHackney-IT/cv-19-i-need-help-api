@@ -34,7 +34,7 @@ namespace CV19INeedHelp.Gateways.V1
                 if (!string.IsNullOrEmpty(postcode.Trim()))
                 {
                     response = _dbContext.ResidentSupportAnnex
-                        .Where(x => x.Postcode.Contains(postcode)).ToList();   
+                        .Where(x => x.Postcode.ToUpper().Contains(postcode.ToUpper())).ToList();   
                 }
             }
             else
