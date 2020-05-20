@@ -39,7 +39,7 @@ namespace CV19INeedHelp.Gateways.V1
             if (isMaster == true)
             {
                 response = response
-                    .Where(x =>true).ToList();
+                    .Where(x => x.RecordStatus == "MASTER").ToList();
             }
             return response;
         }
