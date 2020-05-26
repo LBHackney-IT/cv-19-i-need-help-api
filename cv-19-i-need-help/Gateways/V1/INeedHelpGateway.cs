@@ -195,5 +195,15 @@ namespace CV19INeedHelp.Gateways.V1
                 .Where(x => x.RecordStatus.ToUpper() == "EXCEPTION").ToList();
             return response;
         }
+
+        public int CreateDeliverySchedule(int limit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CreateTemporaryDeliveryData(int limit)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
