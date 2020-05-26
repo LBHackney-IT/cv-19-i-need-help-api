@@ -15,7 +15,7 @@ namespace CV19INeedHelp.UseCases.V1
             _iFoodDeliveriesGateway = iFoodDeliveriesGateway;
         }
         
-        public int CreateDeliverySchedule(int limit, bool confirmed)
+        public List<ResidentSupportAnnex> CreateDeliverySchedule(int limit, bool confirmed)
         {
             if (confirmed)
             {

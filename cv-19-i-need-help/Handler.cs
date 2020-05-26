@@ -186,14 +186,15 @@ namespace CV19INeedHelp
            }
        }
 
-       public Response GenerateDeliverySchedule(int limit, bool confirmed)
+       public Response GenerateDeliverySchedule(APIGatewayProxyRequest request, ILambdaContext context)
        {
            var getRequestGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
            var deliveryScheduleObject = new DeliveryScheduleUseCase(getRequestGateway);
            try
            {
-               //var request_params = request.PathParameters;
-               
+               var request_params = request.QueryStringParameters;
+               var limit = Int32.Parse(request_params["limit"]);
+               var confirmed = bool.Parse(request_params["confirmed"]);
                var resp = deliveryScheduleObject.CreateDeliverySchedule(limit, confirmed);
                LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
                var response = new Response();

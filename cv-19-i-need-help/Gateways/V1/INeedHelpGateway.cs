@@ -196,14 +196,45 @@ namespace CV19INeedHelp.Gateways.V1
             return response;
         }
 
-        public int CreateDeliverySchedule(int limit)
+        public List<ResidentSupportAnnex> CreateDeliverySchedule(int limit)
         {
             throw new NotImplementedException();
         }
 
-        public int CreateTemporaryDeliveryData(int limit)
+        public List<ResidentSupportAnnex> CreateTemporaryDeliveryData(int limit)
         {
-            throw new NotImplementedException();
+            var response = _dbContext.ResidentSupportAnnex
+                .Where(x => x.RecordStatus.ToUpper() == "MASTER"
+                            && x.IsDuplicate.ToUpper() == "FALSE"
+                            && x.OngoingFoodNeed == true
+                            && (x.LastConfirmedFoodDelivery == null))
+                .OrderByDescending(x => x.Id)
+                .Take(limit).ToList();
+            if (response.Count == limit)
+            {
+                return response;
+            }
+            var remainingCapacity = limit - response.Count;
+            response.Union(_dbContext.ResidentSupportAnnex
+                .Where(x => x.RecordStatus.ToUpper() == "MASTER"
+                            && x.IsDuplicate.ToUpper() == "FALSE"
+                            && x.OngoingFoodNeed == true
+                            && (x.LastConfirmedFoodDelivery <= DateTime.Now.AddDays(-6)))
+                .OrderByDescending(x => x.Id)
+                .Take(remainingCapacity).ToList());
+            if (response.Count == limit)
+            {
+                return response;
+            }
+            remainingCapacity = limit - response.Count;
+            response.Union(_dbContext.ResidentSupportAnnex
+                .Where(x => x.RecordStatus.ToUpper() == "MASTER"
+                            && x.IsDuplicate.ToUpper() == "FALSE"
+                            && x.OngoingFoodNeed == true
+                            && (x.LastConfirmedFoodDelivery > DateTime.Now.AddDays(-6) && x.LastConfirmedFoodDelivery <= DateTime.Now.AddDays(-4)))
+                .OrderByDescending(x => x.Id)
+                .Take(remainingCapacity).ToList());
+            return response;
         }
     }
 }

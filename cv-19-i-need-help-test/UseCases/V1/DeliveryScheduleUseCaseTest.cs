@@ -29,6 +29,7 @@ namespace CV19INeedHelpTest.UseCases.V1
             var confirmed = true;
             _classUnderTest.CreateDeliverySchedule(limit, confirmed);
             _fakeGateway.Verify(m => m.CreateDeliverySchedule(limit), Times.Once);
+            _fakeGateway.Verify(m => m.CreateTemporaryDeliveryData(limit), Times.Never);
         }
         
         public void CanCallTheDatabaseCreateTemporaryDeliveryDataMethodIfNotConfirmed()
@@ -37,6 +38,7 @@ namespace CV19INeedHelpTest.UseCases.V1
             var confirmed = false;
             _classUnderTest.CreateDeliverySchedule(limit, confirmed);
             _fakeGateway.Verify(m => m.CreateTemporaryDeliveryData(limit), Times.Once);
+            _fakeGateway.Verify(m => m.CreateDeliverySchedule(limit), Times.Never);
         }
 
 
