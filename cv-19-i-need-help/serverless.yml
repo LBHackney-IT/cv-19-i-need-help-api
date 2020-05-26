@@ -20,7 +20,7 @@ functions:
               querystrings:
                 uprn: false,
                 master: false,
-                postcode: false,
+                postcode: false
           cors:
             origin: '*'
             headers:
@@ -93,6 +93,29 @@ functions:
       - http:
           path: help-requests/{id}
           method: patch
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+  generateDeliverySchedule-v1:
+    handler: CsharpHandlers::CV19INeedHelp.Handler::GenerateDeliverySchedule
+    package:
+      artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
+    events:
+      - http:
+          path: delivery-schedule
+          method: get
+          request:
+            parameters:
+              querystrings:
+                limit: true,
+                confirmed: true
           cors:
             origin: '*'
             headers:
