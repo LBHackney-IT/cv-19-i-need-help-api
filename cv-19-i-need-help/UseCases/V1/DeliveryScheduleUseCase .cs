@@ -13,6 +13,7 @@ namespace CV19INeedHelp.UseCases.V1
         public DeliveryScheduleUseCase(IINeedHelpGateway iFoodDeliveriesGateway)
         {
             _iFoodDeliveriesGateway = iFoodDeliveriesGateway;
+            
         }
         
         public List<ResidentSupportAnnex> CreateDeliverySchedule(int limit, bool confirmed)
