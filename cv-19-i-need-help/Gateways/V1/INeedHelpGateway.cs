@@ -174,8 +174,15 @@ namespace CV19INeedHelp.Gateways.V1
             }
             if (dataItems.RecordStatus != null)
             {
-                
                 rec.RecordStatus = dataItems.RecordStatus;
+            }
+            if (dataItems.FirstName != null)
+            {
+                rec.FirstName = dataItems.FirstName;
+            }
+            if (dataItems.LastName != null)
+            {
+                rec.LastName = dataItems.LastName;
             }
             if (dataItems.DeliveryNotes != null)
             {
