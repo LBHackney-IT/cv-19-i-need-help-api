@@ -3,7 +3,7 @@ using System;
 namespace CV19INeedHelp.Models.V1
 {
     public class FoodDeliveryDraft
-    { 
+    {
         public int AnnexId { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
