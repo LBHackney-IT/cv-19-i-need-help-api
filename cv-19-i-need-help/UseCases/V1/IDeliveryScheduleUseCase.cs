@@ -5,6 +5,6 @@ namespace CV19INeedHelp.UseCases.V1
 {
     public interface IDeliveryScheduleUseCase
     {
-        List<ResidentSupportAnnex> CreateDeliverySchedule(int limit, bool confirmed);
+        object CreateDeliverySchedule(int limit, bool confirmed);
     }
 }
