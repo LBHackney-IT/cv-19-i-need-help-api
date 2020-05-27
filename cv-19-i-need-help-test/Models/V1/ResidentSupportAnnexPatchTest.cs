@@ -12,10 +12,12 @@ namespace CV19INeedHelpTest.Models.V1
         public void ResidentSupportAnnexPatchShouldHaveCorrectProperties()
         {
             Type type = typeof(ResidentSupportAnnexPatch);
-            type.GetProperties().Length.Should().Be(12);
+            type.GetProperties().Length.Should().Be(14);
             ResidentSupportAnnexPatch _classUnderTest = new ResidentSupportAnnexPatch
             {
                 IsDuplicate = "FALSE",
+                FirstName = "Test",
+                LastName = "Test",
                 OngoingFoodNeed = true,
                 DobDay = "01",
                 DobMonth = "02",
@@ -29,6 +31,8 @@ namespace CV19INeedHelpTest.Models.V1
                 CaseNotes = "Test"
             };
             Assert.That(_classUnderTest, Has.Property("IsDuplicate").InstanceOf(typeof(string)));
+            Assert.That(_classUnderTest, Has.Property("FirstName").InstanceOf(typeof(string)));
+            Assert.That(_classUnderTest, Has.Property("LastName").InstanceOf(typeof(string)));
             Assert.That(_classUnderTest, Has.Property("OngoingFoodNeed").InstanceOf(typeof(bool)));
             Assert.That(_classUnderTest, Has.Property("DobDay").InstanceOf(typeof(string)));
             Assert.That(_classUnderTest, Has.Property("DobMonth").InstanceOf(typeof(string)));
