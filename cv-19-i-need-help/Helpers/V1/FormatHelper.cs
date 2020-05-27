@@ -10,7 +10,7 @@ namespace CV19INeedHelp.Helpers.V1
         public List<FoodDeliveryDraft> FormatDraftOutput(List<ResidentSupportAnnex> data)
         {
             return data.Select(a => new FoodDeliveryDraft()
-                {
+                { 
                   AnnexId  = a.Id,
                   Name = $"{a.FirstName} {a.LastName}",
                   Address = $"{a.AddressFirstLine} {a.AddressSecondLine} {a.AddressThirdLine}",
