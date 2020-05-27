@@ -9,6 +9,7 @@ namespace CV19INeedHelp.Models.V1
         public string Address { get; set; }
         public string Postcode { get; set; }
         public string Uprn { get; set; }
+        public DateTime? LastScheduledDeliveryDate { get; set; }
         public DateTime DeliveryDate { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace CV19INeedHelp.Helpers.V1
                   Address = $"{a.AddressFirstLine} {a.AddressSecondLine} {a.AddressThirdLine}",
                   Postcode = a.Postcode,
                   Uprn = a.Uprn,
+                  LastScheduledDeliveryDate = a.LastConfirmedFoodDelivery.Value,
                   DeliveryDate = DateTime.Now.AddDays(1)
                 }
             ).ToList();

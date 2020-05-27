@@ -65,7 +65,7 @@ namespace CV19INeedHelpTest.UseCases.V1
                     IsUrgentPrescription = null,
                     AnyHelpAvailable = null,
                     IsAnyAgedUnder15 = null,
-                    LastConfirmedFoodDelivery = null,
+                    LastConfirmedFoodDelivery = DateTime.Now.AddDays(-7),
                     RecordStatus = "MASTER"
                 }
             };
