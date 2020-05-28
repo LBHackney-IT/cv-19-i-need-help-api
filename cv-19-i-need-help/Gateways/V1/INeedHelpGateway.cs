@@ -205,10 +205,15 @@ namespace CV19INeedHelp.Gateways.V1
 
         public List<ResidentSupportAnnex> CreateDeliverySchedule(int limit)
         {
-            throw new NotImplementedException();
+            return GetData(limit);
         }
 
         public List<ResidentSupportAnnex> CreateTemporaryDeliveryData(int limit)
+        {
+            return GetData(limit);
+        }
+
+        private List<ResidentSupportAnnex> GetData(int limit)
         {
             var response = _dbContext.ResidentSupportAnnex
                 .Where(x => x.RecordStatus.ToUpper() == "MASTER"

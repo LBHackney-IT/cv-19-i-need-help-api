@@ -105,6 +105,7 @@ functions:
             allowCredentials: false
   generateDeliverySchedule-v1:
     handler: CsharpHandlers::CV19INeedHelp.Handler::GenerateDeliverySchedule
+    timeout: 45
     package:
       artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
     events:

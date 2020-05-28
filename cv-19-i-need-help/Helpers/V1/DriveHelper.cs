@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Amazon.Lambda.Core;
 using CV19INeedHelp.Models.V1;
 using NUnit.Framework.Constraints;
 
@@ -18,7 +19,6 @@ namespace CV19INeedHelp.Helpers.V1
     {
         private readonly string _applicationName;
         private readonly string _uploadFolder;
-        private readonly UserCredential _credential;
         private static string[] Scopes = { SheetsService.Scope.Drive, SheetsService.Scope.Spreadsheets, SheetsService.Scope.DriveFile };
         private readonly string _authToken;
 
@@ -27,46 +27,51 @@ namespace CV19INeedHelp.Helpers.V1
             _authToken = Environment.GetEnvironmentVariable("GOOGLE_DRIVE_AUTH_TOKEN");
             _applicationName = applicationName;
             _uploadFolder = uploadFolder;
-            using (var stream =
-                new MemoryStream(Encoding.UTF8.GetBytes( _authToken )))
-            {
-                _credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    Scopes,
-                    "user",
-                    CancellationToken.None
-                ).Result;
-            }
         }
 
         public string CreateSpreadsheet(string name)
         {
+            LambdaLogger.Log("Set up credentials");
+            var _credential = GoogleCredential.FromStream(new MemoryStream(Encoding.UTF8.GetBytes( _authToken ))).CreateScoped(Scopes);
+            LambdaLogger.Log("Creating spreadsheet");
             // Create Google Drive API service.
-            var driveService = new DriveService(new BaseClientService.Initializer()
+            try
             {
-                HttpClientInitializer = _credential,
-                ApplicationName = _applicationName,
-            });
-
-            var sheetTemplate = new Google.Apis.Drive.v3.Data.File()    
-            {    
-                Name = name,    
-                MimeType = "application/vnd.google-apps.spreadsheet",    
-                Parents = new List<string>    
-                {    
-                    _uploadFolder
-                }    
-            };
-            FilesResource.CreateRequest request;
-            request = driveService.Files.Create(sheetTemplate);    
-            request.Fields = "id";
-            request.SupportsAllDrives = true;
-            var file = request.Execute();
-            return file.Id;
+                var driveService = new DriveService(new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = _credential,
+                    ApplicationName = _applicationName,
+                });
+                LambdaLogger.Log("Setting up template");
+                var sheetTemplate = new Google.Apis.Drive.v3.Data.File()
+                {
+                    Name = name,
+                    MimeType = "application/vnd.google-apps.spreadsheet",
+                    Parents = new List<string>
+                    {
+                        _uploadFolder
+                    }
+                };
+                FilesResource.CreateRequest request;
+                request = driveService.Files.Create(sheetTemplate);
+                request.Fields = "id";
+                request.SupportsAllDrives = true;
+                LambdaLogger.Log("Executing request.");
+                var file = request.Execute();
+                LambdaLogger.Log($"Spreadsheet created: {file.Id}");
+                return file.Id;
+            }
+            catch (Exception e)
+            {
+                LambdaLogger.Log(e.Message);
+                LambdaLogger.Log(e.StackTrace);
+            }
+            return null;
         }
 
         public void PopulateSpreadsheet(string sheetId, List<ResidentSupportAnnex> data)
         {
+            var _credential = GoogleCredential.FromStream(new MemoryStream(Encoding.UTF8.GetBytes( _authToken ))).CreateScoped(Scopes);
             // Create Google Sheets API service.
             var sheetsService = new SheetsService(new BaseClientService.Initializer()
             {

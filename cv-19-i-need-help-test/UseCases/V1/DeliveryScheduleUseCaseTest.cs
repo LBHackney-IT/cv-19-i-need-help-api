@@ -76,17 +76,17 @@ namespace CV19INeedHelpTest.UseCases.V1
         }
         
         [TestCase]
-        public void CanCallTheDatabaseCreateDeliveryScheduleMethodIfConfirmed()
-        {
-            _fakeGateway = new Mock<IINeedHelpGateway>();
-            _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object);
-            var limit = 10;
-            var confirmed = true;
-            _fakeGateway.Setup(s => s.CreateDeliverySchedule(limit)).Returns(response_data);
-            _classUnderTest.CreateDeliverySchedule(limit, confirmed);
-            _fakeGateway.Verify(m => m.CreateDeliverySchedule(limit), Times.Once);
-            _fakeGateway.Verify(m => m.CreateTemporaryDeliveryData(limit), Times.Never);
-        }
+        // public void CanCallTheDatabaseCreateDeliveryScheduleMethodIfConfirmed()
+        // {
+        //     _fakeGateway = new Mock<IINeedHelpGateway>();
+        //     _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object);
+        //     var limit = 10;
+        //     var confirmed = true;
+        //     _fakeGateway.Setup(s => s.CreateDeliverySchedule(limit)).Returns(response_data);
+        //     _classUnderTest.CreateDeliverySchedule(limit, confirmed);
+        //     _fakeGateway.Verify(m => m.CreateDeliverySchedule(limit), Times.Once);
+        //     _fakeGateway.Verify(m => m.CreateTemporaryDeliveryData(limit), Times.Never);
+        // }
         
         [TestCase]
         public void CanCallTheDatabaseCreateTemporaryDeliveryDataMethodIfNotConfirmed()
