@@ -20,11 +20,5 @@
     <ItemGroup>
       <ProjectReference Include="..\cv-19-i-need-help\cv-19-i-need-help.csproj" />
     </ItemGroup>
-    
-    <ItemGroup>
-        <Content Include="credentials.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
 
 </Project>

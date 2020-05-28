@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using CV19INeedHelp.Models.V1;
 using NUnit.Framework.Constraints;
@@ -19,25 +20,22 @@ namespace CV19INeedHelp.Helpers.V1
         private readonly string _uploadFolder;
         private readonly UserCredential _credential;
         private static string[] Scopes = { SheetsService.Scope.Drive, SheetsService.Scope.Spreadsheets, SheetsService.Scope.DriveFile };
+        private readonly string _authToken;
 
         public DriveHelper(string applicationName, string uploadFolder)
         {
+            _authToken = Environment.GetEnvironmentVariable("GOOGLE_DRIVE_AUTH_TOKEN");
             _applicationName = applicationName;
             _uploadFolder = uploadFolder;
             using (var stream =
-                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+                new MemoryStream(Encoding.UTF8.GetBytes( _authToken )))
             {
-                // The file token.json stores the user's access and refresh tokens, and is created
-                // automatically when the authorization flow completes for the first time.
-                string credPath = "token.json";
                 _credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
                     "user",
                     CancellationToken.None
-                    //new FileDataStore(credPath, true)
                 ).Result;
-                Console.WriteLine("Credential file saved to: " + credPath);
             }
         }
 
