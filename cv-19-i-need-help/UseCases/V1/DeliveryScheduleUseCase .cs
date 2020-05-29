@@ -24,7 +24,7 @@ namespace CV19INeedHelp.UseCases.V1
             {
                 _driveHelper = new DriveHelper("I Need Help API", "1KpsBDkH3A7ugMPZSb9SCHBeiM7evCqQg");
                 var spreadsheet =
-                    _driveHelper.CreateSpreadsheet("Delivery Report " + DateTime.Now.AddDays(1).ToString("dd-MM-yyyy"));
+                    _driveHelper.CreateSpreadsheet($"Delivery Report - {DateTime.Now.AddDays(1):dd-MM-yyyy}");
                 var data = _iFoodDeliveriesGateway.CreateDeliverySchedule(limit);
                 _driveHelper.PopulateSpreadsheet(spreadsheet, data);
                 return "https://docs.google.com/spreadsheets/d/" + spreadsheet;
