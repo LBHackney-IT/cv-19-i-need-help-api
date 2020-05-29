@@ -199,7 +199,8 @@ namespace CV19INeedHelp.Gateways.V1
         {
             List<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
             response = _dbContext.ResidentSupportAnnex
-                .Where(x => x.RecordStatus.ToUpper() == "EXCEPTION").ToList();
+                .Where(x => x.RecordStatus.ToUpper() == "EXCEPTION")
+                .OrderBy(x => x.Uprn).ToList();
             return response;
         }
 
