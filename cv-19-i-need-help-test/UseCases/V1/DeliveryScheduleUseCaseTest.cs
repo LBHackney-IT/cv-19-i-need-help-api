@@ -94,11 +94,12 @@ namespace CV19INeedHelpTest.UseCases.V1
             _fakeGateway = new Mock<IINeedHelpGateway>();
             _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object);
             var limit = 10;
+            var spreadsheet = "test";
             var confirmed = false;
             _fakeGateway.Setup(s => s.CreateTemporaryDeliveryData(limit)).Returns(response_data);
             _classUnderTest.CreateDeliverySchedule(limit, confirmed);
             _fakeGateway.Verify(m => m.CreateTemporaryDeliveryData(limit), Times.Once);
-            _fakeGateway.Verify(m => m.CreateDeliverySchedule(limit), Times.Never);
+            _fakeGateway.Verify(m => m.CreateDeliverySchedule(limit, spreadsheet), Times.Never);
         }
         
         [TestCase]
