@@ -243,7 +243,7 @@ namespace CV19INeedHelp.Data.V1
                 entity.ToTable("delivery_report_data");
 
                 entity.Property(e => e.Id).HasColumnName("id");
-                entity.Property(e => e.AnnexId).HasColumnName("annexe_id");
+                entity.Property(e => e.AnnexId).HasColumnName("annex_id");
                 entity.Property(e => e.NumberOfPackages).HasColumnName("num_of_packages");
                 entity.Property(e => e.FullName)
                     .HasColumnName("full_name")
