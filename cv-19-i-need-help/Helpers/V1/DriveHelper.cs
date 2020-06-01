@@ -22,11 +22,11 @@ namespace CV19INeedHelp.Helpers.V1
         private static string[] Scopes = { SheetsService.Scope.Drive, SheetsService.Scope.Spreadsheets, SheetsService.Scope.DriveFile };
         private readonly string _authToken;
 
-        public DriveHelper(string applicationName, string uploadFolder)
+        public DriveHelper()
         {
             _authToken = Environment.GetEnvironmentVariable("GOOGLE_DRIVE_AUTH_TOKEN");
-            _applicationName = applicationName;
-            _uploadFolder = uploadFolder;
+            _applicationName = Environment.GetEnvironmentVariable("GOOGLE_DRIVE_APPLICATION_NAME");
+            _uploadFolder = Environment.GetEnvironmentVariable("DRIVE_UPLOAD_FOLDER_ID");
         }
 
         public string CreateSpreadsheet(string name)
