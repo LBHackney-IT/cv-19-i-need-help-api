@@ -238,7 +238,7 @@ namespace CV19INeedHelp.Gateways.V1
                     LastConfirmedDeliveryDate = record.LastConfirmedFoodDelivery,
                     DeliveryNotes = record.DeliveryNotes
                 };
-                _dbContext.Add(saveRecord);
+                _dbContext.DeliveryReportData.Add(saveRecord);
                 _dbContext.SaveChanges();
                 deliveryData.Add(saveRecord);
                 
