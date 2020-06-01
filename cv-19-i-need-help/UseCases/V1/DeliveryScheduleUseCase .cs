@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Helpers.V1;
 using CV19INeedHelp.Models;
@@ -29,7 +30,14 @@ namespace CV19INeedHelp.UseCases.V1
                     _driveHelper.CreateSpreadsheet($"Delivery Report - {helper.GetNextWorkingDay():dd-MM-yyyy}");
                 var data = _iFoodDeliveriesGateway.CreateDeliverySchedule(limit, spreadsheet);
                 _driveHelper.PopulateSpreadsheet(spreadsheet, data);
-                return "https://docs.google.com/spreadsheets/d/" + spreadsheet;
+                var responseDetails = data.FirstOrDefault();
+                return new DeliveryBatch()
+                {
+                    DeliveryDate = responseDetails.DeliveryDate,
+                    DeliveryPackages = data.Count(),
+                    Id = responseDetails.BatchId,
+                    ReportFileId = "https://docs.google.com/spreadsheets/d/" + spreadsheet
+                };
             }
             return _formatHelper.FormatDraftOutput(_iFoodDeliveriesGateway.CreateTemporaryDeliveryData(limit));
         }
