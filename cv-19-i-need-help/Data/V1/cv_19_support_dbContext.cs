@@ -20,6 +20,8 @@ namespace CV19INeedHelp.Data.V1
 
         public virtual DbSet<ResidentSupportAnnex> ResidentSupportAnnex { get; set; }
         public virtual DbSet<FoodDelivery> FoodDeliveries { get; set; }
+        public virtual DbSet<DeliveryBatch> DeliveryBatch { get; set; }
+        public virtual DbSet<DeliveryReportItem> DeliveryReportData { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -224,6 +226,54 @@ namespace CV19INeedHelp.Data.V1
                 entity.Property(e => e.FoodPackages).HasColumnName("food_packages");
 
             });
+            
+            modelBuilder.Entity<DeliveryBatch>(entity =>
+            {
+                entity.ToTable("delivery_batch");
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.DeliveryDate).HasColumnName("delivery_date");
+                entity.Property(e => e.DeliveryPackages).HasColumnName("delivery_packages");
+                entity.Property(e => e.ReportFileId)
+                    .HasColumnName("report_file_id")
+                    .HasColumnType("character varying");
+            });
+            
+            modelBuilder.Entity<DeliveryReportItem>(entity =>
+            {
+                entity.ToTable("delivery_report_data");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.AnnexId).HasColumnName("annexe_id");
+                entity.Property(e => e.NumberOfPackages).HasColumnName("num_of_packages");
+                entity.Property(e => e.FullName)
+                    .HasColumnName("full_name")
+                    .HasColumnType("character varying");
+                entity.Property(e => e.TelephoneNumber)
+                    .HasColumnName("contact_telephone_number")
+                    .HasColumnType("character varying");
+                entity.Property(e => e.MobileNumber)
+                    .HasColumnName("contact_mobile_number")
+                    .HasColumnType("character varying");
+                entity.Property(e => e.FullAddress)
+                    .HasColumnName("full_address")
+                    .HasColumnType("character varying");                
+                entity.Property(e => e.Postcode)
+                    .HasColumnName("postcode")
+                    .HasColumnType("character varying");
+                entity.Property(e => e.Uprn)
+                    .HasColumnName("uprn")
+                    .HasColumnType("character varying");
+                entity.Property(e => e.AnyFoodHouseholdCannotEat)
+                    .HasColumnName("any_food_household_cannot_eat")
+                    .HasColumnType("character varying");
+                entity.Property(e => e.DeliveryNotes)
+                    .HasColumnName("delivery_notes")
+                    .HasColumnType("character varying");
+                entity.Property(e => e.DeliveryDate).HasColumnName("delivery_date");
+                entity.Property(e => e.LastConfirmedDeliveryDate).HasColumnName("last_confirmed_delivery_date");
+                entity.Property(e => e.BatchId).HasColumnName("batch_id");
+            });
+
 
             OnModelCreatingPartial(modelBuilder);
         }
