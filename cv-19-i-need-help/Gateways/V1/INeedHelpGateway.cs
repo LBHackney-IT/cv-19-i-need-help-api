@@ -219,7 +219,7 @@ namespace CV19INeedHelp.Gateways.V1
             };
             _dbContext.DeliveryBatch.Add(batch);
             _dbContext.SaveChanges();
-
+            int id = batch.Id;
             foreach (var record in data)
             {
                 var saveRecord = new DeliveryReportItem()
@@ -227,7 +227,7 @@ namespace CV19INeedHelp.Gateways.V1
                     AnnexId = record.Id,
                     NumberOfPackages = data.Count(),
                     AnyFoodHouseholdCannotEat = record.AnyFoodHouseholdCannotEat,
-                    BatchId = batch.Id,
+                    BatchId = id,
                     FullName = $"{record.FirstName} {record.LastName}",
                     FullAddress = $"{record.AddressFirstLine} {record.AddressSecondLine} {record.AddressThirdLine}",
                     Postcode = record.Postcode,
@@ -239,10 +239,9 @@ namespace CV19INeedHelp.Gateways.V1
                     DeliveryNotes = record.DeliveryNotes
                 };
                 _dbContext.DeliveryReportData.Add(saveRecord);
-                _dbContext.SaveChanges();
                 deliveryData.Add(saveRecord);
-                
             }
+            _dbContext.SaveChanges();
             return deliveryData;
         }
 
