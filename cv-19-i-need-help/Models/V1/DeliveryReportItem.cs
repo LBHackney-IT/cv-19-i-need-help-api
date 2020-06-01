@@ -16,7 +16,7 @@ namespace CV19INeedHelp.Models.V1
         public string AnyFoodHouseholdCannotEat { get; set; }
         public string DeliveryNotes { get; set; }
         public DateTime DeliveryDate { get; set; }
-        public DateTime LastConfirmedDeliveryDate { get; set; }
+        public DateTime? LastConfirmedDeliveryDate { get; set; }
         public int BatchId { get; set; }
 
     }
