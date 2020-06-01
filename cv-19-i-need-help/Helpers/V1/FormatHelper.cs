@@ -9,6 +9,7 @@ namespace CV19INeedHelp.Helpers.V1
     {
         public List<FoodDeliveryDraft> FormatDraftOutput(List<ResidentSupportAnnex> data)
         {
+            var helper = new UtilityHelper();
             return data.Select(a => new FoodDeliveryDraft()
                 { 
                   AnnexId  = a.Id,
@@ -17,7 +18,7 @@ namespace CV19INeedHelp.Helpers.V1
                   Postcode = a.Postcode,
                   Uprn = a.Uprn,
                   LastScheduledDeliveryDate = a.LastConfirmedFoodDelivery,
-                  DeliveryDate = DateTime.Now.AddDays(1)
+                  DeliveryDate = helper.GetNextWorkingDay()
                 }
             ).ToList();
         }
