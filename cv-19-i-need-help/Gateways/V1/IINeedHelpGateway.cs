@@ -13,7 +13,7 @@ namespace CV19INeedHelp.Gateways.V1
         void UpdateFoodDelivery(FoodDelivery data);
         void PatchHelpRequest(int id, ResidentSupportAnnexPatch dataItems);
         List<ResidentSupportAnnex> GetRequestExceptions();
-        List<ResidentSupportAnnex> CreateDeliverySchedule(int limit);
+        List<DeliveryReportItem> CreateDeliverySchedule(int limit, string spreadsheet);
         List<ResidentSupportAnnex> CreateTemporaryDeliveryData(int limit);
     }
 }

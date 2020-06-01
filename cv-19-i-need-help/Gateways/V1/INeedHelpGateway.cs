@@ -4,6 +4,7 @@ using System.Linq;
 using Amazon.Lambda.Core;
 using CV19INeedHelp.Models.V1;
 using CV19INeedHelp.Data.V1;
+using CV19INeedHelp.Helpers.V1;
 using Newtonsoft.Json;
 
 namespace CV19INeedHelp.Gateways.V1
@@ -204,9 +205,41 @@ namespace CV19INeedHelp.Gateways.V1
             return response;
         }
 
-        public List<ResidentSupportAnnex> CreateDeliverySchedule(int limit)
+        public List<DeliveryReportItem> CreateDeliverySchedule(int limit, string spreadsheet)
         {
-            return GetData(limit);
+            var helper = new UtilityHelper();
+            var deliveryDate = helper.GetNextWorkingDay();
+            var deliveryData = new List<DeliveryReportItem>();
+            var data = GetData(limit);
+            var batch = new DeliveryBatch
+            {
+                DeliveryDate = deliveryDate,
+                DeliveryPackages = data.Count(),
+                ReportFileId = spreadsheet
+            };
+            _dbContext.DeliveryBatch.Add(batch);
+            _dbContext.SaveChanges();
+
+            foreach (var record in data)
+            {
+                deliveryData.Add(new DeliveryReportItem()
+                {
+                    AnnexId = record.Id,
+                    NumberOfPackages = data.Count(),
+                    AnyFoodHouseholdCannotEat = record.AnyFoodHouseholdCannotEat,
+                    BatchId = batch.Id,
+                    FullName = $"{record.FirstName} {record.LastName}",
+                    FullAddress = $"{record.AddressFirstLine} {record.AddressSecondLine} {record.AddressThirdLine}",
+                    Postcode = record.Postcode,
+                    Uprn = record.Uprn,
+                    TelephoneNumber = record.ContactTelephoneNumber,
+                    MobileNumber = record.ContactMobileNumber,
+                    DeliveryDate = deliveryDate,
+                    LastConfirmedDeliveryDate = record.LastConfirmedFoodDelivery,
+                    DeliveryNotes = record.DeliveryNotes
+                });
+            }
+            return deliveryData;
         }
 
         public List<ResidentSupportAnnex> CreateTemporaryDeliveryData(int limit)
