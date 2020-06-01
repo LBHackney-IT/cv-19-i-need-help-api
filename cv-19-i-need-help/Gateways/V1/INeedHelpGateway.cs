@@ -260,8 +260,10 @@ namespace CV19INeedHelp.Gateways.V1
                 .Take(limit).ToList();
             if (response.Count == limit)
             {
+                LambdaLogger.Log($"First priority returned {response.Count()} records against a limit of {limit}.  Capacity reached");
                 return response;
             }
+            LambdaLogger.Log($"First priority returned {response.Count()} records against a limit of {limit}.  Capacity not reached. Adding next priority.");
             var remainingCapacity = limit - response.Count;
             response.Union(_dbContext.ResidentSupportAnnex
                 .Where(x => x.RecordStatus.ToUpper() == "MASTER"
@@ -272,8 +274,10 @@ namespace CV19INeedHelp.Gateways.V1
                 .Take(remainingCapacity).ToList());
             if (response.Count == limit)
             {
+                LambdaLogger.Log($"Second priority returned {response.Count()} records against a limit of {limit}.  Capacity reached");
                 return response;
             }
+            LambdaLogger.Log($"Second priority returned {response.Count()} records against a limit of {limit}.  Capacity not reached. Adding next priority.");
             remainingCapacity = limit - response.Count;
             response.Union(_dbContext.ResidentSupportAnnex
                 .Where(x => x.RecordStatus.ToUpper() == "MASTER"
@@ -282,6 +286,7 @@ namespace CV19INeedHelp.Gateways.V1
                             && (x.LastConfirmedFoodDelivery > DateTime.Now.AddDays(-6) && x.LastConfirmedFoodDelivery <= DateTime.Now.AddDays(-4)))
                 .OrderByDescending(x => x.Id)
                 .Take(remainingCapacity).ToList());
+            LambdaLogger.Log($"Final priority returned {response.Count()} records against a limit of {limit}.");
             return response;
         }
     }
