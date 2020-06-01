@@ -69,7 +69,7 @@ namespace CV19INeedHelp.Helpers.V1
             return null;
         }
 
-        public void PopulateSpreadsheet(string sheetId, List<ResidentSupportAnnex> data)
+        public void PopulateSpreadsheet(string sheetId, List<DeliveryReportItem> data)
         {
             var helper = new UtilityHelper();
             var _credential = GoogleCredential.FromStream(new MemoryStream(Encoding.UTF8.GetBytes( _authToken ))).CreateScoped(Scopes);
@@ -89,15 +89,15 @@ namespace CV19INeedHelp.Helpers.V1
                         {
                             item.Id,
                             1,
-                            $"{item.FirstName} {item.LastName}",
-                            item.ContactTelephoneNumber,
-                            item.ContactMobileNumber,
-                            $"{item.AddressFirstLine} {item.AddressSecondLine} {item.AddressThirdLine}",
+                            item.FullName,
+                            item.TelephoneNumber,
+                            item.MobileNumber,
+                            item.FullAddress,
                             item.Postcode,
                             item.Uprn,
                             item.AnyFoodHouseholdCannotEat,
                             item.DeliveryNotes,
-                            helper.GetNextWorkingDay()
+                            item.DeliveryDate
                         }
                     );
             }

@@ -7,6 +7,6 @@ namespace CV19INeedHelp.Helpers.V1
     public interface IDriveHelper
     {
         string CreateSpreadsheet(string name);
-        void PopulateSpreadsheet(string sheetId, List<ResidentSupportAnnex> data);
+        void PopulateSpreadsheet(string sheetId, List<DeliveryReportItem> data);
     }
 }
