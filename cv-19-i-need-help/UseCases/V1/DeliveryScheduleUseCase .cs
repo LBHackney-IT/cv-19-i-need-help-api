@@ -29,7 +29,6 @@ namespace CV19INeedHelp.UseCases.V1
                 var data = _iFoodDeliveriesGateway.CreateDeliverySchedule(limit, spreadsheet);
                 _driveHelper.PopulateSpreadsheet(spreadsheet, data);
                 return "https://docs.google.com/spreadsheets/d/" + spreadsheet;
-                
             }
             return _formatHelper.FormatDraftOutput(_iFoodDeliveriesGateway.CreateTemporaryDeliveryData(limit));
         }
