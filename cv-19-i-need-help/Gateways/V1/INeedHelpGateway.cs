@@ -222,7 +222,7 @@ namespace CV19INeedHelp.Gateways.V1
 
             foreach (var record in data)
             {
-                deliveryData.Add(new DeliveryReportItem()
+                var saveRecord = new DeliveryReportItem()
                 {
                     AnnexId = record.Id,
                     NumberOfPackages = data.Count(),
@@ -237,7 +237,11 @@ namespace CV19INeedHelp.Gateways.V1
                     DeliveryDate = deliveryDate,
                     LastConfirmedDeliveryDate = record.LastConfirmedFoodDelivery,
                     DeliveryNotes = record.DeliveryNotes
-                });
+                };
+                _dbContext.Add(saveRecord);
+                _dbContext.SaveChanges();
+                deliveryData.Add(saveRecord);
+                
             }
             return deliveryData;
         }
