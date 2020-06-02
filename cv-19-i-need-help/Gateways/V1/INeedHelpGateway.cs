@@ -257,37 +257,40 @@ namespace CV19INeedHelp.Gateways.V1
                             && x.OngoingFoodNeed == true
                             && (x.LastConfirmedFoodDelivery == null))
                 .OrderByDescending(x => x.Id)
-                .Take(limit);
+                .Take(limit).ToList();
             if (response.Count() == limit)
             {
                 LambdaLogger.Log($"First priority returned {response.Count()} records against a limit of {limit}.  Capacity reached");
-                return response.ToList();
+                return response;
             }
             LambdaLogger.Log($"First priority returned {response.Count()} records against a limit of {limit}.  Capacity not reached. Adding next priority.");
             var remainingCapacity = limit - response.Count();
-            response = response.Union(_dbContext.ResidentSupportAnnex
+            var output = _dbContext.ResidentSupportAnnex
                 .Where(x => x.RecordStatus.ToUpper() == "MASTER"
                             && x.IsDuplicate.ToUpper() == "FALSE"
                             && x.OngoingFoodNeed == true
                             && (x.LastConfirmedFoodDelivery <= DateTime.Now.AddDays(-6)))
                 .OrderByDescending(x => x.Id)
-                .Take(remainingCapacity).ToList());
-            if (response.Count() == limit)
+                .Take(remainingCapacity).ToList();
+            if (output.Count() == limit)
             {
                 LambdaLogger.Log($"Second priority returned {response.Count()} records against a limit of {limit}.  Capacity reached");
-                return response.ToList();
+                response.AddRange(output);
+                return response;
             }
+            
             LambdaLogger.Log($"Second priority returned {response.Count()} records against a limit of {limit}.  Capacity not reached. Adding next priority.");
             remainingCapacity = limit - response.Count();
-           response = response.Union(_dbContext.ResidentSupportAnnex
+           output = _dbContext.ResidentSupportAnnex
                 .Where(x => x.RecordStatus.ToUpper() == "MASTER"
                             && x.IsDuplicate.ToUpper() == "FALSE"
                             && x.OngoingFoodNeed == true
                             && (x.LastConfirmedFoodDelivery > DateTime.Now.AddDays(-6) && x.LastConfirmedFoodDelivery <= DateTime.Now.AddDays(-4)))
                 .OrderByDescending(x => x.Id)
-                .Take(remainingCapacity).ToList());
+                .Take(remainingCapacity).ToList();
             LambdaLogger.Log($"Final priority returned {response.Count()} records against a limit of {limit}.");
-            return response.ToList();
+            response.AddRange(output);
+            return response;
         }
     }
 }
