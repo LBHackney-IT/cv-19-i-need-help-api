@@ -11,3 +11,6 @@ cv-19-i-need-help-test/obj/Debug/netcoreapp2.1/cv-19-i-need-help-test.dll
 cv-19-i-need-help-test/obj/Debug/netcoreapp2.1/cv-19-i-need-help-test.pdb
 cv-19-i-need-help-test/obj/cv-19-i-need-help-test.csproj.nuget.dgspec.json
 cv-19-i-need-help-test/obj/project.packagespec.json
+
+cv-19-i-need-help/credentials.json
+cv-19-i-need-help-test/credentials.json

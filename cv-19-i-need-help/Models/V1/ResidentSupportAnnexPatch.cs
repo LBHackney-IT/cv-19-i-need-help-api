@@ -7,6 +7,8 @@ namespace CV19INeedHelp.Models.V1
     {
         public string IsDuplicate { get; set; }
         public bool? OngoingFoodNeed { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string DobDay { get; set; }
         public string DobMonth { get; set; }
         public string DobYear { get; set; }

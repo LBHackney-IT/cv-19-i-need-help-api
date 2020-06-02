@@ -4,6 +4,7 @@ using System.Linq;
 using Amazon.Lambda.Core;
 using CV19INeedHelp.Models.V1;
 using CV19INeedHelp.Data.V1;
+using CV19INeedHelp.Helpers.V1;
 using Newtonsoft.Json;
 
 namespace CV19INeedHelp.Gateways.V1
@@ -174,8 +175,15 @@ namespace CV19INeedHelp.Gateways.V1
             }
             if (dataItems.RecordStatus != null)
             {
-                
                 rec.RecordStatus = dataItems.RecordStatus;
+            }
+            if (dataItems.FirstName != null)
+            {
+                rec.FirstName = dataItems.FirstName;
+            }
+            if (dataItems.LastName != null)
+            {
+                rec.LastName = dataItems.LastName;
             }
             if (dataItems.DeliveryNotes != null)
             {
@@ -192,7 +200,95 @@ namespace CV19INeedHelp.Gateways.V1
         {
             List<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
             response = _dbContext.ResidentSupportAnnex
-                .Where(x => x.RecordStatus.ToUpper() == "EXCEPTION").ToList();
+                .Where(x => x.RecordStatus.ToUpper() == "EXCEPTION")
+                .OrderBy(x => x.Uprn).ToList();
+            return response;
+        }
+
+        public List<DeliveryReportItem> CreateDeliverySchedule(int limit, string spreadsheet)
+        {
+            var helper = new UtilityHelper();
+            var deliveryDate = helper.GetNextWorkingDay();
+            var deliveryData = new List<DeliveryReportItem>();
+            var data = GetData(limit);
+            var batch = new DeliveryBatch
+            {
+                DeliveryDate = deliveryDate,
+                DeliveryPackages = data.Count(),
+                ReportFileId = spreadsheet
+            };
+            _dbContext.DeliveryBatch.Add(batch);
+            _dbContext.SaveChanges();
+            foreach (var record in data)
+            {
+                var saveRecord = new DeliveryReportItem()
+                {
+                    AnnexId = record.Id,
+                    NumberOfPackages = data.Count(),
+                    AnyFoodHouseholdCannotEat = record.AnyFoodHouseholdCannotEat,
+                    BatchId = batch.Id,
+                    FullName = $"{record.FirstName} {record.LastName}",
+                    FullAddress = $"{record.AddressFirstLine} {record.AddressSecondLine} {record.AddressThirdLine}",
+                    Postcode = record.Postcode,
+                    Uprn = record.Uprn,
+                    TelephoneNumber = record.ContactTelephoneNumber,
+                    MobileNumber = record.ContactMobileNumber,
+                    DeliveryDate = deliveryDate,
+                    LastConfirmedDeliveryDate = record.LastConfirmedFoodDelivery,
+                    DeliveryNotes = record.DeliveryNotes
+                };
+                _dbContext.DeliveryReportData.Add(saveRecord);
+                _dbContext.SaveChanges();
+                deliveryData.Add(saveRecord);
+            }
+            return deliveryData;
+        }
+
+        public List<ResidentSupportAnnex> CreateTemporaryDeliveryData(int limit)
+        {
+            return GetData(limit);
+        }
+
+        private List<ResidentSupportAnnex> GetData(int limit)
+        {
+            var response = _dbContext.ResidentSupportAnnex
+                .Where(x => x.RecordStatus.ToUpper() == "MASTER"
+                            && x.IsDuplicate.ToUpper() == "FALSE"
+                            && x.OngoingFoodNeed == true
+                            && (x.LastConfirmedFoodDelivery == null))
+                .OrderByDescending(x => x.Id)
+                .Take(limit).ToList();
+            if (response.Count() == limit)
+            {
+                LambdaLogger.Log($"First priority returned {response.Count()} records against a limit of {limit}.  Capacity reached");
+                return response;
+            }
+            LambdaLogger.Log($"First priority returned {response.Count()} records against a limit of {limit}.  Capacity not reached. Adding next priority.");
+            var remainingCapacity = limit - response.Count();
+            var output = _dbContext.ResidentSupportAnnex
+                .Where(x => x.RecordStatus.ToUpper() == "MASTER"
+                            && x.IsDuplicate.ToUpper() == "FALSE"
+                            && x.OngoingFoodNeed == true
+                            && (x.LastConfirmedFoodDelivery <= DateTime.Now.AddDays(-6)))
+                .OrderByDescending(x => x.Id)
+                .Take(remainingCapacity).ToList();
+            if (response.Count() + output.Count() == limit)
+            {
+                LambdaLogger.Log($"Second priority returned {response.Count() + output.Count()} records against a limit of {limit}.  Capacity reached");
+                response.AddRange(output);
+                return response;
+            }
+            
+            LambdaLogger.Log($"Second priority returned {response.Count() + output.Count()} records against a limit of {limit}.  Capacity not reached. Adding next priority."); remainingCapacity = limit - response.Count();
+            output = _dbContext.ResidentSupportAnnex
+                .Where(x => x.RecordStatus.ToUpper() == "MASTER"
+                            && x.IsDuplicate.ToUpper() == "FALSE"
+                            && x.OngoingFoodNeed == true
+                            && (x.LastConfirmedFoodDelivery > DateTime.Now.AddDays(-6) && x.LastConfirmedFoodDelivery <= DateTime.Now.AddDays(-4)))
+                .OrderByDescending(x => x.Id)
+                .Take(remainingCapacity).ToList();
+            LambdaLogger.Log($"Final priority returned {response.Count() + output.Count()} records against a limit of {limit}.");
+            response.AddRange(output);
             return response;
         }
     }

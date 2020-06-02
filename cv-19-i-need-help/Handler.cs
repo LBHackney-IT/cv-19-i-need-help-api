@@ -186,6 +186,34 @@ namespace CV19INeedHelp
            }
        }
 
+       public Response GenerateDeliverySchedule(APIGatewayProxyRequest request, ILambdaContext context)
+       {
+           var getRequestGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
+           var deliveryScheduleObject = new DeliveryScheduleUseCase(getRequestGateway);
+           try
+           {
+               var request_params = request.QueryStringParameters;
+               var limit = Int32.Parse(request_params["limit"]);
+               var confirmed = bool.Parse(request_params["confirmed"]);
+               var resp = deliveryScheduleObject.CreateDeliverySchedule(limit, confirmed);
+               LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
+               var response = new Response();
+               response.isBase64Encoded = true;
+               response.statusCode = "200";
+               response.body = JsonConvert.SerializeObject(resp);
+               return response;
+           }
+           catch (Exception e)
+           {
+               LambdaLogger.Log("Error: " + e.Message);
+               var response = new Response();
+               response.isBase64Encoded = true;
+               response.statusCode = "500";
+               response.body = "Error processing request: " + ". Error Details: " + e.Message + e.StackTrace;
+               return response;
+           }
+       }
+
         public Response GetFoodDeliveriesRequestForForm(APIGatewayProxyRequest request, ILambdaContext context)
         {
             var getRequestGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
