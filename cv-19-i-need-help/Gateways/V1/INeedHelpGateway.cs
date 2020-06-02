@@ -272,7 +272,7 @@ namespace CV19INeedHelp.Gateways.V1
                             && (x.LastConfirmedFoodDelivery <= DateTime.Now.AddDays(-6)))
                 .OrderByDescending(x => x.Id)
                 .Take(remainingCapacity).ToList();
-            if (output.Count() == limit)
+            if (response.Count() + output.Count() == limit)
             {
                 LambdaLogger.Log($"Second priority returned {response.Count() + output.Count()} records against a limit of {limit}.  Capacity reached");
                 response.AddRange(output);
