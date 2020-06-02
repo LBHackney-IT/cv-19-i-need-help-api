@@ -30,6 +30,13 @@ namespace CV19INeedHelp.UseCases.V1
                 var data = _iFoodDeliveriesGateway.CreateDeliverySchedule(limit, spreadsheet);
                 _driveHelper.PopulateSpreadsheet(spreadsheet, data);
                 var responseDetails = data.FirstOrDefault();
+                // TODO:  Enable this to update the annex with next set of delivery dates.
+                // foreach (var item in data)
+                // {
+                //     var annexPatch = new ResidentSupportAnnexPatch();
+                //     annexPatch.LastConfirmedFoodDelivery = item.DeliveryDate;
+                //     _iFoodDeliveriesGateway.PatchHelpRequest(item.AnnexId, annexPatch);   
+                // }
                 return new DeliveryBatch()
                 {
                     DeliveryDate = responseDetails.DeliveryDate,
