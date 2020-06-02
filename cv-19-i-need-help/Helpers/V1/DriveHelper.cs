@@ -87,7 +87,7 @@ namespace CV19INeedHelp.Helpers.V1
             {
                     valueRange.Values.Add( new List<object>
                         {
-                            item.Id,
+                            item.AnnexId,
                             1,
                             item.FullName,
                             item.TelephoneNumber,
