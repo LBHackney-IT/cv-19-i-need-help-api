@@ -82,7 +82,7 @@ namespace CV19INeedHelp.Helpers.V1
             var valueRange = new ValueRange();
             var range = $"Sheet1!A:K";
             valueRange.Values = new List<IList<object>>( );
-            valueRange.Values.Add(new List<object>{ "Id", "Number Of Packages", "Full Name", "Telephone Number", "Mobile Number", "Address", "Postcode", "UPRN", "Dietary Requirements", "Delivery Notes", "Next Delivery Date"});
+            valueRange.Values.Add(new List<object>{ "Customer reference", "Number of packages to be delivered", "Name", "Address", "Telephone Number(s)", "Postcode", "Access notes or other helpful delivery comments"});
             foreach (var item in data)
             {
                     valueRange.Values.Add( new List<object>
@@ -90,14 +90,10 @@ namespace CV19INeedHelp.Helpers.V1
                             item.AnnexId,
                             1,
                             item.FullName,
-                            item.TelephoneNumber,
-                            item.MobileNumber,
                             item.FullAddress,
+                            item.TelephoneNumber + " " + item.MobileNumber,
                             item.Postcode,
-                            item.Uprn,
-                            item.AnyFoodHouseholdCannotEat,
-                            item.DeliveryNotes,
-                            item.DeliveryDate
+                            item.DeliveryNotes
                         }
                     );
             }
