@@ -98,7 +98,7 @@ namespace CV19INeedHelp.Helpers.V1
             }
             var appendRequest = sheetsService.Spreadsheets.Values.Append(valueRange, sheetId, range);
             appendRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
-            appendRequest.ExecuteAsync();
+            var appendReponse = appendRequest.Execute();
         }
     }
 }
