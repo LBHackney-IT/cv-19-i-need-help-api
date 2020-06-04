@@ -1,8 +1,19 @@
-test-database:
-  image: postgres:12
-  ports:
-    - 5432:5432
-  env_file:
-    - test-database.env
-  volumes:
-    - ./database:/docker-entrypoint-initdb.d
+version: "3.2"
+services:
+  cv-19-i-need-help-test:
+    image: cv-19-i-need-help-test
+    build:
+      context: .
+      dockerfile: cv-19-i-need-help-test/Dockerfile
+    environment:
+      - CV_19_DB_CONNECTION=Host=test-database;Database=i-need-help-test;Username=postgres;Password=mypassword
+    links:
+      - test-database
+  test-database:
+    image: postgres:12
+    ports:
+      - 5432:5432
+    env_file:
+      - test-database.env
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
