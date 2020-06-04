@@ -1,15 +1,31 @@
 version: 2.1
 
 executors:
+  docker-python:
+    docker:
+      - image: circleci/python:3.7
+    working_directory: ~/cv-19-i-need-help
   dotnet-executor:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:2.2
     working_directory: ~/cv-19-i-need-help
 jobs:
+  test:
+    executor: docker-python
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: build
+          command: docker-compose build cv-19-i-need-help-test
+      - run:
+          name: Run tests
+          command: docker-compose run cv-19-i-need-help-test
   build:
     executor: dotnet-executor
     steps:
       - checkout
+      - setup_remote_docker
       - restore_cache:
           keys:
             - v1-dependencies-
@@ -17,9 +33,6 @@ jobs:
       - run:
           name: Install dependencies
           command: dotnet restore
-      - run:
-          name: Run tests
-          command: dotnet test  
       - save_cache:
           paths:
             - node_modules
@@ -70,6 +83,7 @@ workflows:
   ci-cd:
     jobs:
       - build
+      - test
       - deploy-dev:
           requires:
             - build

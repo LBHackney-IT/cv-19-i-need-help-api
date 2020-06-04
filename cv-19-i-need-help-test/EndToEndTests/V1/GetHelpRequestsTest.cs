@@ -7,7 +7,6 @@ using CV19INeedHelp;
 using CV19INeedHelp.Data.V1;
 using CV19INeedHelp.Models.V1;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore.Storage;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -24,12 +23,13 @@ namespace CV19INeedHelpTest.EndToEndTests.V1
         [SetUp]
         public void SetUp()
         {
-            var connectionString = "Host=localhost;Database=i-need-help-test;Username=postgres;Password=mypassword";
             _currentConnStr = Environment.GetEnvironmentVariable("CV_19_DB_CONNECTION");
-            _dbContext = new Cv19SupportDbContext(connectionString);
-            Environment.SetEnvironmentVariable("CV_19_DB_CONNECTION", connectionString);
+            const string connectionString = "Host=localhost;Database=i-need-help-test;Username=postgres;Password=mypassword";
+            _dbContext = new Cv19SupportDbContext(_currentConnStr ?? connectionString);
+            if (_currentConnStr == null) Environment.SetEnvironmentVariable("CV_19_DB_CONNECTION", connectionString);
             _fixture = new Fixture();
             _handler = new Handler();
+
             AssertionOptions.AssertEquivalencyUsing(options =>
             {
                 options.Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation)).WhenTypeIs<DateTime>();
