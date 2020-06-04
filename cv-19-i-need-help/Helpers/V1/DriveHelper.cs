@@ -71,7 +71,6 @@ namespace CV19INeedHelp.Helpers.V1
 
         public void PopulateSpreadsheet(string sheetId, List<DeliveryReportItem> data)
         {
-            var helper = new UtilityHelper();
             var _credential = GoogleCredential.FromStream(new MemoryStream(Encoding.UTF8.GetBytes( _authToken ))).CreateScoped(Scopes);
             // Create Google Sheets API service.
             var sheetsService = new SheetsService(new BaseClientService.Initializer()
@@ -99,7 +98,7 @@ namespace CV19INeedHelp.Helpers.V1
             }
             var appendRequest = sheetsService.Spreadsheets.Values.Append(valueRange, sheetId, range);
             appendRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
-            var appendReponse = appendRequest.Execute();
+            appendRequest.ExecuteAsync();
         }
     }
 }
