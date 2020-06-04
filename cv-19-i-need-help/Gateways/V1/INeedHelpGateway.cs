@@ -21,7 +21,7 @@ namespace CV19INeedHelp.Gateways.V1
         {
             List<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
             if(uprn != null)
-            {   
+            {
                 response = _dbContext.ResidentSupportAnnex
                     .Where(x => x.Uprn == uprn).ToList();   
             }
