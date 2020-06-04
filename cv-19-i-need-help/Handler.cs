@@ -58,7 +58,7 @@ namespace CV19INeedHelp
            try
            {
                var resp = getRequestObject.GetHelpRequests(uprn, postcode, master);
-               LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
+               LambdaLogger.Log("Records retrieval success: " + JsonConvert.SerializeObject(resp));
                var response = new Response();
                response.isBase64Encoded = true;
                response.statusCode = "200";
@@ -111,7 +111,7 @@ namespace CV19INeedHelp
            try
            {
                var resp = getRequestObject.GetHelpRequest(request_id);
-               LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
+               LambdaLogger.Log("Records retrieval success: " + JsonConvert.SerializeObject(resp));
                var response = new Response();
                response.isBase64Encoded = true;
                response.statusCode = "200";
