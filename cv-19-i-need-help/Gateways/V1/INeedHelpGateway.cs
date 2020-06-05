@@ -238,9 +238,9 @@ namespace CV19INeedHelp.Gateways.V1
                     DeliveryNotes = record.DeliveryNotes
                 };
                 _dbContext.DeliveryReportData.Add(saveRecord);
-                _dbContext.SaveChanges();
                 deliveryData.Add(saveRecord);
             }
+            _dbContext.SaveChanges();
             return deliveryData;
         }
 
