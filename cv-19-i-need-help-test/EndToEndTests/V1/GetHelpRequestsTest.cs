@@ -5,6 +5,7 @@ using Amazon.Lambda.APIGatewayEvents;
 using AutoFixture;
 using CV19INeedHelp;
 using CV19INeedHelp.Data.V1;
+using CV19INeedHelp.Models;
 using CV19INeedHelp.Models.V1;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -59,9 +60,10 @@ namespace CV19INeedHelpTest.EndToEndTests.V1
             response.statusCode.Should().Be("200");
 
             var responseBody = response.body;
-            var deserializedBody = JsonConvert.DeserializeObject<List<ResidentSupportAnnex>>(responseBody);
+            var deserializedBody = JsonConvert.DeserializeObject<List<ResidentSupportAnnexResponse>>(responseBody);
 
-            AssertHelpRequestsEquivalence(deserializedBody, helpRequests);
+            var expectedResponse = helpRequests.Select(x => x.ToResponse());
+            AssertHelpRequestsEquivalence(deserializedBody, expectedResponse);
         }
 
         [Test]
@@ -81,10 +83,12 @@ namespace CV19INeedHelpTest.EndToEndTests.V1
             response.statusCode.Should().Be("200");
 
             var responseBody = response.body;
-            var deserializedBody = JsonConvert.DeserializeObject<List<ResidentSupportAnnex>>(responseBody);
+            var deserializedBody = JsonConvert.DeserializeObject<List<ResidentSupportAnnexResponse>>(responseBody);
 
             deserializedBody.Count.Should().Be(1);
-            AssertHelpRequestsEquivalence(deserializedBody.First(), helpRequests.First());
+
+            var expectedResponse = helpRequests.First().ToResponse();
+            AssertHelpRequestsEquivalence(deserializedBody.First(), expectedResponse);
         }
 
         [Test]
@@ -104,13 +108,14 @@ namespace CV19INeedHelpTest.EndToEndTests.V1
             response.statusCode.Should().Be("200");
 
             var responseBody = response.body;
-            var deserializedBody = JsonConvert.DeserializeObject<List<ResidentSupportAnnex>>(responseBody);
+            var deserializedBody = JsonConvert.DeserializeObject<List<ResidentSupportAnnexResponse>>(responseBody);
 
             deserializedBody.Count.Should().Be(1);
-            AssertHelpRequestsEquivalence(deserializedBody.Last(), helpRequests.Last());
+            var expectedResponse = helpRequests.Last().ToResponse();
+            AssertHelpRequestsEquivalence(deserializedBody.Last(), expectedResponse);
         }
 
-        private static void AssertHelpRequestsEquivalence(ResidentSupportAnnex received, ResidentSupportAnnex expected)
+        private static void AssertHelpRequestsEquivalence(ResidentSupportAnnexResponse received, ResidentSupportAnnexResponse expected)
         {
             received.Should().BeEquivalentTo(expected, options => options
                 .Excluding(r => r.IsDuplicate)
@@ -122,7 +127,7 @@ namespace CV19INeedHelpTest.EndToEndTests.V1
                 .Be(expected.LastConfirmedFoodDelivery?.Date);
         }
 
-        private static void AssertHelpRequestsEquivalence(List<ResidentSupportAnnex> received, List<ResidentSupportAnnex> expected)
+        private static void AssertHelpRequestsEquivalence(List<ResidentSupportAnnexResponse> received, IEnumerable<ResidentSupportAnnexResponse> expected)
         {
             received.Should().BeEquivalentTo(expected, options => options
                 .Excluding(r => r.IsDuplicate)

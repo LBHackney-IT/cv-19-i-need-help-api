@@ -4,7 +4,7 @@ namespace CV19INeedHelp.UseCases.V1
 {
     public interface IGetHelpRequestsUseCase
     {
-        List<ResidentSupportAnnex> GetHelpRequests(string uprn, string postcode, bool isMaster);
-        List<ResidentSupportAnnex> GetHelpRequestExceptions();
+        List<ResidentSupportAnnexResponse> GetHelpRequests(string uprn, string postcode, bool isMaster);
+        List<ResidentSupportAnnexResponse> GetHelpRequestExceptions();
     }
 }

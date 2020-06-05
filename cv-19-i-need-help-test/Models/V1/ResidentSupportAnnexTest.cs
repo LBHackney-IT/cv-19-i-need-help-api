@@ -11,9 +11,9 @@ namespace CV19INeedHelpTest.Models.V1
         [TestCase]
         public void ResidentSupportAnnexPatchShouldHaveCorrectProperties()
         {
-            Type type = typeof(ResidentSupportAnnex);
+            Type type = typeof(ResidentSupportAnnexResponse);
             type.GetProperties().Length.Should().Be(50);
-            ResidentSupportAnnex _classUnderTest = new ResidentSupportAnnex
+            ResidentSupportAnnexResponse _classUnderTest = new ResidentSupportAnnexResponse
             {
                 Id = 1,
                 IsDuplicate = "FALSE",

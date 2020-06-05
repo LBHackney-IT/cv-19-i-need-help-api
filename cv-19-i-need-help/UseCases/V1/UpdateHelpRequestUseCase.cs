@@ -16,10 +16,10 @@ namespace CV19INeedHelp.UseCases.V1
             _iNeedHelpGateway = iNeedHelpGateway;
         }
 
-        public void UpdateHelpRequest(int id, ResidentSupportAnnex data)
+        public void UpdateHelpRequest(int id, ResidentSupportAnnexResponse data)
         {
             data.Id = id;
-            _iNeedHelpGateway.UpdateHelpRequest(data);
+            _iNeedHelpGateway.UpdateHelpRequest(data.ToEntity());
         }
 
         public void PatchHelpRequest(int id, ResidentSupportAnnexPatch data_items)

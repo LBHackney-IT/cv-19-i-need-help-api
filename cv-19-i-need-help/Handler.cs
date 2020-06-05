@@ -134,7 +134,7 @@ namespace CV19INeedHelp
            var getRequestGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
            var updateRequestObject = new UpdateHelpRequestUseCase(getRequestGateway);
            var request_params = request.PathParameters;
-           var request_data = JsonConvert.DeserializeObject<ResidentSupportAnnex>(request.Body);
+           var request_data = JsonConvert.DeserializeObject<ResidentSupportAnnexResponse>(request.Body);
            var request_id = Int32.Parse(request_params["id"]);
            try
            {

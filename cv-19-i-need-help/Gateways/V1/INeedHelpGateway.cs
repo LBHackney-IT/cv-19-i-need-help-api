@@ -5,6 +5,7 @@ using Amazon.Lambda.Core;
 using CV19INeedHelp.Models.V1;
 using CV19INeedHelp.Data.V1;
 using CV19INeedHelp.Helpers.V1;
+using CV19INeedHelp.Models;
 using Newtonsoft.Json;
 
 namespace CV19INeedHelp.Gateways.V1
@@ -19,32 +20,32 @@ namespace CV19INeedHelp.Gateways.V1
 
         public List<ResidentSupportAnnex> GetHelpRequestsForUprn(string uprn, string postcode, bool isMaster)
         {
-            List<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
+            IEnumerable<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
             if(uprn != null)
             {
                 response = _dbContext.ResidentSupportAnnex
-                    .Where(x => x.Uprn == uprn).ToList();   
+                    .Where(x => x.Uprn == uprn);
             }
             else if(postcode != null)
             {
                 if (!string.IsNullOrEmpty(postcode.Trim()))
                 {
                     response = _dbContext.ResidentSupportAnnex
-                        .Where(x => x.Postcode.ToUpper().Contains(postcode.ToUpper())).ToList();   
+                        .Where(x => x.Postcode.ToUpper().Contains(postcode.ToUpper()));   
                 }
             }
             else
             {
-                response = _dbContext.ResidentSupportAnnex.ToList();
+                response = _dbContext.ResidentSupportAnnex;
             }
-            if (isMaster == true)
+            if (isMaster)
             {
                 response = response
-                    .Where(x => x.RecordStatus == "MASTER").ToList();
+                    .Where(x => x.RecordStatus == "MASTER");
             }
-            return response;
+            return response.ToList();
         }
-        
+
         public ResidentSupportAnnex GetSingleHelpRequest(int id)
         {
             var response = _dbContext.ResidentSupportAnnex.SingleOrDefault(x => x.Id == id);
@@ -54,7 +55,7 @@ namespace CV19INeedHelp.Gateways.V1
         
         public void UpdateHelpRequest(ResidentSupportAnnex data)
         {
-            var rec = _dbContext.ResidentSupportAnnex.SingleOrDefault(x => x.Id == data.Id);
+            var rec = _dbContext.ResidentSupportAnnex.Find(data.Id);
             rec.IsDuplicate = data.IsDuplicate;
             rec.OngoingFoodNeed = data.OngoingFoodNeed;
             rec.OngoingPrescriptionNeed = data.OngoingPrescriptionNeed;
@@ -198,11 +199,10 @@ namespace CV19INeedHelp.Gateways.V1
 
         public List<ResidentSupportAnnex> GetRequestExceptions()
         {
-            List<ResidentSupportAnnex> response = new List<ResidentSupportAnnex>();
-            response = _dbContext.ResidentSupportAnnex
+            return _dbContext.ResidentSupportAnnex
                 .Where(x => x.RecordStatus.ToUpper() == "EXCEPTION")
-                .OrderBy(x => x.Uprn).ToList();
-            return response;
+                .OrderBy(x => x.Uprn)
+                .ToList();
         }
 
         public List<DeliveryReportItem> CreateDeliverySchedule(int limit, string spreadsheet)
@@ -262,7 +262,9 @@ namespace CV19INeedHelp.Gateways.V1
             if (response.Count >= limit)
             {
                 LambdaLogger.Log($"First priority returned {response.Count} records against a limit of {limit}.  Capacity reached");
-                return response.OrderBy(x => x.Id).ToList();
+                return response
+                    .OrderBy(x => x.Id)
+                    .ToList();
             }
             LambdaLogger.Log($"First priority returned {response.Count} records against a limit of {limit}.  Capacity not reached. Adding next priority.");
             var remainingCapacity = limit - response.Count;
@@ -277,7 +279,9 @@ namespace CV19INeedHelp.Gateways.V1
             if (response.Count >= limit)
             {
                 LambdaLogger.Log($"Second priority returned {response.Count + output.Count} records against a limit of {limit}.  Capacity reached");
-                return response.OrderBy(x => x.Id).ToList();
+                return response
+                    .OrderBy(x => x.Id)
+                    .ToList();
             }
             remainingCapacity = limit - response.Count;
             LambdaLogger.Log($"Second priority returned {response.Count + output.Count} records against a limit of {limit}.  Capacity not reached. Adding next priority.");
