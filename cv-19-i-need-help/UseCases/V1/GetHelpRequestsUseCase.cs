@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Models.V1;
 using Amazon.Lambda.Core;
@@ -17,14 +18,16 @@ namespace CV19INeedHelp.UseCases.V1
             _iNeedHelpGateway = iNeedHelpGateway;
         }
 
-        public List<ResidentSupportAnnex> GetHelpRequests(string uprn, string postcode, bool isMaster)
+        public List<ResidentSupportAnnexResponse> GetHelpRequests(string uprn, string postcode, bool isMaster)
         {
-            return _iNeedHelpGateway.GetHelpRequestsForUprn(uprn, postcode, isMaster);
+            return _iNeedHelpGateway.GetHelpRequestsForUprn(uprn, postcode, isMaster)
+                .Select(x => x.ToResponse()).ToList();
         }
 
-        public List<ResidentSupportAnnex> GetHelpRequestExceptions()
+        public List<ResidentSupportAnnexResponse> GetHelpRequestExceptions()
         {
-            return _iNeedHelpGateway.GetRequestExceptions();
+            return _iNeedHelpGateway.GetRequestExceptions()
+                .Select(x => x.ToResponse()).ToList();
         }
     }
 }

@@ -1,13 +1,10 @@
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using CV19INeedHelp.Models.V1;
+﻿using System;
+using System.Collections.Generic;
 
-namespace CV19INeedHelp.Models
+namespace CV19INeedHelp.Models.V1
 {
-    [Table("resident_support_annex")]
-    public class ResidentSupportAnnex
+    public class ResidentSupportAnnexResponse
     {
-        [Column("id")]
         public int Id { get; set; }
         public string IsDuplicate { get; set; }
         public bool? OngoingFoodNeed { get; set; }
@@ -59,9 +56,9 @@ namespace CV19INeedHelp.Models
         public string DeliveryNotes { get; set; }
         public string CaseNotes { get; set; }
 
-        public ResidentSupportAnnexResponse ToResponse()
+        public ResidentSupportAnnex ToEntity()
         {
-            return new ResidentSupportAnnexResponse
+            return new ResidentSupportAnnex
             {
                 Id = Id,
                 IsDuplicate = IsDuplicate,

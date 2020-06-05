@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CV19INeedHelp.UseCases.V1;
 using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Helpers.V1;
+using CV19INeedHelp.Models;
 using CV19INeedHelp.Models.V1;
 using FluentAssertions;
 using NUnit.Framework;
@@ -70,11 +71,6 @@ namespace CV19INeedHelpTest.UseCases.V1
                 }
             };
 
-        public DeliveryScheduleUseCaseTest()
-        {
-            
-        }
-        
         [TestCase]
         // public void CanCallTheDatabaseCreateDeliveryScheduleMethodIfConfirmed()
         // {

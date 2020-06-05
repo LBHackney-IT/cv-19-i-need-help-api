@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CV19INeedHelp.UseCases.V1;
 using CV19INeedHelp.Gateways.V1;
+using CV19INeedHelp.Models;
 using CV19INeedHelp.Models.V1;
 using FluentAssertions;
 using NUnit.Framework;
@@ -14,7 +16,7 @@ namespace CV19INeedHelpTest.UseCases.V1
     {
         private readonly IGetHelpRequestsUseCase _classUnderTest;
         private readonly Mock<IINeedHelpGateway> _fakeGateway;
-        private readonly List<ResidentSupportAnnex> response_data = new List<ResidentSupportAnnex>()
+        private readonly List<ResidentSupportAnnex> _responseData = new List<ResidentSupportAnnex>()
             {
                 new ResidentSupportAnnex()
                 {
@@ -74,27 +76,26 @@ namespace CV19INeedHelpTest.UseCases.V1
             _fakeGateway = new Mock<IINeedHelpGateway>();
             _classUnderTest = new GetHelpRequestsUseCase(_fakeGateway.Object);
         }
-        
-        [TestCase]
-        public void CanCallTheDatabaseGetAllMethod()
+
+        [TestCase("123", "test", false)]
+        [TestCase("327", "another_test", true)]
+        public void CanCallTheDatabaseGetAllMethod(string uprn, string postcode, bool isMaster)
         {
-            string uprn = "123";
-            string postcode = "test";
-            bool isMaster = false;
+            _fakeGateway.Setup(m => m.GetHelpRequestsForUprn(uprn, postcode, isMaster))
+                .Returns(new List<ResidentSupportAnnex>()).Verifiable();
             _classUnderTest.GetHelpRequests(uprn, postcode, isMaster);
-            _fakeGateway.Verify(m => m.GetHelpRequestsForUprn(uprn, postcode, isMaster), Times.Once);
+            _fakeGateway.Verify();
         }
 
         [TestCase("123", "test", false)]
+        [TestCase("327", "another_test", true)]
         public void GetsAListOfHelpRequestsIfValidUprnIsProvided(string uprn, string postcode, bool isMaster)
         {
-            _fakeGateway.Setup(x => x.GetHelpRequestsForUprn(uprn, postcode, isMaster)).Returns(response_data);
+            _fakeGateway.Setup(x => x.GetHelpRequestsForUprn(uprn, postcode, isMaster)).Returns(_responseData);
             var response = _classUnderTest.GetHelpRequests(uprn, postcode, isMaster);
-            Assert.AreEqual(response, response_data);
-            response.Should().Equal(response_data);
-        }
 
-        
-        
+            var expectedResponse = _responseData.Select(x => x.ToResponse());
+            response.Should().BeEquivalentTo(expectedResponse);
+        }
     }
 }

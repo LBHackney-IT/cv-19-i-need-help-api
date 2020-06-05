@@ -1,4 +1,4 @@
-﻿using System;
+﻿using CV19INeedHelp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using CV19INeedHelp.Models.V1;

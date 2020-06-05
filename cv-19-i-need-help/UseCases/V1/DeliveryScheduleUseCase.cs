@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Helpers.V1;
-using CV19INeedHelp.Models;
 using CV19INeedHelp.Models.V1;
 
 namespace CV19INeedHelp.UseCases.V1
@@ -45,7 +42,10 @@ namespace CV19INeedHelp.UseCases.V1
                     ReportFileId = "https://docs.google.com/spreadsheets/d/" + spreadsheet
                 };
             }
-            return _formatHelper.FormatDraftOutput(_iFoodDeliveriesGateway.CreateTemporaryDeliveryData(limit));
+
+            var getHelpRequests = _iFoodDeliveriesGateway.CreateTemporaryDeliveryData(limit)
+                .Select(x => x.ToResponse()).ToList();
+            return _formatHelper.FormatDraftOutput(getHelpRequests);
         }
     }
 }

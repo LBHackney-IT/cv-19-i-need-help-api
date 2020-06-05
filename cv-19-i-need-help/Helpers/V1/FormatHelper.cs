@@ -7,7 +7,7 @@ namespace CV19INeedHelp.Helpers.V1
 {
     public class FormatHelper : IFormatHelper
     {
-        public List<FoodDeliveryDraft> FormatDraftOutput(List<ResidentSupportAnnex> data)
+        public List<FoodDeliveryDraft> FormatDraftOutput(List<ResidentSupportAnnexResponse> data)
         {
             var helper = new UtilityHelper();
             return data.Select(a => new FoodDeliveryDraft()

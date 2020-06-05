@@ -16,9 +16,9 @@ namespace CV19INeedHelp.UseCases.V1
             _iNeedHelpGateway = iNeedHelpGateway;
         }
 
-        public ResidentSupportAnnex GetHelpRequest(int id)
+        public ResidentSupportAnnexResponse GetHelpRequest(int id)
         {
-            return _iNeedHelpGateway.GetSingleHelpRequest(id);
+            return _iNeedHelpGateway.GetSingleHelpRequest(id).ToResponse();
         }
     }
 }
