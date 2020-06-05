@@ -9,7 +9,7 @@ namespace CV19INeedHelp.Helpers.V1
             var nextDay = DateTime.Now.AddDays(1);
             while (nextDay.DayOfWeek == DayOfWeek.Saturday || nextDay.DayOfWeek == DayOfWeek.Sunday)
             {
-                nextDay.AddDays(1);
+                nextDay = nextDay.AddDays(1);
             }
             return nextDay;
         }
