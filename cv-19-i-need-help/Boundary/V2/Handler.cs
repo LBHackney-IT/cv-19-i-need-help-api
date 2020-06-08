@@ -53,35 +53,6 @@ namespace CV19INeedHelp.Boundary.V2
            }
        }
 
-       public Response GetHelpRequest(APIGatewayProxyRequest request, ILambdaContext context)
-       {
-           var getRequestGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
-           var getRequestObject = new GetHelpRequestUseCase(getRequestGateway);
-           var request_params = request.PathParameters;
-           var request_id = Int32.Parse(request_params["id"]);
-           try
-           {
-               var resp = getRequestObject.GetHelpRequest(request_id);
-               LambdaLogger.Log("Records retrieval success: " + JsonConvert.SerializeObject(resp));
-               var response = new Response();
-               response.isBase64Encoded = true;
-               response.statusCode = "200";
-               response.body = JsonConvert.SerializeObject(resp);
-               return response;
-           }
-           catch(Exception e)
-           {
-               LambdaLogger.Log("Error: " + e.Message);
-               var response = new Response
-               {
-                   isBase64Encoded = true,
-                   statusCode = "500",
-                   body = "Error processing request: " + ". Error Details: " + e.Message + e.StackTrace
-               };
-               return response;
-           }
-       }
-
        private static APIGatewayProxyResponse SendErrorResponse(Exception e)
        {
            LambdaLogger.Log("Error: " + e.Message);
@@ -122,13 +93,5 @@ namespace CV19INeedHelp.Boundary.V2
                NullValueHandling = NullValueHandling.Ignore
            });
        }
-    }
-
-    public class Response
-    {
-      public bool isBase64Encoded { get; set; }
-      public string statusCode { get; set; }
-      public string headers { get; set; }
-      public string body { get; set; }
     }
 }

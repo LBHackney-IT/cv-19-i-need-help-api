@@ -15,9 +15,9 @@ namespace CV19INeedHelpTest.TestHelpers
                     .With(x => x.DobMonth, "11")
                     .With(x => x.DobYear, "1960")
                     .With(x => x.FormId, randomNumbers.ElementAt(0).ToString)
-                    .With(x => x.NumberOfPeopleInHouse, randomNumbers.ElementAt(0).ToString)
-                    .With(x => x.DaysWorthOfFood, randomNumbers.ElementAt(0).ToString)
-                    .With(x => x.DaysWorthOfMedicine, randomNumbers.ElementAt(0).ToString)
+                    .With(x => x.NumberOfPeopleInHouse, randomNumbers.ElementAt(1).ToString)
+                    .With(x => x.DaysWorthOfFood, randomNumbers.ElementAt(2).ToString)
+                    .With(x => x.DaysWorthOfMedicine, randomNumbers.ElementAt(3).ToString)
             );
         }
     }
