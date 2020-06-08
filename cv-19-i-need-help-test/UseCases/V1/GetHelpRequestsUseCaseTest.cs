@@ -94,8 +94,7 @@ namespace CV19INeedHelpTest.UseCases.V1
             _fakeGateway.Setup(x => x.GetHelpRequestsForUprn(uprn, postcode, isMaster)).Returns(_responseData);
             var response = _classUnderTest.GetHelpRequests(uprn, postcode, isMaster);
 
-            var expectedResponse = _responseData.Select(x => x.ToResponse());
-            response.Should().BeEquivalentTo(expectedResponse);
+            response.Should().BeEquivalentTo(_responseData);
         }
     }
 }

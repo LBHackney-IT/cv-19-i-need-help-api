@@ -18,16 +18,14 @@ namespace CV19INeedHelp.UseCases.V1
             _iNeedHelpGateway = iNeedHelpGateway;
         }
 
-        public List<ResidentSupportAnnexResponse> GetHelpRequests(string uprn, string postcode, bool isMaster)
+        public List<ResidentSupportAnnex> GetHelpRequests(string uprn, string postcode, bool isMaster)
         {
-            return _iNeedHelpGateway.GetHelpRequestsForUprn(uprn, postcode, isMaster)
-                .Select(x => x.ToResponse()).ToList();
+            return _iNeedHelpGateway.GetHelpRequestsForUprn(uprn, postcode, isMaster);
         }
 
-        public List<ResidentSupportAnnexResponse> GetHelpRequestExceptions()
+        public List<ResidentSupportAnnex> GetHelpRequestExceptions()
         {
-            return _iNeedHelpGateway.GetRequestExceptions()
-                .Select(x => x.ToResponse()).ToList();
+            return _iNeedHelpGateway.GetRequestExceptions();
         }
     }
 }

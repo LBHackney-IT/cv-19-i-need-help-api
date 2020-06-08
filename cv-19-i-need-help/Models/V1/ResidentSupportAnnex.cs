@@ -1,8 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using CV19INeedHelp.Models.V1;
+using CV19INeedHelp.Boundary.V1.Responses;
 
-namespace CV19INeedHelp.Models
+namespace CV19INeedHelp.Models.V1
 {
     [Table("resident_support_annex")]
     public class ResidentSupportAnnex
@@ -58,62 +58,5 @@ namespace CV19INeedHelp.Models
         public string RecordStatus { get; set; }
         public string DeliveryNotes { get; set; }
         public string CaseNotes { get; set; }
-
-        public ResidentSupportAnnexResponse ToResponse()
-        {
-            return new ResidentSupportAnnexResponse
-            {
-                Id = Id,
-                IsDuplicate = IsDuplicate,
-                OngoingFoodNeed = OngoingFoodNeed,
-                OngoingPrescriptionNeed = OngoingPrescriptionNeed,
-                FormId = FormId,
-                FormVersion = FormVersion,
-                DateTimeRecorded = DateTimeRecorded,
-                FirstName = FirstName,
-                LastName = LastName,
-                DobMonth = DobMonth,
-                DobYear = DobYear,
-                DobDay = DobDay,
-                Postcode = Postcode,
-                Uprn = Uprn,
-                Ward = Ward,
-                AddressFirstLine = AddressFirstLine,
-                AddressSecondLine = AddressSecondLine,
-                AddressThirdLine = AddressThirdLine,
-                ContactTelephoneNumber = ContactTelephoneNumber,
-                ContactMobileNumber = ContactMobileNumber,
-                EmailAddress = EmailAddress,
-                IsOnBehalf = IsOnBehalf,
-                OnBehalfFirstName = OnBehalfFirstName,
-                OnBehalfLastName = OnBehalfLastName,
-                OnBehalfEmailAddress = OnBehalfEmailAddress,
-                OnBehalfContactNumber = OnBehalfContactNumber,
-                RelationshipWithResident = RelationshipWithResident,
-                AnythingElse = AnythingElse,
-                GpSurgeryDetails = GpSurgeryDetails,
-                FoodNeed = FoodNeed,
-                NumberOfPeopleInHouse = NumberOfPeopleInHouse,
-                DaysWorthOfFood = DaysWorthOfFood,
-                AnyFoodHouseholdCannotEat = AnyFoodHouseholdCannotEat,
-                StrugglingToPayForFood = StrugglingToPayForFood,
-                IsPharmacistAbleToDeliver = IsPharmacistAbleToDeliver,
-                NameAddressPharmacist = NameAddressPharmacist,
-                IsPackageOfCareAsc = IsPackageOfCareAsc,
-                IsUrgentFoodRequired = IsUrgentFoodRequired,
-                DaysWorthOfMedicine = DaysWorthOfMedicine,
-                IsUrgentMedicineRequired = IsUrgentMedicineRequired,
-                IsAddressConfirmed = IsAddressConfirmed,
-                IsHouseholdHelpAvailable = IsHouseholdHelpAvailable,
-                IsUrgentFood = IsUrgentFood,
-                IsUrgentPrescription = IsUrgentPrescription,
-                AnyHelpAvailable = AnyHelpAvailable,
-                IsAnyAgedUnder15 = IsAnyAgedUnder15,
-                LastConfirmedFoodDelivery = LastConfirmedFoodDelivery,
-                RecordStatus = RecordStatus,
-                DeliveryNotes = DeliveryNotes,
-                CaseNotes = CaseNotes,
-            };
-        }
     }
 }

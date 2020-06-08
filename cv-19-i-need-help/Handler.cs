@@ -1,9 +1,11 @@
 using Amazon.Lambda.Core;
 using CV19INeedHelp.Data.V1;
 using System;
-using System.Net.Http.Headers;
+using System.Linq;
 using Amazon.Lambda.APIGatewayEvents;
+using CV19INeedHelp.Boundary.V1.Responses;
 using CV19INeedHelp.Gateways.V1;
+using CV19INeedHelp.Helpers.V1;
 using CV19INeedHelp.Models.V1;
 using CV19INeedHelp.UseCases.V1;
 using Newtonsoft.Json;
@@ -57,7 +59,8 @@ namespace CV19INeedHelp
            }
            try
            {
-               var resp = getRequestObject.GetHelpRequests(uprn, postcode, master);
+               var resp = getRequestObject.GetHelpRequests(uprn, postcode, master)
+                   .Select(x => x.ToResponse());
                LambdaLogger.Log("Records retrieval success: " + JsonConvert.SerializeObject(resp));
                var response = new Response();
                response.isBase64Encoded = true;
