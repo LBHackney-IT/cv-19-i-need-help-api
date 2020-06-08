@@ -4,6 +4,6 @@ namespace CV19INeedHelp.UseCases.V1
 {
     public interface IGetHelpRequestUseCase
     {
-        ResidentSupportAnnexResponse GetHelpRequest(int id);
+        ResidentSupportAnnex GetHelpRequest(int id);
     }
 }

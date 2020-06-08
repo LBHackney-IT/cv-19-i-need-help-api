@@ -43,8 +43,7 @@ namespace CV19INeedHelp.UseCases.V1
                 };
             }
 
-            var getHelpRequests = _iFoodDeliveriesGateway.CreateTemporaryDeliveryData(limit)
-                .Select(x => x.ToResponse()).ToList();
+            var getHelpRequests = _iFoodDeliveriesGateway.CreateTemporaryDeliveryData(limit).ToList();
             return _formatHelper.FormatDraftOutput(getHelpRequests);
         }
     }
