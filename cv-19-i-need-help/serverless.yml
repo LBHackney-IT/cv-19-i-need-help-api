@@ -8,7 +8,7 @@ package:
   individually: true
 functions:
   getHelpRequests-v1:
-    handler: CsharpHandlers::CV19INeedHelp.Handler::GetHelpRequests
+    handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::GetHelpRequests
     package:
       artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
     events:
@@ -32,7 +32,7 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false
   getHelpRequestExceptions-v1:
-    handler: CsharpHandlers::CV19INeedHelp.Handler::GetHelpRequestExceptions
+    handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::GetHelpRequestExceptions
     package:
       artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
     events:
@@ -50,7 +50,7 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false
   getHelpRequest-v1:
-    handler: CsharpHandlers::CV19INeedHelp.Handler::GetHelpRequest
+    handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::GetHelpRequest
     package:
       artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
     events:
@@ -68,7 +68,7 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false 
   updateHelpRequest-v1:
-    handler: CsharpHandlers::CV19INeedHelp.Handler::UpdateHelpRequest
+    handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::UpdateHelpRequest
     package:
       artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
     events:
@@ -86,7 +86,7 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false
   patchHelpRequest-v1:
-    handler: CsharpHandlers::CV19INeedHelp.Handler::PatchHelpRequest
+    handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::PatchHelpRequest
     package:
       artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
     events:
@@ -104,7 +104,7 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false
   generateDeliverySchedule-v1:
-    handler: CsharpHandlers::CV19INeedHelp.Handler::GenerateDeliverySchedule
+    handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::GenerateDeliverySchedule
     timeout: 45
     package:
       artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
@@ -128,7 +128,7 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false
   getFoodDeliveryRequestsForForm-v1:
-    handler: CsharpHandlers::CV19INeedHelp.Handler::GetFoodDeliveriesRequestForForm
+    handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::GetFoodDeliveriesRequestForForm
     package:
       artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
     events:
@@ -146,7 +146,7 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false        
   createFoodDeliveryRequest-v1:
-    handler: CsharpHandlers::CV19INeedHelp.Handler::CreateFoodDeliveryRequest
+    handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::CreateFoodDeliveryRequest
     package:
       artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
     events:
@@ -164,7 +164,7 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false
   updateFoodDeliveryRequest-v1:
-    handler: CsharpHandlers::CV19INeedHelp.Handler::UpdateFoodDeliveryRequest
+    handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::UpdateFoodDeliveryRequest
     package:
       artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
     events:

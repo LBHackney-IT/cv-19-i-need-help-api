@@ -56,7 +56,7 @@ namespace CV19INeedHelp.Boundary.V1.Responses
         public string DeliveryNotes { get; set; }
         public string CaseNotes { get; set; }
 
-        public ResidentSupportAnnex ToEntity()
+        public ResidentSupportAnnex ToModel()
         {
             return new ResidentSupportAnnex
             {
