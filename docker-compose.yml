@@ -10,10 +10,11 @@ services:
     links:
       - test-database
   test-database:
-    image: postgres:12
+    image: test-database
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - 5432:5432
     env_file:
       - test-database.env
-    volumes:
-      - ./database:/docker-entrypoint-initdb.d
