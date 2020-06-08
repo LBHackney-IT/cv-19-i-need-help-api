@@ -1,4 +1,5 @@
 using System;
+using AutoFixture;
 using CV19INeedHelp.Boundary.V1.Responses;
 using CV19INeedHelp.Helpers.V1;
 using CV19INeedHelp.Models.V1;
@@ -10,10 +11,12 @@ namespace CV19INeedHelpTest.Models.V1
     [TestFixture]
     public class ResidentSupportAnnexTest
     {
+        private readonly Fixture _fixture = new Fixture();
+
         [Test]
         public void ResidentSupportAnnexShouldHaveCorrectProperties()
         {
-            Type type = typeof(ResidentSupportAnnexResponse);
+            Type type = typeof(ResidentSupportAnnex);
             type.GetProperties().Length.Should().Be(50);
             ResidentSupportAnnex classUnderTest = new ResidentSupportAnnex
             {
@@ -123,59 +126,7 @@ namespace CV19INeedHelpTest.Models.V1
         [Test]
         public void ResidentSupportAnnexMapsToV1ResponseObjectWithAllFieldIdentical()
         {
-            var classUnderTest = new ResidentSupportAnnex
-            {
-                Id = 1,
-                IsDuplicate = "FALSE",
-                OngoingFoodNeed = true,
-                OngoingPrescriptionNeed = true,
-                FormId = "1",
-                FormVersion = "1",
-                DateTimeRecorded = DateTime.Now,
-                FirstName = "Test",
-                LastName = "Test",
-                DobDay = "01",
-                DobMonth = "02",
-                DobYear = "1992",
-                Postcode = "E5",
-                Uprn = "100435",
-                AddressFirstLine = "test",
-                AddressSecondLine = "test",
-                AddressThirdLine = "test",
-                Ward = "test",
-                ContactTelephoneNumber = "123",
-                ContactMobileNumber = "123",
-                EmailAddress = "test",
-                IsOnBehalf = false,
-                OnBehalfFirstName = "test",
-                OnBehalfLastName = "test",
-                OnBehalfEmailAddress = "test",
-                OnBehalfContactNumber = "test",
-                RelationshipWithResident = "test",
-                AnythingElse = "test",
-                GpSurgeryDetails = "test",
-                FoodNeed = true,
-                NumberOfPeopleInHouse = "1",
-                DaysWorthOfFood = "0",
-                AnyFoodHouseholdCannotEat = "test",
-                StrugglingToPayForFood = true,
-                IsPharmacistAbleToDeliver = false,
-                IsPackageOfCareAsc = true,
-                NameAddressPharmacist = "test",
-                IsUrgentFoodRequired = false,
-                DaysWorthOfMedicine = "1",
-                IsUrgentMedicineRequired = false,
-                IsAddressConfirmed = true,
-                IsHouseholdHelpAvailable = true,
-                IsUrgentFood = false,
-                IsUrgentPrescription = true,
-                AnyHelpAvailable = true,
-                IsAnyAgedUnder15 = false,
-                LastConfirmedFoodDelivery = DateTime.Now,
-                RecordStatus = "MASTER",
-                DeliveryNotes = "Test",
-                CaseNotes = "Test"
-            };
+            var classUnderTest = _fixture.Create<ResidentSupportAnnex>();
 
             var mappedResponse = classUnderTest.ToResponse();
             mappedResponse.Should().BeEquivalentTo(classUnderTest);

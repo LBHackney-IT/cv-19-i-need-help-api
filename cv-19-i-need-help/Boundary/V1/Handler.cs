@@ -1,9 +1,9 @@
-using Amazon.Lambda.Core;
-using CV19INeedHelp.Data.V1;
 using System;
 using System.Linq;
 using Amazon.Lambda.APIGatewayEvents;
+using Amazon.Lambda.Core;
 using CV19INeedHelp.Boundary.V1.Responses;
+using CV19INeedHelp.Data.V1;
 using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Helpers.V1;
 using CV19INeedHelp.Models.V1;
@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 [assembly:LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 
-namespace CV19INeedHelp
+namespace CV19INeedHelp.Boundary.V1
 {
     public class Handler
     {
@@ -136,27 +136,29 @@ namespace CV19INeedHelp
        {
            var getRequestGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
            var updateRequestObject = new UpdateHelpRequestUseCase(getRequestGateway);
-           var request_params = request.PathParameters;
-           var request_data = JsonConvert.DeserializeObject<ResidentSupportAnnexResponse>(request.Body);
-           var request_id = Int32.Parse(request_params["id"]);
+           var requestParams = request.PathParameters;
+           var requestData = JsonConvert.DeserializeObject<ResidentSupportAnnexResponse>(request.Body);
+           var requestId = Int32.Parse(requestParams["id"]);
            try
            {
-               updateRequestObject.UpdateHelpRequest(request_id, request_data);
+               updateRequestObject.UpdateHelpRequest(requestId, requestData.ToModel());
                LambdaLogger.Log(("Record update success"));
-               var response = new Response();
-               response.isBase64Encoded = true;
-               response.statusCode = "200";
-               response.body = "Record Updated";
-               return response;
+               return new Response
+               {
+                   isBase64Encoded = true,
+                   statusCode = "200",
+                   body = "Record Updated"
+               };
            }
            catch(Exception e)
            {
                LambdaLogger.Log("Error: " + e.Message);
-               var response = new Response();
-               response.isBase64Encoded = true;
-               response.statusCode = "500";
-               response.body = "Error processing request: " + ". Error Details: " + e.Message + e.StackTrace;
-               return response;
+               return new Response
+               {
+                   isBase64Encoded = true,
+                   statusCode = "500",
+                   body = "Error processing request: " + ". Error Details: " + e.Message + e.StackTrace
+               };
            }
        }
 

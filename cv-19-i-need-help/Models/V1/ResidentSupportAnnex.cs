@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using CV19INeedHelp.Boundary.V1.Responses;
 
 namespace CV19INeedHelp.Models.V1
 {
