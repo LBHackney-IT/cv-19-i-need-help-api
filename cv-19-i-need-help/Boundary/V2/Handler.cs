@@ -4,7 +4,7 @@ using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using CV19INeedHelp.Data.V1;
 using CV19INeedHelp.Gateways.V1;
-using CV19INeedHelp.Helpers.V1;
+using CV19INeedHelp.Helpers.V2;
 using CV19INeedHelp.UseCases.V1;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

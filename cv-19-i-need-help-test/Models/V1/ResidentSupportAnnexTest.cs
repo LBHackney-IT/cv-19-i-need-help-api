@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using AutoFixture;
 using CV19INeedHelp.Boundary.V1.Responses;
 using CV19INeedHelp.Helpers.V1;
@@ -131,6 +132,20 @@ namespace CV19INeedHelpTest.Models.V1
             var mappedResponse = classUnderTest.ToResponse();
             mappedResponse.Should().BeEquivalentTo(classUnderTest);
             mappedResponse.GetType().Should().Be<ResidentSupportAnnexResponse>();
+        }
+
+        [Test]
+        public void ListOfResidentSupportAnnexMapsToListOfV1ResponseObjectWithAllFieldIdentical()
+        {
+            var classUnderTest = _fixture.CreateMany<ResidentSupportAnnex>();
+
+            var mappedResponses = classUnderTest.ToResponse();
+            mappedResponses.Count.Should().Be(classUnderTest.Count());
+            mappedResponses.ForEach(response =>
+            {
+                classUnderTest.Should().ContainEquivalentOf(response);
+                response.GetType().Should().Be<ResidentSupportAnnexResponse>();
+            });
         }
     }
 }

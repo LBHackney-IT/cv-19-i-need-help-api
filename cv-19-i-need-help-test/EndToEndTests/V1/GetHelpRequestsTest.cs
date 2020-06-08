@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Amazon.Lambda.APIGatewayEvents;
 using AutoFixture;
-using CV19INeedHelp;
 using CV19INeedHelp.Boundary.V1;
 using CV19INeedHelp.Boundary.V1.Responses;
 using CV19INeedHelp.Data.V1;

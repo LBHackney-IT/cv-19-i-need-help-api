@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using CV19INeedHelp.Boundary.V2.Responses;
 using CV19INeedHelp.Models.V1;
 
@@ -60,6 +62,11 @@ namespace CV19INeedHelp.Helpers.V2
                 DeliveryNotes = resident.DeliveryNotes,
                 CaseNotes = resident.CaseNotes,
             };
+        }
+
+        public static List<ResidentSupportAnnexResponse> ToResponse(this IEnumerable<ResidentSupportAnnex> residents)
+        {
+            return residents.Select(res => res.ToResponse()).ToList();
         }
     }
 }
