@@ -4,7 +4,6 @@ executors:
   docker-python:
     docker:
       - image: circleci/python:3.7
-    working_directory: ~/cv-19-i-need-help
   dotnet-executor:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:2.2
@@ -87,6 +86,7 @@ workflows:
       - deploy-dev:
           requires:
             - build
+            - test
       - permit-deploy-production:
           type: approval
           requires:
