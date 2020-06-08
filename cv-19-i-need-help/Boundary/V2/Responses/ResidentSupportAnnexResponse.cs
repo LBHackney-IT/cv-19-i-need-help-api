@@ -9,14 +9,12 @@ namespace CV19INeedHelp.Boundary.V2.Responses
         public string IsDuplicate { get; set; }
         public bool? OngoingFoodNeed { get; set; }
         public bool? OngoingPrescriptionNeed { get; set; }
-        public string FormId { get; set; }
+        public int? FormId { get; set; }
         public string FormVersion { get; set; }
         public DateTime? DateTimeRecorded { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string DobMonth { get; set; }
-        public string DobYear { get; set; }
-        public string DobDay { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public string Postcode { get; set; }
         public string Uprn { get; set; }
         public string Ward { get; set; }
@@ -35,15 +33,15 @@ namespace CV19INeedHelp.Boundary.V2.Responses
         public string AnythingElse { get; set; }
         public string GpSurgeryDetails { get; set; }
         public bool? FoodNeed { get; set; }
-        public string NumberOfPeopleInHouse { get; set; }
-        public string DaysWorthOfFood { get; set; }
+        public int? NumberOfPeopleInHouse { get; set; }
+        public int? DaysWorthOfFood { get; set; }
         public string AnyFoodHouseholdCannotEat { get; set; }
         public bool? StrugglingToPayForFood { get; set; }
         public bool? IsPharmacistAbleToDeliver { get; set; }
         public string NameAddressPharmacist { get; set; }
         public bool? IsPackageOfCareAsc { get; set; }
         public bool? IsUrgentFoodRequired { get; set; }
-        public string DaysWorthOfMedicine { get; set; }
+        public int? DaysWorthOfMedicine { get; set; }
         public bool? IsUrgentMedicineRequired { get; set; }
         public bool? IsAddressConfirmed { get; set; }
         public bool? IsHouseholdHelpAvailable { get; set; }
@@ -64,14 +62,14 @@ namespace CV19INeedHelp.Boundary.V2.Responses
                 IsDuplicate = IsDuplicate,
                 OngoingFoodNeed = OngoingFoodNeed,
                 OngoingPrescriptionNeed = OngoingPrescriptionNeed,
-                FormId = FormId,
+                FormId = FormId.ToString(),
                 FormVersion = FormVersion,
                 DateTimeRecorded = DateTimeRecorded,
                 FirstName = FirstName,
                 LastName = LastName,
-                DobMonth = DobMonth,
-                DobYear = DobYear,
-                DobDay = DobDay,
+                DobMonth = DateOfBirth?.Month.ToString(),
+                DobYear = DateOfBirth?.Year.ToString(),
+                DobDay = DateOfBirth?.Day.ToString(),
                 Postcode = Postcode,
                 Uprn = Uprn,
                 Ward = Ward,
@@ -90,15 +88,15 @@ namespace CV19INeedHelp.Boundary.V2.Responses
                 AnythingElse = AnythingElse,
                 GpSurgeryDetails = GpSurgeryDetails,
                 FoodNeed = FoodNeed,
-                NumberOfPeopleInHouse = NumberOfPeopleInHouse,
-                DaysWorthOfFood = DaysWorthOfFood,
+                NumberOfPeopleInHouse = NumberOfPeopleInHouse.ToString(),
+                DaysWorthOfFood = DaysWorthOfFood.ToString(),
                 AnyFoodHouseholdCannotEat = AnyFoodHouseholdCannotEat,
                 StrugglingToPayForFood = StrugglingToPayForFood,
                 IsPharmacistAbleToDeliver = IsPharmacistAbleToDeliver,
                 NameAddressPharmacist = NameAddressPharmacist,
                 IsPackageOfCareAsc = IsPackageOfCareAsc,
                 IsUrgentFoodRequired = IsUrgentFoodRequired,
-                DaysWorthOfMedicine = DaysWorthOfMedicine,
+                DaysWorthOfMedicine = DaysWorthOfMedicine.ToString(),
                 IsUrgentMedicineRequired = IsUrgentMedicineRequired,
                 IsAddressConfirmed = IsAddressConfirmed,
                 IsHouseholdHelpAvailable = IsHouseholdHelpAvailable,

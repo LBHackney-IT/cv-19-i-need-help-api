@@ -8,6 +8,7 @@ using CV19INeedHelp.Boundary.V2.Responses;
 using CV19INeedHelp.Data.V1;
 using CV19INeedHelp.Helpers.V2;
 using CV19INeedHelp.Models.V1;
+using CV19INeedHelpTest.TestHelpers;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -30,6 +31,7 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
             _dbContext = new Cv19SupportDbContext(_currentConnStr ?? connectionString);
             if (_currentConnStr == null) Environment.SetEnvironmentVariable("CV_19_DB_CONNECTION", connectionString);
             _fixture = new Fixture();
+            CustomizeFixture.V2ResidentResponseParsable(_fixture);
             _handler = new Handler();
 
             AssertionOptions.AssertEquivalencyUsing(options =>

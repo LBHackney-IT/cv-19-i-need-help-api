@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using CV19INeedHelp.Data.V1;

@@ -1,8 +1,10 @@
+using System;
 using System.Linq;
 using AutoFixture;
 using CV19INeedHelp.Boundary.V2.Responses;
 using CV19INeedHelp.Helpers.V2;
 using CV19INeedHelp.Models.V1;
+using CV19INeedHelpTest.TestHelpers;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -10,7 +12,14 @@ namespace CV19INeedHelpTest.Models.V2
 {
     public class ResidentSupportAnnexTest
     {
-        private readonly Fixture _fixture = new Fixture();
+        private Fixture _fixture;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _fixture = new Fixture();
+            CustomizeFixture.V2ResidentResponseParsable(_fixture);
+        }
 
         [Test]
         public void ResidentSupportAnnexMapsToV2ResponseObject()
@@ -20,6 +29,16 @@ namespace CV19INeedHelpTest.Models.V2
             var mappedResponse = classUnderTest.ToResponse();
             mappedResponse.GetType().Should().Be<ResidentSupportAnnexResponse>();
             AssertAllFieldsHaveCorrectlyMapped(mappedResponse, classUnderTest);
+        }
+
+        [Test]
+        public void ResidentSupportAnnexMapToV2WithMinimalInformation()
+        {
+            var classUnderTest = new ResidentSupportAnnex { Id = 1 };
+            classUnderTest.ToResponse().Should().BeEquivalentTo(new ResidentSupportAnnexResponse
+            {
+                Id = 1
+            });
         }
 
         [Test]
@@ -44,14 +63,12 @@ namespace CV19INeedHelpTest.Models.V2
             mappedResponse.IsDuplicate.Should().Be(classUnderTest.IsDuplicate);
             mappedResponse.OngoingFoodNeed.Should().Be(classUnderTest.OngoingFoodNeed);
             mappedResponse.OngoingPrescriptionNeed.Should().Be(classUnderTest.OngoingPrescriptionNeed);
-            mappedResponse.FormId.Should().Be(classUnderTest.FormId);
+            mappedResponse.FormId.Should().Be(int.Parse(classUnderTest.FormId));
             mappedResponse.FormVersion.Should().Be(classUnderTest.FormVersion);
             mappedResponse.DateTimeRecorded.Should().Be(classUnderTest.DateTimeRecorded);
             mappedResponse.FirstName.Should().Be(classUnderTest.FirstName);
             mappedResponse.LastName.Should().Be(classUnderTest.LastName);
-            mappedResponse.DobMonth.Should().Be(classUnderTest.DobMonth);
-            mappedResponse.DobYear.Should().Be(classUnderTest.DobYear);
-            mappedResponse.DobDay.Should().Be(classUnderTest.DobDay);
+            mappedResponse.DateOfBirth.Should().Be(new DateTime(1960, 11, 13));
             mappedResponse.Postcode.Should().Be(classUnderTest.Postcode);
             mappedResponse.Uprn.Should().Be(classUnderTest.Uprn);
             mappedResponse.Ward.Should().Be(classUnderTest.Ward);
@@ -70,15 +87,15 @@ namespace CV19INeedHelpTest.Models.V2
             mappedResponse.AnythingElse.Should().Be(classUnderTest.AnythingElse);
             mappedResponse.GpSurgeryDetails.Should().Be(classUnderTest.GpSurgeryDetails);
             mappedResponse.FoodNeed.Should().Be(classUnderTest.FoodNeed);
-            mappedResponse.NumberOfPeopleInHouse.Should().Be(classUnderTest.NumberOfPeopleInHouse);
-            mappedResponse.DaysWorthOfFood.Should().Be(classUnderTest.DaysWorthOfFood);
+            mappedResponse.NumberOfPeopleInHouse.Should().Be(int.Parse(classUnderTest.NumberOfPeopleInHouse));
+            mappedResponse.DaysWorthOfFood.Should().Be(int.Parse(classUnderTest.DaysWorthOfFood));
             mappedResponse.AnyFoodHouseholdCannotEat.Should().Be(classUnderTest.AnyFoodHouseholdCannotEat);
             mappedResponse.StrugglingToPayForFood.Should().Be(classUnderTest.StrugglingToPayForFood);
             mappedResponse.IsPharmacistAbleToDeliver.Should().Be(classUnderTest.IsPharmacistAbleToDeliver);
             mappedResponse.NameAddressPharmacist.Should().Be(classUnderTest.NameAddressPharmacist);
             mappedResponse.IsPackageOfCareAsc.Should().Be(classUnderTest.IsPackageOfCareAsc);
             mappedResponse.IsUrgentFoodRequired.Should().Be(classUnderTest.IsUrgentFoodRequired);
-            mappedResponse.DaysWorthOfMedicine.Should().Be(classUnderTest.DaysWorthOfMedicine);
+            mappedResponse.DaysWorthOfMedicine.Should().Be(int.Parse(classUnderTest.DaysWorthOfMedicine));
             mappedResponse.IsUrgentMedicineRequired.Should().Be(classUnderTest.IsUrgentMedicineRequired);
             mappedResponse.IsAddressConfirmed.Should().Be(classUnderTest.IsAddressConfirmed);
             mappedResponse.IsHouseholdHelpAvailable.Should().Be(classUnderTest.IsHouseholdHelpAvailable);
