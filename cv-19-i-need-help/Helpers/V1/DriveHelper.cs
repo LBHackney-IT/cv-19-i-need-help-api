@@ -19,7 +19,7 @@ namespace CV19INeedHelp.Helpers.V1
     {
         private readonly string _applicationName;
         private readonly string _uploadFolder;
-        private static string[] Scopes = { SheetsService.Scope.Drive, SheetsService.Scope.Spreadsheets, SheetsService.Scope.DriveFile };
+        private static string[] _scopes = { SheetsService.Scope.Drive, SheetsService.Scope.Spreadsheets, SheetsService.Scope.DriveFile };
         private readonly string _authToken;
 
         public DriveHelper()
@@ -32,7 +32,7 @@ namespace CV19INeedHelp.Helpers.V1
         public string CreateSpreadsheet(string name)
         {
             LambdaLogger.Log("Set up credentials");
-            var _credential = GoogleCredential.FromStream(new MemoryStream(Encoding.UTF8.GetBytes( _authToken ))).CreateScoped(Scopes);
+            var _credential = GoogleCredential.FromStream(new MemoryStream(Encoding.UTF8.GetBytes( _authToken ))).CreateScoped(_scopes);
             LambdaLogger.Log("Creating spreadsheet");
             // Create Google Drive API service.
             try
@@ -71,7 +71,7 @@ namespace CV19INeedHelp.Helpers.V1
 
         public void PopulateSpreadsheet(string sheetId, List<DeliveryReportItem> data)
         {
-            var _credential = GoogleCredential.FromStream(new MemoryStream(Encoding.UTF8.GetBytes( _authToken ))).CreateScoped(Scopes);
+            var _credential = GoogleCredential.FromStream(new MemoryStream(Encoding.UTF8.GetBytes( _authToken ))).CreateScoped(_scopes);
             // Create Google Sheets API service.
             var sheetsService = new SheetsService(new BaseClientService.Initializer()
             {
