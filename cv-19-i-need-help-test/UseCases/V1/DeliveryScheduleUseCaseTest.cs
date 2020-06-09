@@ -16,7 +16,8 @@ namespace CV19INeedHelpTest.UseCases.V1
     {
         private IDeliveryScheduleUseCase _classUnderTest;
         private Mock<IINeedHelpGateway> _fakeGateway;
-        private readonly List<ResidentSupportAnnex> response_data = new List<ResidentSupportAnnex>()
+        private Mock<IDriveHelper> _fakeDriveHelper;
+        private readonly List<ResidentSupportAnnex> _responseData = new List<ResidentSupportAnnex>()
             {
                 new ResidentSupportAnnex()
                 {
@@ -71,29 +72,50 @@ namespace CV19INeedHelpTest.UseCases.V1
                 }
             };
 
+        private readonly List<DeliveryReportItem> _reportData = new List<DeliveryReportItem>()
+        {
+            new DeliveryReportItem()
+            {
+                AnnexId = 3,
+                NumberOfPackages = 1,
+                AnyFoodHouseholdCannotEat = "Test",
+                BatchId = 1,
+                FullName = "Test",
+                FullAddress = "Test",
+                Postcode = "Test",
+                Uprn = "Test",
+                TelephoneNumber = "Test",
+                MobileNumber = "Test",
+                DeliveryDate = DateTime.Now,
+                LastConfirmedDeliveryDate = DateTime.Now.AddDays(-7),
+                DeliveryNotes = "Test"
+            }
+        };
+
         [TestCase]
-        // public void CanCallTheDatabaseCreateDeliveryScheduleMethodIfConfirmed()
-        // {
-        //     _fakeGateway = new Mock<IINeedHelpGateway>();
-        //     _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object);
-        //     var limit = 10;
-        //     var confirmed = true;
-        //     _fakeGateway.Setup(s => s.CreateDeliverySchedule(limit)).Returns(response_data);
-        //     _classUnderTest.CreateDeliverySchedule(limit, confirmed);
-        //     _fakeGateway.Verify(m => m.CreateDeliverySchedule(limit), Times.Once);
-        //     _fakeGateway.Verify(m => m.CreateTemporaryDeliveryData(limit), Times.Never);
-        // }
+        public void CanCallTheDatabaseCreateDeliveryScheduleMethodIfConfirmed()
+        {
+            _fakeGateway = new Mock<IINeedHelpGateway>();
+            _fakeDriveHelper = new Mock<IDriveHelper>();
+            _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object, _fakeDriveHelper.Object);
+            var limit = 10;
+            var spreadsheet = "test";
+            _fakeDriveHelper.Setup(x => x.CreateSpreadsheet(It.IsAny<string>())).Returns(spreadsheet);
+            _fakeGateway.Setup(s => s.CreateDeliverySchedule(limit,spreadsheet)).Returns(_reportData);
+            _classUnderTest.CreateDeliverySchedule(limit,true);
+            _fakeGateway.Verify(m => m.CreateDeliverySchedule(limit,spreadsheet), Times.Once);
+            _fakeGateway.Verify(m => m.CreateTemporaryDeliveryData(limit), Times.Never);
+        }
         
         [TestCase]
         public void CanCallTheDatabaseCreateTemporaryDeliveryDataMethodIfNotConfirmed()
         {
             _fakeGateway = new Mock<IINeedHelpGateway>();
-            _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object);
+            _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object, new DriveHelper());
             var limit = 10;
             var spreadsheet = "test";
-            var confirmed = false;
-            _fakeGateway.Setup(s => s.CreateTemporaryDeliveryData(limit)).Returns(response_data);
-            _classUnderTest.CreateDeliverySchedule(limit, confirmed);
+            _fakeGateway.Setup(s => s.CreateTemporaryDeliveryData(limit)).Returns(_responseData);
+            _classUnderTest.CreateDeliverySchedule(limit, false);
             _fakeGateway.Verify(m => m.CreateTemporaryDeliveryData(limit), Times.Once);
             _fakeGateway.Verify(m => m.CreateDeliverySchedule(limit, spreadsheet), Times.Never);
         }
@@ -102,22 +124,20 @@ namespace CV19INeedHelpTest.UseCases.V1
         public void CanCallTheFormatHelperFormatDraftOutputMethodIfNotConfirmed()
         {
             _fakeGateway = new Mock<IINeedHelpGateway>();
-            _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object);
+            _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object, new DriveHelper());
             var limit = 10;
-            var confirmed = false;
-            _fakeGateway.Setup(s => s.CreateTemporaryDeliveryData(limit)).Returns(response_data);
-            _classUnderTest.CreateDeliverySchedule(limit, confirmed);
+            _fakeGateway.Setup(s => s.CreateTemporaryDeliveryData(limit)).Returns(_responseData);
+            _classUnderTest.CreateDeliverySchedule(limit, false);
         }
         
         [TestCase]
         public void CallingCreateDeliveryScheduleWithConfirmedFalseReturnsAListOfFoodDeliveryDraftObjects()
         {
             _fakeGateway = new Mock<IINeedHelpGateway>();
-            _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object);
+            _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object, new DriveHelper());
             var limit = 10;
-            var confirmed = false;
-            _fakeGateway.Setup(s => s.CreateTemporaryDeliveryData(limit)).Returns(response_data);
-            var response = _classUnderTest.CreateDeliverySchedule(limit, confirmed);
+            _fakeGateway.Setup(s => s.CreateTemporaryDeliveryData(limit)).Returns(_responseData);
+            var response = _classUnderTest.CreateDeliverySchedule(limit, false);
             response.Should().BeOfType(typeof(List<FoodDeliveryDraft>));
         }
     }
