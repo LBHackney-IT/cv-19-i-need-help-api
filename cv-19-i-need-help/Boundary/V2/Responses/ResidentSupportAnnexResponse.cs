@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using CV19INeedHelp.Models.V1;
 
 namespace CV19INeedHelp.Boundary.V2.Responses
 {
+
+    public class ResidentSupportAnnexResponseList
+    {
+        public List<ResidentSupportAnnexResponse> HelpRequests { get; set; }
+    }
     public class ResidentSupportAnnexResponse
     {
         public int Id { get; set; }
