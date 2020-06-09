@@ -9,11 +9,12 @@ namespace CV19INeedHelp.UseCases.V1
     {
         private readonly IINeedHelpGateway _iFoodDeliveriesGateway;
         private readonly IFormatHelper _formatHelper;
-        private DriveHelper _driveHelper;
-        public DeliveryScheduleUseCase(IINeedHelpGateway iFoodDeliveriesGateway)
+        private IDriveHelper _driveHelper;
+        public DeliveryScheduleUseCase(IINeedHelpGateway iFoodDeliveriesGateway, IDriveHelper driveHelper)
         {
             _iFoodDeliveriesGateway = iFoodDeliveriesGateway;
             _formatHelper = new FormatHelper();
+            _driveHelper = driveHelper;
         }
         
         public object CreateDeliverySchedule(int limit, bool confirmed)
@@ -21,7 +22,6 @@ namespace CV19INeedHelp.UseCases.V1
             if (confirmed)
             {
                 UtilityHelper helper = new UtilityHelper();
-                _driveHelper = new DriveHelper(); 
                 var spreadsheet =
                     _driveHelper.CreateSpreadsheet($"Delivery Report - {helper.GetNextWorkingDay():dd-MM-yyyy}");
                 var data = _iFoodDeliveriesGateway.CreateDeliverySchedule(limit, spreadsheet);
