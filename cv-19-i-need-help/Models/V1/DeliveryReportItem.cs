@@ -18,6 +18,5 @@ namespace CV19INeedHelp.Models.V1
         public DateTime DeliveryDate { get; set; }
         public DateTime? LastConfirmedDeliveryDate { get; set; }
         public int BatchId { get; set; }
-
     }
 }
