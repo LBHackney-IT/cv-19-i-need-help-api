@@ -194,7 +194,8 @@ namespace CV19INeedHelp.Boundary.V1
        public Response GenerateDeliverySchedule(APIGatewayProxyRequest request, ILambdaContext context)
        {
            var getRequestGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
-           var deliveryScheduleObject = new DeliveryScheduleUseCase(getRequestGateway);
+           var driveHelper = new DriveHelper();
+           var deliveryScheduleObject = new DeliveryScheduleUseCase(getRequestGateway, driveHelper);
            try
            {
                var request_params = request.QueryStringParameters;
