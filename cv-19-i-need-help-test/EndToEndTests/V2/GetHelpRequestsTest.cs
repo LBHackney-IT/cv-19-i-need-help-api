@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Amazon.Lambda.APIGatewayEvents;
 using AutoFixture;
-using CV19INeedHelp.Boundary.V1;
-using CV19INeedHelp.Boundary.V1.Responses;
+using CV19INeedHelp.Boundary.V2;
+using CV19INeedHelp.Boundary.V2.Responses;
 using CV19INeedHelp.Data.V1;
-using CV19INeedHelp.Helpers.V1;
+using CV19INeedHelp.Helpers.V2;
 using CV19INeedHelp.Models.V1;
+using CV19INeedHelpTest.TestHelpers;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-namespace CV19INeedHelpTest.EndToEndTests.V1
+namespace CV19INeedHelpTest.EndToEndTests.V2
 {
     [TestFixture]
     public class GetHelpRequestsTest
@@ -30,6 +31,7 @@ namespace CV19INeedHelpTest.EndToEndTests.V1
             _dbContext = new Cv19SupportDbContext(_currentConnStr ?? connectionString);
             if (_currentConnStr == null) Environment.SetEnvironmentVariable("CV_19_DB_CONNECTION", connectionString);
             _fixture = new Fixture();
+            CustomizeFixture.V2ResidentResponseParsable(_fixture);
             _handler = new Handler();
 
             AssertionOptions.AssertEquivalencyUsing(options =>
@@ -58,13 +60,33 @@ namespace CV19INeedHelpTest.EndToEndTests.V1
 
             var response = _handler.GetHelpRequests(new APIGatewayProxyRequest(), null);
 
-            response.statusCode.Should().Be("200");
+            response.StatusCode.Should().Be(200);
 
-            var responseBody = response.body;
+            var responseBody = response.Body;
             var deserializedBody = JsonConvert.DeserializeObject<List<ResidentSupportAnnexResponse>>(responseBody);
 
             var expectedResponse = helpRequests.Select(x => x.ToResponse());
             AssertHelpRequestsEquivalence(deserializedBody, expectedResponse);
+        }
+
+        [Test]
+        public void ReturnsCamelCasedResponse()
+        {
+            var helpRequest = new ResidentSupportAnnex
+            {
+                Id = 1,
+            };
+            _dbContext.ResidentSupportAnnex.Add(helpRequest);
+            _dbContext.SaveChanges();
+            var response = _handler.GetHelpRequests(new APIGatewayProxyRequest(), null);
+            response.StatusCode.Should().Be(200);
+            response.Body.Should().BeEquivalentTo(@"[
+  {
+    ""id"": 1,
+    ""isDuplicate"": ""FALSE"",
+    ""recordStatus"": ""MASTER""
+  }
+]");
         }
 
         [Test]
@@ -81,9 +103,9 @@ namespace CV19INeedHelpTest.EndToEndTests.V1
             };
             var response = _handler.GetHelpRequests(request, null);
 
-            response.statusCode.Should().Be("200");
+            response.StatusCode.Should().Be(200);
 
-            var responseBody = response.body;
+            var responseBody = response.Body;
             var deserializedBody = JsonConvert.DeserializeObject<List<ResidentSupportAnnexResponse>>(responseBody);
 
             deserializedBody.Count.Should().Be(1);
@@ -106,9 +128,9 @@ namespace CV19INeedHelpTest.EndToEndTests.V1
             };
             var response = _handler.GetHelpRequests(request, null);
 
-            response.statusCode.Should().Be("200");
+            response.StatusCode.Should().Be(200);
 
-            var responseBody = response.body;
+            var responseBody = response.Body;
             var deserializedBody = JsonConvert.DeserializeObject<List<ResidentSupportAnnexResponse>>(responseBody);
 
             deserializedBody.Count.Should().Be(1);

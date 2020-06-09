@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using CV19INeedHelp.Boundary.V1.Responses;
+using CV19INeedHelp.Boundary.V2.Responses;
 using CV19INeedHelp.Models.V1;
 
-namespace CV19INeedHelp.Helpers.V1
+namespace CV19INeedHelp.Helpers.V2
 {
     public static class ResidentSupportAnnexMappingExtension
     {
@@ -15,14 +16,12 @@ namespace CV19INeedHelp.Helpers.V1
                 IsDuplicate = resident.IsDuplicate,
                 OngoingFoodNeed = resident.OngoingFoodNeed,
                 OngoingPrescriptionNeed = resident.OngoingPrescriptionNeed,
-                FormId = resident.FormId,
+                FormId = ParseNullableInt(resident.FormId),
                 FormVersion = resident.FormVersion,
                 DateTimeRecorded = resident.DateTimeRecorded,
                 FirstName = resident.FirstName,
                 LastName = resident.LastName,
-                DobMonth = resident.DobMonth,
-                DobYear = resident.DobYear,
-                DobDay = resident.DobDay,
+                DateOfBirth = ParseDate(resident.DobYear, resident.DobMonth, resident.DobDay),
                 Postcode = resident.Postcode,
                 Uprn = resident.Uprn,
                 Ward = resident.Ward,
@@ -41,15 +40,15 @@ namespace CV19INeedHelp.Helpers.V1
                 AnythingElse = resident.AnythingElse,
                 GpSurgeryDetails = resident.GpSurgeryDetails,
                 FoodNeed = resident.FoodNeed,
-                NumberOfPeopleInHouse = resident.NumberOfPeopleInHouse,
-                DaysWorthOfFood = resident.DaysWorthOfFood,
+                NumberOfPeopleInHouse = ParseNullableInt(resident.NumberOfPeopleInHouse),
+                DaysWorthOfFood = ParseNullableInt(resident.DaysWorthOfFood),
                 AnyFoodHouseholdCannotEat = resident.AnyFoodHouseholdCannotEat,
                 StrugglingToPayForFood = resident.StrugglingToPayForFood,
                 IsPharmacistAbleToDeliver = resident.IsPharmacistAbleToDeliver,
                 NameAddressPharmacist = resident.NameAddressPharmacist,
                 IsPackageOfCareAsc = resident.IsPackageOfCareAsc,
                 IsUrgentFoodRequired = resident.IsUrgentFoodRequired,
-                DaysWorthOfMedicine = resident.DaysWorthOfMedicine,
+                DaysWorthOfMedicine = ParseNullableInt(resident.DaysWorthOfMedicine),
                 IsUrgentMedicineRequired = resident.IsUrgentMedicineRequired,
                 IsAddressConfirmed = resident.IsAddressConfirmed,
                 IsHouseholdHelpAvailable = resident.IsHouseholdHelpAvailable,
@@ -67,6 +66,23 @@ namespace CV19INeedHelp.Helpers.V1
         public static List<ResidentSupportAnnexResponse> ToResponse(this IEnumerable<ResidentSupportAnnex> residents)
         {
             return residents.Select(res => res.ToResponse()).ToList();
+        }
+
+        private static int? ParseNullableInt(string number)
+        {
+            return number != null ? int.Parse(number) : (int?) null;
+        }
+
+        private static DateTime? ParseDate(string year, string month, string day)
+        {
+            try
+            {
+                return new DateTime(int.Parse(year), int.Parse(month), int.Parse(day));
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }
