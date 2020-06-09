@@ -8,7 +8,7 @@ provider:
     GOOGLE_DRIVE_AUTH_TOKEN: ${ssm:/i-need-help-api/${self:provider.stage}/google-auth-token}
     GOOGLE_DRIVE_APPLICATION_NAME: ${ssm:/i-need-help-api/${self:provider.stage}/google-application-name}
     DRIVE_UPLOAD_FOLDER_ID: ${ssm:/i-need-help-api/${self:provider.stage}/google-upload-folder}
-    CV_19_DB_CONNECTION: Host=${ssm:/i-need-help-api/${self:provider.stage}/db-hostname};Port=5432;Database=${ssm:/i-need-help-api/${self:provider.stage}/db-database;Username=${ssm:/i-need-help-api/${self:provider.stage}/db-username};Password=${ssm:/i-need-help-api/${self:provider.stage}/db-password}
+    CV_19_DB_CONNECTION: Host=${ssm:/i-need-help-api/${self:provider.stage}/db-hostname};Port=5432;Database=${ssm:/i-need-help-api/${self:provider.stage}/db-database};Username=${ssm:/i-need-help-api/${self:provider.stage}/db-username};Password=${ssm:/i-need-help-api/${self:provider.stage}/db-password}
 package:
   individually: true
 functions:
