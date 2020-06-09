@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using AutoFixture;
 using CV19INeedHelp.Boundary.V2.Responses;
@@ -42,7 +41,7 @@ namespace CV19INeedHelpTest.Models.V2
         }
 
         [Test]
-        public void ListOfResidentSupportAnnexMapsToListOfV2ResponseObjectsWithAllFieldIdentical()
+        public void ListOfResidentSupportAnnexMapsToListOfV2ResponseObjects()
         {
             var classUnderTest = _fixture.CreateMany<ResidentSupportAnnex>().ToList();
 
@@ -65,10 +64,10 @@ namespace CV19INeedHelpTest.Models.V2
             mappedResponse.OngoingPrescriptionNeed.Should().Be(classUnderTest.OngoingPrescriptionNeed);
             mappedResponse.FormId.Should().Be(int.Parse(classUnderTest.FormId));
             mappedResponse.FormVersion.Should().Be(classUnderTest.FormVersion);
-            mappedResponse.DateTimeRecorded.Should().Be(classUnderTest.DateTimeRecorded);
+            mappedResponse.DateTimeRecorded.Should().Be($"{classUnderTest.DateTimeRecorded.Value.Year:0000}-{classUnderTest.DateTimeRecorded.Value.Month:00}-{classUnderTest.DateTimeRecorded.Value.Day:00}");
             mappedResponse.FirstName.Should().Be(classUnderTest.FirstName);
             mappedResponse.LastName.Should().Be(classUnderTest.LastName);
-            mappedResponse.DateOfBirth.Should().Be(new DateTime(1960, 11, 13));
+            mappedResponse.DateOfBirth.Should().Be("1960-11-13");
             mappedResponse.Postcode.Should().Be(classUnderTest.Postcode);
             mappedResponse.Uprn.Should().Be(classUnderTest.Uprn);
             mappedResponse.Ward.Should().Be(classUnderTest.Ward);
@@ -103,7 +102,8 @@ namespace CV19INeedHelpTest.Models.V2
             mappedResponse.IsUrgentPrescription.Should().Be(classUnderTest.IsUrgentPrescription);
             mappedResponse.AnyHelpAvailable.Should().Be(classUnderTest.AnyHelpAvailable);
             mappedResponse.IsAnyAgedUnder15.Should().Be(classUnderTest.IsAnyAgedUnder15);
-            mappedResponse.LastConfirmedFoodDelivery.Should().Be(classUnderTest.LastConfirmedFoodDelivery);
+
+            mappedResponse.LastConfirmedFoodDelivery.Should().Be(classUnderTest.LastConfirmedFoodDelivery.Value.ToString("yyyy-MM-ddTHH:mm:ss"));
             mappedResponse.RecordStatus.Should().Be(classUnderTest.RecordStatus);
             mappedResponse.DeliveryNotes.Should().Be(classUnderTest.DeliveryNotes);
             mappedResponse.CaseNotes.Should().Be(classUnderTest.CaseNotes);

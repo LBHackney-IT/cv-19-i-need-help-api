@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using CV19INeedHelp.Boundary.V2.Responses;
@@ -18,7 +17,7 @@ namespace CV19INeedHelp.Helpers.V2
                 OngoingPrescriptionNeed = resident.OngoingPrescriptionNeed,
                 FormId = ParseNullableInt(resident.FormId),
                 FormVersion = resident.FormVersion,
-                DateTimeRecorded = resident.DateTimeRecorded,
+                DateTimeRecorded = resident.DateTimeRecorded?.ToString("yyyy-MM-dd"),
                 FirstName = resident.FirstName,
                 LastName = resident.LastName,
                 DateOfBirth = ParseDate(resident.DobYear, resident.DobMonth, resident.DobDay),
@@ -56,7 +55,7 @@ namespace CV19INeedHelp.Helpers.V2
                 IsUrgentPrescription = resident.IsUrgentPrescription,
                 AnyHelpAvailable = resident.AnyHelpAvailable,
                 IsAnyAgedUnder15 = resident.IsAnyAgedUnder15,
-                LastConfirmedFoodDelivery = resident.LastConfirmedFoodDelivery,
+                LastConfirmedFoodDelivery = resident.LastConfirmedFoodDelivery?.ToString("s"),
                 RecordStatus = resident.RecordStatus,
                 DeliveryNotes = resident.DeliveryNotes,
                 CaseNotes = resident.CaseNotes,
@@ -73,16 +72,11 @@ namespace CV19INeedHelp.Helpers.V2
             return number != null ? int.Parse(number) : (int?) null;
         }
 
-        private static DateTime? ParseDate(string year, string month, string day)
+        private static string ParseDate(string year, string month, string day)
         {
-            try
-            {
-                return new DateTime(int.Parse(year), int.Parse(month), int.Parse(day));
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            if (year == null || month == null || day == null) return null;
+
+            return $"{year}-{month}-{day}";
         }
     }
 }

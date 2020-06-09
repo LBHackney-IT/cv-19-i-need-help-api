@@ -29,6 +29,9 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
             _currentConnStr = Environment.GetEnvironmentVariable("CV_19_DB_CONNECTION");
             const string connectionString = "Host=localhost;Database=i-need-help-test;Username=postgres;Password=mypassword";
             _dbContext = new Cv19SupportDbContext(_currentConnStr ?? connectionString);
+            var addedEntities = _dbContext.ResidentSupportAnnex;
+            _dbContext.ResidentSupportAnnex.RemoveRange(addedEntities);
+            _dbContext.SaveChanges();
             if (_currentConnStr == null) Environment.SetEnvironmentVariable("CV_19_DB_CONNECTION", connectionString);
             _fixture = new Fixture();
             CustomizeFixture.V2ResidentResponseParsable(_fixture);
@@ -148,8 +151,8 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
                 .Excluding(r => r.LastConfirmedFoodDelivery));
             received.IsDuplicate.Should().BeEquivalentTo("FALSE");
             received.RecordStatus.Should().BeEquivalentTo("MASTER");
-            received.LastConfirmedFoodDelivery.Should()
-                .Be(expected.LastConfirmedFoodDelivery?.Date);
+            received.LastConfirmedFoodDelivery.Substring(0, 10).Should()
+                .Be(expected.LastConfirmedFoodDelivery.Substring(0, 10));
         }
 
         private static void AssertHelpRequestsEquivalence(List<ResidentSupportAnnexResponse> received, IEnumerable<ResidentSupportAnnexResponse> expected)
