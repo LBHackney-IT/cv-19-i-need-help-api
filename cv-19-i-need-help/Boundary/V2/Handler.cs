@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
+using CV19INeedHelp.Boundary.Exceptions;
 using CV19INeedHelp.Boundary.V2.Responses;
 using CV19INeedHelp.Data.V1;
-using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Helpers.V2;
-using CV19INeedHelp.UseCases.V1;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -40,7 +37,8 @@ namespace CV19INeedHelp.Boundary.V2
            {
                var requests = new ResidentSupportAnnexResponseList
                {
-                   HelpRequests = getRequestsUseCase.GetHelpRequests(uprn, postcode, address, firstName, lastName, master).ToResponse(),
+                   HelpRequests = getRequestsUseCase
+                       .GetHelpRequests(uprn, postcode, address, firstName, lastName, master).ToResponse(),
                };
                var resp = ConvertToCamelCasedJson(requests);
                LambdaLogger.Log("Records retrieval success: " + resp);
@@ -49,16 +47,25 @@ namespace CV19INeedHelp.Boundary.V2
                {
                    IsBase64Encoded = true,
                    StatusCode = 200,
-                   Body =  resp
+                   Body = resp
+               };
+           }
+           catch (InvalidQueryParameter e)
+           {
+               return new APIGatewayProxyResponse
+               {
+                   IsBase64Encoded = true,
+                   StatusCode = 400,
+                   Body = "Error processing request: " + e.Message
                };
            }
            catch (Exception e)
            {
-               return SendErrorResponse(e);
+               return SendServerErrorResponse(e);
            }
        }
 
-       private static APIGatewayProxyResponse SendErrorResponse(Exception e)
+       private static APIGatewayProxyResponse SendServerErrorResponse(Exception e)
        {
            LambdaLogger.Log("Error: " + e.Message);
            return new APIGatewayProxyResponse
