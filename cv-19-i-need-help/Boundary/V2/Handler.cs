@@ -32,13 +32,15 @@ namespace CV19INeedHelp.Boundary.V2
                : ValueNotSet<bool>("master");
            var uprn = GetQueryParameter("uprn", request);
            var postcode = GetQueryParameter("postcode", request);
+           var address = GetQueryParameter("address", request);
            var firstName = GetQueryParameter("first_name", request);
+           var lastName = GetQueryParameter("last_name", request);
 
            try
            {
                var requests = new ResidentSupportAnnexResponseList
                {
-                   HelpRequests = getRequestsUseCase.GetHelpRequests(uprn, postcode, null, firstName, null, master).ToResponse(),
+                   HelpRequests = getRequestsUseCase.GetHelpRequests(uprn, postcode, address, firstName, lastName, master).ToResponse(),
                };
                var resp = ConvertToCamelCasedJson(requests);
                LambdaLogger.Log("Records retrieval success: " + resp);

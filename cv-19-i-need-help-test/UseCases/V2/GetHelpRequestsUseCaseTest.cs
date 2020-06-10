@@ -42,7 +42,5 @@ namespace CV19INeedHelpTest.UseCases.V2
 
             response.Should().BeEquivalentTo(responseData);
         }
-
-        //TODO:Tests around error handling
     }
 }

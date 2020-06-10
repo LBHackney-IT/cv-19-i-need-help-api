@@ -55,6 +55,18 @@ namespace CV19INeedHelpTest.Gateways.V2
             response.Should().BeEquivalentTo(new List<ResidentSupportAnnex>{requests.Last()});
         }
 
+        [TestCase("My street")]
+        [TestCase("My house name")]
+        public void QueryHelpRequests_GivenAddressQuery_ShouldReturnMatchingRequests(string lastName)
+        {
+            var requests = _fixture.CreateMany<ResidentSupportAnnex>();
+            requests.Last().AddressFirstLine = lastName;
+            InsertIntoResidentSupportAnnexTable(requests);
+
+            var response = _classUnderTest.QueryHelpRequests(null, null, lastName, null, null, false);
+            response.Should().BeEquivalentTo(new List<ResidentSupportAnnex>{requests.Last()});
+        }
+
         [TestCase("my uprn", "my postcode")]
         [TestCase("this uprn", "not this postcode")]
         public void QueryHelpRequests_GivenPostcodeAndUprnQueries_ShouldReturnRequestMatchingTheUprn(string uprn, string postcode)
@@ -104,6 +116,30 @@ namespace CV19INeedHelpTest.Gateways.V2
             {
                 requests.ElementAt(1),
             });
+        }
+
+        [TestCase("my name")]
+        [TestCase("your name")]
+        public void QueryHelpRequests_GivenFirstNameQuery_ShouldReturnMatchingRequests(string firstName)
+        {
+            var requests = _fixture.CreateMany<ResidentSupportAnnex>();
+            requests.Last().FirstName = firstName;
+            InsertIntoResidentSupportAnnexTable(requests);
+
+            var response = _classUnderTest.QueryHelpRequests(null, null, null, firstName, null, false);
+            response.Should().BeEquivalentTo(new List<ResidentSupportAnnex>{requests.Last()});
+        }
+
+        [TestCase("last name")]
+        [TestCase("surname")]
+        public void QueryHelpRequests_GivenLastNameQuery_ShouldReturnMatchingRequests(string lastName)
+        {
+            var requests = _fixture.CreateMany<ResidentSupportAnnex>();
+            requests.Last().LastName = lastName;
+            InsertIntoResidentSupportAnnexTable(requests);
+
+            var response = _classUnderTest.QueryHelpRequests(null, null, null, null, lastName, false);
+            response.Should().BeEquivalentTo(new List<ResidentSupportAnnex>{requests.Last()});
         }
 
         private void InsertIntoResidentSupportAnnexTable(IEnumerable<ResidentSupportAnnex> requests)
