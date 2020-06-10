@@ -29,6 +29,9 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
             _currentConnStr = Environment.GetEnvironmentVariable("CV_19_DB_CONNECTION");
             const string connectionString = "Host=localhost;Database=i-need-help-test;Username=postgres;Password=mypassword";
             _dbContext = new Cv19SupportDbContext(_currentConnStr ?? connectionString);
+            var addedEntities = _dbContext.ResidentSupportAnnex;
+            _dbContext.ResidentSupportAnnex.RemoveRange(addedEntities);
+            _dbContext.SaveChanges();
             if (_currentConnStr == null) Environment.SetEnvironmentVariable("CV_19_DB_CONNECTION", connectionString);
             _fixture = new Fixture();
             CustomizeFixture.V2ResidentResponseParsable(_fixture);
@@ -63,10 +66,10 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
             response.StatusCode.Should().Be(200);
 
             var responseBody = response.Body;
-            var deserializedBody = JsonConvert.DeserializeObject<List<ResidentSupportAnnexResponse>>(responseBody);
+            var deserializedBody = JsonConvert.DeserializeObject<ResidentSupportAnnexResponseList>(responseBody);
 
             var expectedResponse = helpRequests.Select(x => x.ToResponse());
-            AssertHelpRequestsEquivalence(deserializedBody, expectedResponse);
+            AssertHelpRequestsEquivalence(deserializedBody.HelpRequests, expectedResponse);
         }
 
         [Test]
@@ -80,13 +83,15 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
             _dbContext.SaveChanges();
             var response = _handler.GetHelpRequests(new APIGatewayProxyRequest(), null);
             response.StatusCode.Should().Be(200);
-            response.Body.Should().BeEquivalentTo(@"[
-  {
-    ""id"": 1,
-    ""isDuplicate"": ""FALSE"",
-    ""recordStatus"": ""MASTER""
-  }
-]");
+            response.Body.Should().BeEquivalentTo(@"{
+  ""helpRequests"": [
+    {
+      ""id"": 1,
+      ""isDuplicate"": ""FALSE"",
+      ""recordStatus"": ""MASTER""
+    }
+  ]
+}");
         }
 
         [Test]
@@ -106,12 +111,12 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
             response.StatusCode.Should().Be(200);
 
             var responseBody = response.Body;
-            var deserializedBody = JsonConvert.DeserializeObject<List<ResidentSupportAnnexResponse>>(responseBody);
+            var deserializedBody = JsonConvert.DeserializeObject<ResidentSupportAnnexResponseList>(responseBody);
 
-            deserializedBody.Count.Should().Be(1);
+            deserializedBody.HelpRequests.Count.Should().Be(1);
 
             var expectedResponse = helpRequests.First().ToResponse();
-            AssertHelpRequestsEquivalence(deserializedBody.First(), expectedResponse);
+            AssertHelpRequestsEquivalence(deserializedBody.HelpRequests.First(), expectedResponse);
         }
 
         [Test]
@@ -131,11 +136,11 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
             response.StatusCode.Should().Be(200);
 
             var responseBody = response.Body;
-            var deserializedBody = JsonConvert.DeserializeObject<List<ResidentSupportAnnexResponse>>(responseBody);
+            var deserializedBody = JsonConvert.DeserializeObject<ResidentSupportAnnexResponseList>(responseBody);
 
-            deserializedBody.Count.Should().Be(1);
+            deserializedBody.HelpRequests.Count.Should().Be(1);
             var expectedResponse = helpRequests.Last().ToResponse();
-            AssertHelpRequestsEquivalence(deserializedBody.Last(), expectedResponse);
+            AssertHelpRequestsEquivalence(deserializedBody.HelpRequests.Last(), expectedResponse);
         }
 
         private static void AssertHelpRequestsEquivalence(ResidentSupportAnnexResponse received, ResidentSupportAnnexResponse expected)
@@ -146,8 +151,8 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
                 .Excluding(r => r.LastConfirmedFoodDelivery));
             received.IsDuplicate.Should().BeEquivalentTo("FALSE");
             received.RecordStatus.Should().BeEquivalentTo("MASTER");
-            received.LastConfirmedFoodDelivery.Should()
-                .Be(expected.LastConfirmedFoodDelivery?.Date);
+            received.LastConfirmedFoodDelivery.Substring(0, 10).Should()
+                .Be(expected.LastConfirmedFoodDelivery.Substring(0, 10));
         }
 
         private static void AssertHelpRequestsEquivalence(List<ResidentSupportAnnexResponse> received, IEnumerable<ResidentSupportAnnexResponse> expected)

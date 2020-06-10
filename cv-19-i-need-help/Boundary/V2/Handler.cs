@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
+using CV19INeedHelp.Boundary.V2.Responses;
 using CV19INeedHelp.Data.V1;
 using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Helpers.V2;
@@ -38,13 +40,18 @@ namespace CV19INeedHelp.Boundary.V2
 
            try
            {
-               var resp = ConvertToCamelCasedJson(getRequestsUseCase.GetHelpRequests(uprn, postcode, master).ToResponse());
+               var requests = new ResidentSupportAnnexResponseList
+               {
+                   HelpRequests = getRequestsUseCase.GetHelpRequests(uprn, postcode, master).ToResponse(),
+               };
+               var resp = ConvertToCamelCasedJson(requests);
                LambdaLogger.Log("Records retrieval success: " + resp);
+
                return new APIGatewayProxyResponse
                {
                    IsBase64Encoded = true,
                    StatusCode = 200,
-                   Body = resp
+                   Body =  resp
                };
            }
            catch (Exception e)
@@ -90,7 +97,7 @@ namespace CV19INeedHelp.Boundary.V2
                    NamingStrategy = new CamelCaseNamingStrategy(),
                },
                Formatting = Formatting.Indented,
-               NullValueHandling = NullValueHandling.Ignore
+               NullValueHandling = NullValueHandling.Ignore,
            });
        }
     }

@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using CV19INeedHelp.Models.V1;
 
 namespace CV19INeedHelp.Boundary.V2.Responses
 {
+
+    public class ResidentSupportAnnexResponseList
+    {
+        public List<ResidentSupportAnnexResponse> HelpRequests { get; set; }
+    }
     public class ResidentSupportAnnexResponse
     {
         public int Id { get; set; }
@@ -11,10 +17,10 @@ namespace CV19INeedHelp.Boundary.V2.Responses
         public bool? OngoingPrescriptionNeed { get; set; }
         public int? FormId { get; set; }
         public string FormVersion { get; set; }
-        public DateTime? DateTimeRecorded { get; set; }
+        public string DateTimeRecorded { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime? DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
         public string Postcode { get; set; }
         public string Uprn { get; set; }
         public string Ward { get; set; }
@@ -49,7 +55,7 @@ namespace CV19INeedHelp.Boundary.V2.Responses
         public bool? IsUrgentPrescription { get; set; }
         public bool? AnyHelpAvailable { get; set; }
         public bool? IsAnyAgedUnder15 { get; set; }
-        public DateTime? LastConfirmedFoodDelivery { get; set; }
+        public string LastConfirmedFoodDelivery { get; set; }
         public string RecordStatus { get; set; }
         public string DeliveryNotes { get; set; }
         public string CaseNotes { get; set; }
@@ -64,12 +70,12 @@ namespace CV19INeedHelp.Boundary.V2.Responses
                 OngoingPrescriptionNeed = OngoingPrescriptionNeed,
                 FormId = FormId.ToString(),
                 FormVersion = FormVersion,
-                DateTimeRecorded = DateTimeRecorded,
+                DateTimeRecorded = ParseNullableDateTime(DateTimeRecorded),
                 FirstName = FirstName,
                 LastName = LastName,
-                DobMonth = DateOfBirth?.Month.ToString(),
-                DobYear = DateOfBirth?.Year.ToString(),
-                DobDay = DateOfBirth?.Day.ToString(),
+                DobMonth = ParseNullableDateTime(DateOfBirth)?.Month.ToString(),
+                DobYear = ParseNullableDateTime(DateOfBirth)?.Year.ToString(),
+                DobDay = ParseNullableDateTime(DateOfBirth)?.Day.ToString(),
                 Postcode = Postcode,
                 Uprn = Uprn,
                 Ward = Ward,
@@ -104,11 +110,16 @@ namespace CV19INeedHelp.Boundary.V2.Responses
                 IsUrgentPrescription = IsUrgentPrescription,
                 AnyHelpAvailable = AnyHelpAvailable,
                 IsAnyAgedUnder15 = IsAnyAgedUnder15,
-                LastConfirmedFoodDelivery = LastConfirmedFoodDelivery,
+                LastConfirmedFoodDelivery = ParseNullableDateTime(LastConfirmedFoodDelivery),
                 RecordStatus = RecordStatus,
                 DeliveryNotes = DeliveryNotes,
                 CaseNotes = CaseNotes,
             };
+        }
+
+        private DateTime? ParseNullableDateTime(string date)
+        {
+            return date != null ? DateTime.Parse(date) : (DateTime?) null;
         }
     }
 }

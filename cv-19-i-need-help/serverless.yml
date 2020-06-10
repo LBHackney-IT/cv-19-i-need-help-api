@@ -1,14 +1,29 @@
 service: cv-19-food-delivery
+custom:
+  vpc:
+    dev:
+      securityGroupIds:
+        - sg-061dddb0a7fc34d1a
+      subnetIds:
+        - subnet-01f5294cc9f85669e
+        - subnet-0d34c8d6fc16a0364
+    production:
+      securityGroupIds:
+        - sg-04b71cc889c5790e7
+      subnetIds:
+        - subnet-0b7b8fea07efabf34
+        - subnet-01d3657f97a243261
 provider:
   name: aws
   runtime: dotnetcore2.1
   stage: ${opt:stage}
   region: eu-west-2
+  vpc: ${self:custom.vpc.${opt:stage}}
   environment:
     GOOGLE_DRIVE_AUTH_TOKEN: ${ssm:/i-need-help-api/${self:provider.stage}/google-auth-token}
     GOOGLE_DRIVE_APPLICATION_NAME: ${ssm:/i-need-help-api/${self:provider.stage}/google-application-name}
     DRIVE_UPLOAD_FOLDER_ID: ${ssm:/i-need-help-api/${self:provider.stage}/google-upload-folder}
-    CV_19_DB_CONNECTION: Host=${ssm:/i-need-help-api/${self:provider.stage}/db-hostname};Port=5432;Database=${ssm:/i-need-help-api/${self:provider.stage}/db-database;Username=${ssm:/i-need-help-api/${self:provider.stage}/db-username};Password=${ssm:/i-need-help-api/${self:provider.stage}/db-password}
+    CV_19_DB_CONNECTION: Host=${ssm:/i-need-help-api/${self:provider.stage}/db-hostname};Port=5432;Database=${ssm:/i-need-help-api/${self:provider.stage}/db-database};Username=${ssm:/i-need-help-api/${self:provider.stage}/db-username};Password=${ssm:/i-need-help-api/${self:provider.stage}/db-password}
 package:
   individually: true
 functions:
