@@ -253,7 +253,7 @@ namespace CV19INeedHelp.Gateways.V1
         {
             foreach (var item in data)
             {
-                var annexRecord = _dbContext.ResidentSupportAnnex.Find(item.Id);
+                var annexRecord = _dbContext.ResidentSupportAnnex.Find(item.AnnexId);
                 annexRecord.LastConfirmedFoodDelivery = item.DeliveryDate;
             }
             _dbContext.SaveChanges();
