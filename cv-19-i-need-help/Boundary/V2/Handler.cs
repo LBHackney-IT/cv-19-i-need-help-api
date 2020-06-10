@@ -24,8 +24,8 @@ namespace CV19INeedHelp.Boundary.V2
 
        public APIGatewayProxyResponse GetHelpRequests(APIGatewayProxyRequest request, ILambdaContext context)
        {
-           var getRequestGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
-           var getRequestsUseCase = new GetHelpRequestsUseCase(getRequestGateway);
+           var getRequestGateway = new CV19INeedHelp.Gateways.V2.INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
+           var getRequestsUseCase = new CV19INeedHelp.UseCases.V2.GetHelpRequestsUseCase(getRequestGateway);
 
            var master = QueryValueGiven("master", request) && bool.TryParse(request.QueryStringParameters["master"], out var v)
                ? SetValue(v, "master")
@@ -38,7 +38,7 @@ namespace CV19INeedHelp.Boundary.V2
            {
                var requests = new ResidentSupportAnnexResponseList
                {
-                   HelpRequests = getRequestsUseCase.GetHelpRequests(uprn, postcode, master, firstName).ToResponse(),
+                   HelpRequests = getRequestsUseCase.GetHelpRequests(uprn, postcode, null, firstName, null, master).ToResponse(),
                };
                var resp = ConvertToCamelCasedJson(requests);
                LambdaLogger.Log("Records retrieval success: " + resp);

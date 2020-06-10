@@ -94,6 +94,31 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
         }
 
         [Test]
+        public void QueryByLastName()
+        {
+            var helpRequests = _fixture.CreateMany<ResidentSupportAnnex>().ToList();
+            helpRequests.First().LastName = "to-search-for";
+            DbContext.ResidentSupportAnnex.AddRange(helpRequests);
+            DbContext.SaveChanges();
+
+            var request = new APIGatewayProxyRequest
+            {
+                QueryStringParameters = new Dictionary<string, string> {{"last_name", "to-search-for"}}
+            };
+            var response = _handler.GetHelpRequests(request, null);
+
+            response.StatusCode.Should().Be(200);
+
+            var responseBody = response.Body;
+            var deserializedBody = JsonConvert.DeserializeObject<ResidentSupportAnnexResponseList>(responseBody);
+
+            deserializedBody.HelpRequests.Count.Should().Be(1);
+
+            var expectedResponse = helpRequests.First().ToResponse();
+            AssertHelpRequestsEquivalence(deserializedBody.HelpRequests.First(), expectedResponse);
+        }
+
+        [Test]
         public void QueryByUprn()
         {
             var helpRequests = _fixture.CreateMany<ResidentSupportAnnex>().ToList();
@@ -119,16 +144,20 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
         }
 
         [Test]
-        public void QueryByPostcode()
+        public void QueryByPostcodeAndAddress()
         {
             var helpRequests = _fixture.CreateMany<ResidentSupportAnnex>().ToList();
             helpRequests.Last().Postcode = "return-me";
+            helpRequests.Last().AddressFirstLine = "This is my house";
+
+            helpRequests.First().Postcode = "return-me";
+            helpRequests.First().AddressFirstLine = "This isn't my house";
             DbContext.ResidentSupportAnnex.AddRange(helpRequests);
             DbContext.SaveChanges();
 
             var request = new APIGatewayProxyRequest
             {
-                QueryStringParameters = new Dictionary<string, string> {{"postcode", "return-me"}}
+                QueryStringParameters = new Dictionary<string, string> {{"postcode", "return-me"}, {"address", "This is my house"}}
             };
             var response = _handler.GetHelpRequests(request, null);
 
