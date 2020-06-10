@@ -16,5 +16,6 @@ namespace CV19INeedHelp.Gateways.V1
         List<ResidentSupportAnnex> GetRequestExceptions();
         List<DeliveryReportItem> CreateDeliverySchedule(int limit, string spreadsheet);
         List<ResidentSupportAnnex> CreateTemporaryDeliveryData(int limit);
+        void UpdateAnnexWithDeliveryDates(List<DeliveryReportItem> data);
     }
 }

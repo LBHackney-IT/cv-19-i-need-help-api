@@ -249,6 +249,16 @@ namespace CV19INeedHelp.Gateways.V1
             return GetData(limit);
         }
 
+        public void UpdateAnnexWithDeliveryDates(List<DeliveryReportItem> data)
+        {
+            foreach (var item in data)
+            {
+                var annexRecord = _dbContext.ResidentSupportAnnex.Find(item.Id);
+                annexRecord.LastConfirmedFoodDelivery = item.DeliveryDate;
+            }
+            _dbContext.SaveChanges();
+        }
+
         private List<ResidentSupportAnnex> GetData(int limit)
         {
             var helper = new UtilityHelper();
