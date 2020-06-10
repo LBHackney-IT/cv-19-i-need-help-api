@@ -261,7 +261,8 @@ namespace CV19INeedHelp.Gateways.V1
 
         public DeliveryBatch FindExistingBatchForDate(DateTime deliveryDay)
         {
-            var batchSearch = _dbContext.DeliveryBatch.FirstOrDefault(x => x.DeliveryDate == deliveryDay);
+            LambdaLogger.Log($"Searching for an existing delivery batch with date {deliveryDay.Date}");
+            var batchSearch = _dbContext.DeliveryBatch.FirstOrDefault(x => x.DeliveryDate == deliveryDay.Date);
             return batchSearch;
         }
 
