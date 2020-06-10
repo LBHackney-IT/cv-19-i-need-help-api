@@ -259,6 +259,12 @@ namespace CV19INeedHelp.Gateways.V1
             _dbContext.SaveChanges();
         }
 
+        public DeliveryBatch FindExistingBatchForDate(DateTime deliveryDay)
+        {
+            var batchSearch = _dbContext.DeliveryBatch.FirstOrDefault(x => x.DeliveryDate == deliveryDay);
+            return batchSearch;
+        }
+
         private List<ResidentSupportAnnex> GetData(int limit)
         {
             var helper = new UtilityHelper();

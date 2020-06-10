@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CV19INeedHelp.Models;
 using CV19INeedHelp.Models.V1;
@@ -17,5 +18,6 @@ namespace CV19INeedHelp.Gateways.V1
         List<DeliveryReportItem> CreateDeliverySchedule(int limit, string spreadsheet);
         List<ResidentSupportAnnex> CreateTemporaryDeliveryData(int limit);
         void UpdateAnnexWithDeliveryDates(List<DeliveryReportItem> data);
+        DeliveryBatch FindExistingBatchForDate(DateTime deliveryDay);
     }
 }
