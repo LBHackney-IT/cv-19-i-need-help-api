@@ -1,4 +1,5 @@
 using System.Linq;
+using CV19INeedHelp.Boundary.V1.Responses;
 using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Helpers.V1;
 using CV19INeedHelp.Models.V1;
@@ -22,13 +23,25 @@ namespace CV19INeedHelp.UseCases.V1
             if (confirmed)
             {
                 UtilityHelper helper = new UtilityHelper();
+                var deliveryDay = helper.GetNextWorkingDay();
+                var alreadyGenerated = _iFoodDeliveriesGateway.FindExistingBatchForDate(deliveryDay);
+                if (alreadyGenerated != null)
+                {
+                    return new DeliveryBatchResponse()
+                    {
+                        DeliveryDate = alreadyGenerated.DeliveryDate,
+                        DeliveryPackages = alreadyGenerated.DeliveryPackages,
+                        Id = alreadyGenerated.Id,
+                        ReportFileId = alreadyGenerated.ReportFileId
+                    };
+                }
                 var spreadsheet =
-                    _driveHelper.CreateSpreadsheet($"Delivery Report - {helper.GetNextWorkingDay():dd-MM-yyyy}");
+                    _driveHelper.CreateSpreadsheet($"Delivery Report - {deliveryDay:dd-MM-yyyy}");
                 var data = _iFoodDeliveriesGateway.CreateDeliverySchedule(limit, spreadsheet);
                 _driveHelper.PopulateSpreadsheet(spreadsheet, data);
                 var responseDetails = data.FirstOrDefault();
                 _iFoodDeliveriesGateway.UpdateAnnexWithDeliveryDates(data);
-                return new DeliveryBatch()
+                return new DeliveryBatchResponse()
                 {
                     DeliveryDate = responseDetails.DeliveryDate,
                     DeliveryPackages = data.Count(),
