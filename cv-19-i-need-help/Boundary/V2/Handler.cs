@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
@@ -25,24 +26,19 @@ namespace CV19INeedHelp.Boundary.V2
        {
            var getRequestGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
            var getRequestsUseCase = new GetHelpRequestsUseCase(getRequestGateway);
-           var requestParams = request.QueryStringParameters;
-           var master = QueryValueGiven("master", request) && bool.TryParse(requestParams["master"], out var v)
+
+           var master = QueryValueGiven("master", request) && bool.TryParse(request.QueryStringParameters["master"], out var v)
                ? SetValue(v, "master")
                : ValueNotSet<bool>("master");
-
-           var uprn = QueryValueGiven("uprn", request)
-               ? SetValue(requestParams["uprn"], "uprn")
-               : ValueNotSet<string>("uprn");
-
-           var postcode = QueryValueGiven("postcode", request)
-               ? SetValue(requestParams["postcode"], "postcode")
-               : ValueNotSet<string>("postcode");
+           var uprn = GetQueryParameter("uprn", request);
+           var postcode = GetQueryParameter("postcode", request);
+           var firstName = GetQueryParameter("first_name", request);
 
            try
            {
                var requests = new ResidentSupportAnnexResponseList
                {
-                   HelpRequests = getRequestsUseCase.GetHelpRequests(uprn, postcode, master).ToResponse(),
+                   HelpRequests = getRequestsUseCase.GetHelpRequests(uprn, postcode, master, firstName).ToResponse(),
                };
                var resp = ConvertToCamelCasedJson(requests);
                LambdaLogger.Log("Records retrieval success: " + resp);
@@ -69,6 +65,13 @@ namespace CV19INeedHelp.Boundary.V2
                StatusCode = 500,
                Body = "Error processing request: " + ". Error Details: " + e.Message + e.StackTrace
            };
+       }
+
+       private static string GetQueryParameter(string keyName, APIGatewayProxyRequest request)
+       {
+           return QueryValueGiven(keyName, request)
+               ? SetValue(request.QueryStringParameters[keyName], keyName)
+               : ValueNotSet<string>(keyName);
        }
 
        private static bool QueryValueGiven(string keyName, APIGatewayProxyRequest request)

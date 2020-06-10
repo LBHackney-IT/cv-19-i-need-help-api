@@ -69,6 +69,31 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
         }
 
         [Test]
+        public void QueryByFirstName()
+        {
+            var helpRequests = _fixture.CreateMany<ResidentSupportAnnex>().ToList();
+            helpRequests.First().FirstName = "to-search-for";
+            DbContext.ResidentSupportAnnex.AddRange(helpRequests);
+            DbContext.SaveChanges();
+
+            var request = new APIGatewayProxyRequest
+            {
+                QueryStringParameters = new Dictionary<string, string> {{"first_name", "to-search-for"}}
+            };
+            var response = _handler.GetHelpRequests(request, null);
+
+            response.StatusCode.Should().Be(200);
+
+            var responseBody = response.Body;
+            var deserializedBody = JsonConvert.DeserializeObject<ResidentSupportAnnexResponseList>(responseBody);
+
+            deserializedBody.HelpRequests.Count.Should().Be(1);
+
+            var expectedResponse = helpRequests.First().ToResponse();
+            AssertHelpRequestsEquivalence(deserializedBody.HelpRequests.First(), expectedResponse);
+        }
+
+        [Test]
         public void QueryByUprn()
         {
             var helpRequests = _fixture.CreateMany<ResidentSupportAnnex>().ToList();
