@@ -4,6 +4,8 @@ using NUnit.Framework;
 
 namespace CV19INeedHelpTest.EndToEndTests.V2
 {
+    [TestFixture]
+    [NonParallelizable]
     public class DatabaseTests
     {
         private string _currentConnStr;
