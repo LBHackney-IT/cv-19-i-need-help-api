@@ -122,13 +122,13 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
         public void QueryByUprn()
         {
             var helpRequests = _fixture.CreateMany<ResidentSupportAnnex>().ToList();
-            helpRequests.First().Uprn = "to-search-for";
+            helpRequests.First().Uprn = "1116736";
             DbContext.ResidentSupportAnnex.AddRange(helpRequests);
             DbContext.SaveChanges();
 
             var request = new APIGatewayProxyRequest
             {
-                QueryStringParameters = new Dictionary<string, string> {{"uprn", "to-search-for"}}
+                QueryStringParameters = new Dictionary<string, string> {{"uprn", "1116736"}}
             };
             var response = _handler.GetHelpRequests(request, null);
 
@@ -147,17 +147,17 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
         public void QueryByPostcodeAndAddress()
         {
             var helpRequests = _fixture.CreateMany<ResidentSupportAnnex>().ToList();
-            helpRequests.Last().Postcode = "return-me";
+            helpRequests.Last().Postcode = "E8 1JJ";
             helpRequests.Last().AddressFirstLine = "This is my house";
 
-            helpRequests.First().Postcode = "return-me";
+            helpRequests.First().Postcode = "E8 1JJ";
             helpRequests.First().AddressFirstLine = "This isn't my house";
             DbContext.ResidentSupportAnnex.AddRange(helpRequests);
             DbContext.SaveChanges();
 
             var request = new APIGatewayProxyRequest
             {
-                QueryStringParameters = new Dictionary<string, string> {{"postcode", "return-me"}, {"address", "This is my house"}}
+                QueryStringParameters = new Dictionary<string, string> {{"postcode", "E8 1JJ"}, {"address", "This is my house"}}
             };
             var response = _handler.GetHelpRequests(request, null);
 
