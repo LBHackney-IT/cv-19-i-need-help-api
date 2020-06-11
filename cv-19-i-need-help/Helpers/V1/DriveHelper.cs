@@ -19,7 +19,7 @@ namespace CV19INeedHelp.Helpers.V1
     {
         private readonly string _applicationName;
         private readonly string _uploadFolder;
-        private static string[] _scopes = { SheetsService.Scope.Drive, SheetsService.Scope.Spreadsheets, SheetsService.Scope.DriveFile };
+        private static readonly string[] Scopes = { SheetsService.Scope.Drive, SheetsService.Scope.Spreadsheets, SheetsService.Scope.DriveFile };
         private readonly string _authToken;
 
         public DriveHelper()
@@ -32,14 +32,14 @@ namespace CV19INeedHelp.Helpers.V1
         public string CreateSpreadsheet(string name)
         {
             LambdaLogger.Log("Set up credentials");
-            var _credential = GoogleCredential.FromStream(new MemoryStream(Encoding.UTF8.GetBytes( _authToken ))).CreateScoped(_scopes);
+            var credential = GoogleCredential.FromStream(new MemoryStream(Encoding.UTF8.GetBytes( _authToken ))).CreateScoped(Scopes);
             LambdaLogger.Log("Creating spreadsheet");
             // Create Google Drive API service.
             try
             {
                 var driveService = new DriveService(new BaseClientService.Initializer()
                 {
-                    HttpClientInitializer = _credential,
+                    HttpClientInitializer = credential,
                     ApplicationName = _applicationName,
                 });
                 LambdaLogger.Log("Setting up template");
@@ -52,8 +52,7 @@ namespace CV19INeedHelp.Helpers.V1
                         _uploadFolder
                     }
                 };
-                FilesResource.CreateRequest request;
-                request = driveService.Files.Create(sheetTemplate);
+                var request = driveService.Files.Create(sheetTemplate);
                 request.Fields = "id";
                 request.SupportsAllDrives = true;
                 LambdaLogger.Log("Executing request.");
@@ -68,14 +67,41 @@ namespace CV19INeedHelp.Helpers.V1
             }
             return null;
         }
+        
+        public void DeleteSpreadsheet(string spreadsheet)
+        {
+            LambdaLogger.Log("Set up credentials");
+            var credential = GoogleCredential.FromStream(new MemoryStream(Encoding.UTF8.GetBytes( _authToken ))).CreateScoped(Scopes);
+            LambdaLogger.Log("Creating spreadsheet");
+            // Create Google Drive API service.
+            try
+            {
+                var driveService = new DriveService(new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = _applicationName,
+                });
+                var request = driveService.Files.Delete(spreadsheet);
+                request.SupportsAllDrives = true;
+                LambdaLogger.Log("Executing request.");
+                var file = request.Execute();
+                LambdaLogger.Log($"Spreadsheet {spreadsheet} deleted.");
+            }
+            catch (Exception e)
+            {
+                LambdaLogger.Log(e.Message);
+                LambdaLogger.Log(e.StackTrace);
+                throw;
+            }
+        }
 
         public void PopulateSpreadsheet(string sheetId, List<DeliveryReportItem> data)
         {
-            var _credential = GoogleCredential.FromStream(new MemoryStream(Encoding.UTF8.GetBytes( _authToken ))).CreateScoped(_scopes);
+            var credential = GoogleCredential.FromStream(new MemoryStream(Encoding.UTF8.GetBytes( _authToken ))).CreateScoped(Scopes);
             // Create Google Sheets API service.
             var sheetsService = new SheetsService(new BaseClientService.Initializer()
             {
-                HttpClientInitializer = _credential,
+                HttpClientInitializer = credential,
                 ApplicationName = _applicationName
             });
             var valueRange = new ValueRange();
@@ -87,7 +113,7 @@ namespace CV19INeedHelp.Helpers.V1
                     valueRange.Values.Add( new List<object>
                         {
                             item.AnnexId,
-                            1,
+                            item.NumberOfPackages,
                             item.FullName,
                             item.FullAddress,
                             item.TelephoneNumber + " " + item.MobileNumber,

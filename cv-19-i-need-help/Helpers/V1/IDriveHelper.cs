@@ -8,5 +8,6 @@ namespace CV19INeedHelp.Helpers.V1
     {
         string CreateSpreadsheet(string name);
         void PopulateSpreadsheet(string sheetId, List<DeliveryReportItem> data);
+        void DeleteSpreadsheet(string spreadsheet);
     }
 }
