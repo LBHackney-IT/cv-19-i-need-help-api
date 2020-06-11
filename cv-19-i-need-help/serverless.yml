@@ -125,7 +125,7 @@ functions:
             allowCredentials: false
   generateDeliverySchedule-v1:
     handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::GenerateDeliverySchedule
-    timeout: 45
+    timeout: 25
     package:
       artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
     events:
@@ -167,6 +167,7 @@ functions:
             allowCredentials: false
   deleteDeliveryBatch-v1:
     handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::DeleteDeliveryBatch
+    timeout: 25
     package:
       artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
     events:
