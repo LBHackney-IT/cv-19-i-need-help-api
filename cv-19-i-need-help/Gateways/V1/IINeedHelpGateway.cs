@@ -19,5 +19,7 @@ namespace CV19INeedHelp.Gateways.V1
         List<ResidentSupportAnnex> CreateTemporaryDeliveryData(int limit);
         void UpdateAnnexWithDeliveryDates(List<DeliveryReportItem> data);
         DeliveryBatch FindExistingBatchForDate(DateTime deliveryDay);
+        void DeleteBatch(int id);
+        void RevertAnnexDeliveryDates(List<DeliveryReportItem> data);
     }
 }
