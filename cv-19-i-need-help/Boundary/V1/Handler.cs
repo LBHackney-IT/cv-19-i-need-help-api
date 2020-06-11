@@ -336,7 +336,8 @@ namespace CV19INeedHelp.Boundary.V1
         public Response DeleteDeliveryBatch(APIGatewayProxyRequest request, ILambdaContext context)
         {
             var deleteBatchGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
-            var deleteBatchObject = new DeliveryScheduleUseCase(deleteBatchGateway, null);
+            var driveHelper = new DriveHelper();
+            var deleteBatchObject = new DeliveryScheduleUseCase(deleteBatchGateway, driveHelper);
             var request_params = request.PathParameters;
             var batch_id = Int32.Parse(request_params["id"]);
             try
