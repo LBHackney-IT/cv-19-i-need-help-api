@@ -262,17 +262,16 @@ namespace CV19INeedHelp.Gateways.V1
         public void DeleteBatch(int id)
         {
             var batchRecord = _dbContext.DeliveryBatch.Find(id);
-            if (batchRecord != null)
-            {
-                var data = _dbContext.DeliveryReportData.Where(x => x.BatchId == batchRecord.Id);
-                _dbContext.DeliveryReportData.RemoveRange(data);
-                _dbContext.SaveChanges();
-                _dbContext.DeliveryBatch.Remove(batchRecord);
-                _dbContext.SaveChanges();
-            }
+            if (batchRecord == null) return;
+            var data = _dbContext.DeliveryReportData.Where(x => x.BatchId == batchRecord.Id);
+            RevertAnnexDeliveryDates(data.ToList());
+            _dbContext.DeliveryReportData.RemoveRange(data);
+            _dbContext.SaveChanges();
+            _dbContext.DeliveryBatch.Remove(batchRecord);
+            _dbContext.SaveChanges();
         }
 
-        public void RevertAnnexDeliveryDates(List<DeliveryReportItem> data)
+        private void RevertAnnexDeliveryDates(List<DeliveryReportItem> data)
         {
             foreach (var item in data)
             {
