@@ -1,12 +1,10 @@
 using System;
-using System.Linq;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
+using CV19INeedHelp.Boundary.Exceptions;
 using CV19INeedHelp.Boundary.V2.Responses;
 using CV19INeedHelp.Data.V1;
-using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Helpers.V2;
-using CV19INeedHelp.UseCases.V1;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
