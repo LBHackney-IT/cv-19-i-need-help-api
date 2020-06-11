@@ -24,17 +24,6 @@ namespace CV19INeedHelp.UseCases.V1
             {
                 UtilityHelper helper = new UtilityHelper();
                 var deliveryDay = helper.GetNextWorkingDay();
-                var alreadyGenerated = _iFoodDeliveriesGateway.FindExistingBatchForDate(deliveryDay);
-                if (alreadyGenerated != null)
-                {
-                    return new DeliveryBatchResponse()
-                    {
-                        DeliveryDate = alreadyGenerated.DeliveryDate,
-                        DeliveryPackages = alreadyGenerated.DeliveryPackages,
-                        Id = alreadyGenerated.Id,
-                        ReportFileId = alreadyGenerated.ReportFileId
-                    };
-                }
                 var spreadsheet =
                     _driveHelper.CreateSpreadsheet($"Delivery Report - {deliveryDay:dd-MM-yyyy}");
                 var data = _iFoodDeliveriesGateway.CreateDeliverySchedule(limit, spreadsheet);
@@ -49,9 +38,36 @@ namespace CV19INeedHelp.UseCases.V1
                     ReportFileId = "https://docs.google.com/spreadsheets/d/" + spreadsheet
                 };
             }
-
             var getHelpRequests = _iFoodDeliveriesGateway.CreateTemporaryDeliveryData(limit).ToList();
             return _formatHelper.FormatDraftOutput(getHelpRequests);
+        }
+
+        public DeliveryBatchResponse GetDeliveryBatch()
+        {
+            UtilityHelper helper = new UtilityHelper();
+            var deliveryDay = helper.GetNextWorkingDay();
+            var alreadyGenerated = _iFoodDeliveriesGateway.FindExistingBatchForDate(deliveryDay);
+            if (alreadyGenerated != null)
+            {
+                return new DeliveryBatchResponse()
+                {
+                    DeliveryDate = alreadyGenerated.DeliveryDate,
+                    DeliveryPackages = alreadyGenerated.DeliveryPackages,
+                    Id = alreadyGenerated.Id,
+                    ReportFileId = alreadyGenerated.ReportFileId
+                };
+            }
+            return null;
+        }
+
+        public void DeleteDeliveryBatch(int id)
+        {
+            var batch = _iFoodDeliveriesGateway.GetBatchById(id);
+            if (batch != null)
+            {
+                _driveHelper.DeleteSpreadsheet(batch.ReportFileId);
+                _iFoodDeliveriesGateway.DeleteBatch(id);
+            }
         }
     }
 }
