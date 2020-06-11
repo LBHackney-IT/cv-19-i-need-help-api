@@ -147,6 +147,42 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
+  getDeliveryBatch-v1:
+    handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::GetDeliveryBatch
+    package:
+      artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
+    events:
+      - http:
+          path: delivery-batch
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+  deleteDeliveryBatch-v1:
+    handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::DeleteDeliveryBatch
+    package:
+      artifact: bin/release/netcoreapp2.1/cv-19-i-need-help.zip
+    events:
+      - http:
+          path: delivery-batch/{id}
+          method: delete
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
   getFoodDeliveryRequestsForForm-v1:
     handler: CsharpHandlers::CV19INeedHelp.Boundary.V1.Handler::GetFoodDeliveriesRequestForForm
     package:
