@@ -1,8 +1,10 @@
 using System.Linq;
+using Amazon.Lambda.Core;
 using CV19INeedHelp.Boundary.V1.Responses;
 using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Helpers.V1;
 using CV19INeedHelp.Models.V1;
+using Newtonsoft.Json;
 
 namespace CV19INeedHelp.UseCases.V1
 {
@@ -65,8 +67,11 @@ namespace CV19INeedHelp.UseCases.V1
             var batch = _iFoodDeliveriesGateway.GetBatchById(id);
             if (batch != null)
             {
+                LambdaLogger.Log($"Executing delete spreadsheet method for {batch.ReportFileId}.");
                 _driveHelper.DeleteSpreadsheet(batch.ReportFileId);
-                _iFoodDeliveriesGateway.DeleteBatch(id);
+                LambdaLogger.Log($"Executing delete batch method for batch {batch.Id}.");
+                _iFoodDeliveriesGateway.DeleteBatch(batch.Id);
+                LambdaLogger.Log($"Batch deletion completed.");
             }
         }
     }
