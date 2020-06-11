@@ -1,12 +1,10 @@
 using System;
-using System.Linq;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
+using CV19INeedHelp.Boundary.Exceptions;
 using CV19INeedHelp.Boundary.V2.Responses;
 using CV19INeedHelp.Data.V1;
-using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Helpers.V2;
-using CV19INeedHelp.UseCases.V1;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -23,26 +21,24 @@ namespace CV19INeedHelp.Boundary.V2
 
         public APIGatewayProxyResponse GetHelpRequests(APIGatewayProxyRequest request, ILambdaContext context)
         {
-            var getRequestGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
-            var getRequestsUseCase = new GetHelpRequestsUseCase(getRequestGateway);
-            var requestParams = request.QueryStringParameters;
-            var master = QueryValueGiven("master", request) && bool.TryParse(requestParams["master"], out var v)
+            var getRequestGateway = new CV19INeedHelp.Gateways.V2.INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
+            var getRequestsUseCase = new CV19INeedHelp.UseCases.V2.GetHelpRequestsUseCase(getRequestGateway);
+
+            var master = QueryValueGiven("master", request) && bool.TryParse(request.QueryStringParameters["master"], out var v)
                 ? SetValue(v, "master")
                 : ValueNotSet<bool>("master");
-
-            var uprn = QueryValueGiven("uprn", request)
-                ? SetValue(requestParams["uprn"], "uprn")
-                : ValueNotSet<string>("uprn");
-
-            var postcode = QueryValueGiven("postcode", request)
-                ? SetValue(requestParams["postcode"], "postcode")
-                : ValueNotSet<string>("postcode");
+            var uprn = GetQueryParameter("uprn", request);
+            var postcode = GetQueryParameter("postcode", request);
+            var address = GetQueryParameter("address", request);
+            var firstName = GetQueryParameter("first_name", request);
+            var lastName = GetQueryParameter("last_name", request);
 
             try
             {
                 var requests = new ResidentSupportAnnexResponseList
                 {
-                    HelpRequests = getRequestsUseCase.GetHelpRequests(uprn, postcode, master).ToResponse(),
+                    HelpRequests = getRequestsUseCase
+                        .GetHelpRequests(uprn, postcode, address, firstName, lastName, master).ToResponse(),
                 };
                 var resp = ConvertToCamelCasedJson(requests);
                 LambdaLogger.Log("Records retrieval success: " + resp);
@@ -54,16 +50,43 @@ namespace CV19INeedHelp.Boundary.V2
                     Body = resp
                 };
             }
+            catch (InvalidQueryParameter e)
+            {
+                return new APIGatewayProxyResponse
+                {
+                    IsBase64Encoded = true,
+                    StatusCode = 400,
+                    Body = "Error processing request: " + e.Message
+                };
+            }
             catch (Exception e)
             {
-                return SendErrorResponse(e);
+                return SendServerErrorResponse(e);
             }
+        }
+
+        private static APIGatewayProxyResponse SendServerErrorResponse(Exception e)
+        {
+            LambdaLogger.Log("Error: " + e.Message);
+            return new APIGatewayProxyResponse
+            {
+                IsBase64Encoded = true,
+                StatusCode = 500,
+                Body = "Error processing request: " + ". Error Details: " + e.Message + e.StackTrace
+            };
+        }
+
+        private static string GetQueryParameter(string keyName, APIGatewayProxyRequest request)
+        {
+            return QueryValueGiven(keyName, request)
+                ? SetValue(request.QueryStringParameters[keyName], keyName)
+                : ValueNotSet<string>(keyName);
         }
 
         public APIGatewayProxyResponse GetHelpRequest(APIGatewayProxyRequest request, ILambdaContext context)
         {
-            var getRequestGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
-            var getRequestUseCase = new GetHelpRequestUseCase(getRequestGateway);
+            var getRequestGateway = new CV19INeedHelp.Gateways.V1.INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
+            var getRequestUseCase = new CV19INeedHelp.UseCases.V1.GetHelpRequestUseCase(getRequestGateway);
             var requestParams = request.PathParameters;
 
             var requestedId = Convert.ToInt32(requestParams["id"]);

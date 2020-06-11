@@ -115,7 +115,6 @@ namespace CV19INeedHelpTest.EndToEndTests.V2
                 .Excluding(r => r.LastConfirmedFoodDelivery));
             received.IsDuplicate.Should().BeEquivalentTo("FALSE");
             received.RecordStatus.Should().BeEquivalentTo("MASTER");
-            Console.WriteLine(received);
             received.LastConfirmedFoodDelivery.Substring(0, 10).Should()
                 .Be(expected.LastConfirmedFoodDelivery.Substring(0, 10));
         }
