@@ -325,10 +325,12 @@ namespace CV19INeedHelp.Boundary.V1
             catch(Exception e)
             {
                 LambdaLogger.Log("Error: " + e.Message);
-                var response = new Response();
-                response.isBase64Encoded = true;
-                response.statusCode = "500";
-                response.body = "Error processing request: " + ". Error Details: " + e.Message + e.StackTrace;
+                var response = new Response
+                {
+                    isBase64Encoded = true,
+                    statusCode = "500",
+                    body = "Error processing request: " + ". Error Details: " + e.Message + e.StackTrace
+                };
                 return response;
             }
         }
@@ -338,11 +340,23 @@ namespace CV19INeedHelp.Boundary.V1
             var deleteBatchGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
             var driveHelper = new DriveHelper();
             var deleteBatchObject = new DeliveryScheduleUseCase(deleteBatchGateway, driveHelper);
-            var request_params = request.PathParameters;
-            var batch_id = Int32.Parse(request_params["id"]);
+            var requestParams = request.PathParameters;
+            int batchId;
             try
             {
-                deleteBatchObject.DeleteDeliveryBatch(batch_id);
+                batchId = Int32.Parse(requestParams["id"]);
+            }
+            catch
+            {
+                var response = new Response();
+                response.isBase64Encoded = true;
+                LambdaLogger.Log("No batch id specified.");
+                response.statusCode = "400";
+                return response;
+            }
+            try
+            {
+                deleteBatchObject.DeleteDeliveryBatch(batchId);
                 var response = new Response();
                 response.isBase64Encoded = true;
                 LambdaLogger.Log("Batch successfully deleted.");
