@@ -21,5 +21,6 @@ namespace CV19INeedHelp.Gateways.V1
         DeliveryBatch FindExistingBatchForDate(DateTime deliveryDay);
         void DeleteBatch(int id);
         void RevertAnnexDeliveryDates(List<DeliveryReportItem> data);
+        DeliveryBatch GetBatchById(int id);
     }
 }

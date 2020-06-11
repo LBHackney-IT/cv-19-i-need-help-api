@@ -271,7 +271,7 @@ namespace CV19INeedHelp.Gateways.V1
                 _dbContext.SaveChanges();
             }
         }
-        
+
         public void RevertAnnexDeliveryDates(List<DeliveryReportItem> data)
         {
             foreach (var item in data)
@@ -287,6 +287,12 @@ namespace CV19INeedHelp.Gateways.V1
             LambdaLogger.Log($"Searching for an existing delivery batch with date {deliveryDay.Date}");
             var batchSearch = _dbContext.DeliveryBatch.FirstOrDefault(x => x.DeliveryDate == deliveryDay.Date);
             return batchSearch;
+        }
+        
+        public DeliveryBatch GetBatchById(int id)
+        {
+            var batchRecord = _dbContext.DeliveryBatch.Find(id);
+            return batchRecord;
         }
 
         private List<ResidentSupportAnnex> GetData(int limit)
