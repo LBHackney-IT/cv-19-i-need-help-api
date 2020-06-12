@@ -17,7 +17,7 @@ namespace CV19INeedHelp.Boundary.V1.Responses
                 Id = Id,
                 DeliveryDate = DeliveryDate,
                 DeliveryPackages = DeliveryPackages,
-                ReportFileId = ReportFileId
+                ReportFileId = "https://docs.google.com/spreadsheets/d/" + ReportFileId
             };
         }
     }
