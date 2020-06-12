@@ -40,7 +40,7 @@ namespace CV19INeedHelpTest.Gateways.V1
         }
 
         [Test]
-        public void WhenCreatingADeliveryBatchReturnAListOfDeliveriesMeetingRequiredCriteria()
+        public void WhenCreatingADeliveryScheduleReturnAListOfDeliveriesMeetingRequiredCriteria()
         {
             var annexRecord = _fixture.Create<ResidentSupportAnnex>();
             //annex record should not have a confirmed delivery
