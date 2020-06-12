@@ -12,13 +12,19 @@ namespace CV19INeedHelpTest.Models.V1
         public void ResidentSupportAnnexPatchShouldHaveCorrectProperties()
         {
             Type type = typeof(ResidentSupportAnnexPatch);
-            type.GetProperties().Length.Should().Be(14);
+            type.GetProperties().Length.Should().Be(20);
             ResidentSupportAnnexPatch _classUnderTest = new ResidentSupportAnnexPatch
             {
                 IsDuplicate = "FALSE",
                 FirstName = "Test",
                 LastName = "Test",
                 OngoingFoodNeed = true,
+                Postcode = "test",
+                Uprn = "test",
+                AddressFirstLine = "test",
+                AddressSecondLine = "test",
+                AddressThirdLine = "test",
+                EmailAddress = "test",
                 DobDay = "01",
                 DobMonth = "02",
                 DobYear = "1992",
@@ -44,6 +50,12 @@ namespace CV19INeedHelpTest.Models.V1
             Assert.That(_classUnderTest, Has.Property("RecordStatus").InstanceOf(typeof(string)));
             Assert.That(_classUnderTest, Has.Property("DeliveryNotes").InstanceOf(typeof(string)));
             Assert.That(_classUnderTest, Has.Property("CaseNotes").InstanceOf(typeof(string)));
+            Assert.That(_classUnderTest, Has.Property("Postcode").InstanceOf(typeof(string)));
+            Assert.That(_classUnderTest, Has.Property("Uprn").InstanceOf(typeof(string)));
+            Assert.That(_classUnderTest, Has.Property("AddressFirstLine").InstanceOf(typeof(string)));
+            Assert.That(_classUnderTest, Has.Property("AddressSecondLine").InstanceOf(typeof(string)));
+            Assert.That(_classUnderTest, Has.Property("AddressThirdLine").InstanceOf(typeof(string)));
+            Assert.That(_classUnderTest, Has.Property("EmailAddress").InstanceOf(typeof(string)));
         }
     }
 }

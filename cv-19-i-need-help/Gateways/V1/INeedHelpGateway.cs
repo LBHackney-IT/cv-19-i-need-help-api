@@ -146,6 +146,30 @@ namespace CV19INeedHelp.Gateways.V1
             {
                 rec.NumberOfPeopleInHouse = dataItems.NumberOfPeopleInHouse;
             }
+            if (dataItems.Postcode != null)
+            {
+                rec.Postcode = dataItems.Postcode;
+            }
+            if (dataItems.Uprn != null)
+            {
+                rec.Uprn = dataItems.Uprn;
+            }
+            if (dataItems.AddressFirstLine != null)
+            {
+                rec.AddressFirstLine = dataItems.AddressFirstLine;
+            }
+            if (dataItems.AddressSecondLine != null)
+            {
+                rec.AddressSecondLine = dataItems.AddressSecondLine;
+            }
+            if (dataItems.AddressThirdLine != null)
+            {
+                rec.AddressThirdLine = dataItems.AddressThirdLine;
+            }
+            if (dataItems.EmailAddress != null)
+            {
+                rec.EmailAddress = dataItems.EmailAddress;
+            }
             if (dataItems.LastConfirmedFoodDelivery != null)
             {
                 rec.LastConfirmedFoodDelivery = dataItems.LastConfirmedFoodDelivery;
