@@ -1,4 +1,5 @@
 using System;
+using AutoFixture;
 using CV19INeedHelp.Data.V1;
 using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Models.V1;
@@ -10,24 +11,39 @@ namespace CV19INeedHelpTest.Gateways.V1
     [TestFixture]
     public class INeedHelpGatewayTest
     {
-        [TestCase]
-        public void InsertMethodShouldNotBeCalledWithoutParameter()
+        private INeedHelpGateway _classUnderTest;
+        private readonly Fixture _fixture = new Fixture();
+        private Cv19SupportDbContext _context;
+        private string _connectionString;
+        
+        [SetUp]
+        public void SetUp()
         {
-//            string connectionString = string.Empty;
-//            var data = new OrganisationsNeedingVolunteers() ;
-//            IOrganisationVolunteerGateway classUnderTest = new OrganisationVolunteerGateway(connectionString);
-//            var resp = classUnderTest.Insert(data);
-//            Assert.AreEqual(1,resp);
+            _connectionString = Environment.GetEnvironmentVariable("CV_19_DB_CONNECTION");
+            const string connectionString = "Host=localhost;Database=i-need-help-test;Username=postgres;Password=mypassword";
+            _context= new Cv19SupportDbContext(_connectionString ?? connectionString);
+            ClearResidentSupportAnnexTable();
+            if (_connectionString == null) Environment.SetEnvironmentVariable("CV_19_DB_CONNECTION", connectionString);
+            _classUnderTest = new INeedHelpGateway(_context);
         }
         
-        public void WhenCreatingAResidentRequestGivenValidParametersReturnAValidObject()
+        [TearDown]
+        public void ResetDb()
         {
-            //Arrange
-            string _connectionString = "blah";
-            var fakeDbContext = new Mock<Cv19SupportDbContext>(_connectionString);
+            Environment.SetEnvironmentVariable("CV_19_DB_CONNECTION", _connectionString);
+            ClearResidentSupportAnnexTable();
+        }
 
-            IINeedHelpGateway classUnderTest = new INeedHelpGateway(fakeDbContext.Object);
-
+        public void WhenCreatingADeliveryBatchReturnAValidObject()
+        {
+            
+        }
+        
+        private void ClearResidentSupportAnnexTable()
+        {
+            var addedEntities = _context.ResidentSupportAnnex;
+            _context.ResidentSupportAnnex.RemoveRange(addedEntities);
+            _context.SaveChanges();
         }
     }
 }
