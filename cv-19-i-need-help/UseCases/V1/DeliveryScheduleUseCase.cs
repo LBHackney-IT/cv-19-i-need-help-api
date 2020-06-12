@@ -56,7 +56,7 @@ namespace CV19INeedHelp.UseCases.V1
                     DeliveryDate = alreadyGenerated.DeliveryDate,
                     DeliveryPackages = alreadyGenerated.DeliveryPackages,
                     Id = alreadyGenerated.Id,
-                    ReportFileId = alreadyGenerated.ReportFileId
+                    ReportFileId = "https://docs.google.com/spreadsheets/d/"+alreadyGenerated.ReportFileId
                 };
             }
             return null;
