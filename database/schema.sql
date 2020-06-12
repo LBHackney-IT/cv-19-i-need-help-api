@@ -90,13 +90,13 @@ CREATE SEQUENCE public.delivery_report_data_id_seq
     CACHE 1;
 
 --
--- Name: delivery_batch id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: delivery_report_data id; Type: DEFAULT; Schema: public; Owner: postgres
 --
     
 ALTER TABLE public.delivery_report_data_id_seq OWNER TO postgres;
 
 --
--- Name: delivery_batch id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: delivery_report_data id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.delivery_report_data_id_seq OWNED BY public.delivery_report_data.id;
@@ -105,7 +105,7 @@ ALTER SEQUENCE public.delivery_report_data_id_seq OWNED BY public.delivery_repor
 -- Name: delivery_report_data id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.delivery_batch ALTER COLUMN id SET DEFAULT nextval('public.delivery_report_data_id_seq'::regclass);
+ALTER TABLE ONLY public.delivery_report_data ALTER COLUMN id SET DEFAULT nextval('public.delivery_report_data_id_seq'::regclass);
 
 -----
 
