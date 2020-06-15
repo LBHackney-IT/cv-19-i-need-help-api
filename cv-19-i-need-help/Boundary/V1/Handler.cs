@@ -406,7 +406,6 @@ namespace CV19INeedHelp.Boundary.V1
       public string statusCode { get; set; }
       public string headers { get; set; }
       public string body { get; set; }
-
       public Response()
       {
       }
