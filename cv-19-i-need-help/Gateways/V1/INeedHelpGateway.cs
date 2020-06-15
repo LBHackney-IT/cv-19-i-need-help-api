@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Amazon.Lambda.Core;
+using CV19INeedHelp.Boundary.V1.Responses;
 using CV19INeedHelp.Models.V1;
 using CV19INeedHelp.Data.V1;
 using CV19INeedHelp.Helpers.V1;
@@ -316,6 +317,18 @@ namespace CV19INeedHelp.Gateways.V1
         {
             var batchRecord = _dbContext.DeliveryBatch.Find(id);
             return batchRecord;
+        }
+
+        public AnnexSummaryResponse GetHelpRequestsSummary()
+        {
+            var res = _dbContext.ResidentSupportAnnex
+                .Count(x => x.IsDuplicate.ToUpper() == "FALSE"
+                            && x.RecordStatus.ToUpper() == "MASTER"
+                            && x.OngoingFoodNeed == true);
+            return new AnnexSummaryResponse
+            {
+                ActiveCases = res
+            };
         }
 
         private List<ResidentSupportAnnex> GetData(int limit)
