@@ -337,7 +337,7 @@ namespace CV19INeedHelp.Boundary.V1
                 if (resp == null)
                 {
                     LambdaLogger.Log("No batch available for date specified.");
-                    response.statusCode = "404";
+                    response.statusCode = "200";
                 }
                 else
                 {
