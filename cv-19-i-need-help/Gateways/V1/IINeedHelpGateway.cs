@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CV19INeedHelp.Boundary.V1.Responses;
 using CV19INeedHelp.Models;
 using CV19INeedHelp.Models.V1;
 namespace CV19INeedHelp.Gateways.V1
@@ -21,5 +22,6 @@ namespace CV19INeedHelp.Gateways.V1
         DeliveryBatch FindExistingBatchForDate(DateTime deliveryDay);
         void DeleteBatch(int id);
         DeliveryBatch GetBatchById(int id);
+        AnnexSummaryResponse GetHelpRequestsSummary();
     }
 }

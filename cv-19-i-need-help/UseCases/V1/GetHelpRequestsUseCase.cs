@@ -4,6 +4,7 @@ using System.Linq;
 using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Models.V1;
 using Amazon.Lambda.Core;
+using CV19INeedHelp.Boundary.V1.Responses;
 using Newtonsoft.Json;
 using Npgsql;
 
@@ -26,6 +27,11 @@ namespace CV19INeedHelp.UseCases.V1
         public List<ResidentSupportAnnex> GetHelpRequestExceptions()
         {
             return _iNeedHelpGateway.GetRequestExceptions();
+        }
+
+        public AnnexSummaryResponse GetHelpRequestsSummary()
+        {
+            return _iNeedHelpGateway.GetHelpRequestsSummary();
         }
     }
 }

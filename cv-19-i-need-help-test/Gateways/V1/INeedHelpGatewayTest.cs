@@ -91,6 +91,28 @@ namespace CV19INeedHelpTest.Gateways.V1
             response.Should().BeNull();
         }
 
+        [Test]
+        public void WhenSummaryMethodIsCalledItReturnsActiveCases()
+        {
+            var rec1 = _fixture.Create <ResidentSupportAnnex>();
+            rec1.OngoingFoodNeed = true;
+            rec1.IsDuplicate = "FALSE";
+            rec1.RecordStatus = "MASTER";
+            InsertIntoResidentSupportAnnexTable(rec1);
+            var rec2 = _fixture.Create <ResidentSupportAnnex>();
+            rec2.OngoingFoodNeed = true;
+            rec2.IsDuplicate = "FALSE";
+            rec2.RecordStatus = "MASTER";
+            InsertIntoResidentSupportAnnexTable(rec2);
+            var rec3 = _fixture.Create <ResidentSupportAnnex>();
+            rec3.OngoingFoodNeed = false;
+            rec3.IsDuplicate = "TRUE";
+            rec3.RecordStatus = "DUPLICATE";
+            InsertIntoResidentSupportAnnexTable(rec3);
+            var response = _classUnderTest.GetHelpRequestsSummary();
+            response.ActiveCases.Should().Be(2);
+        }
+
         private void ClearResidentSupportAnnexTable()
         {
             var addedEntities = _context.ResidentSupportAnnex;

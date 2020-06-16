@@ -78,6 +78,31 @@ namespace CV19INeedHelp.Boundary.V1
                return response;
            }
        }
+
+       public Response GetHelpRequestsSummary(APIGatewayProxyRequest request, ILambdaContext context)
+       {
+           var getRequestGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
+           var getRequestObject = new GetHelpRequestsUseCase(getRequestGateway);
+           try
+           {
+               var resp = getRequestObject.GetHelpRequestsSummary();
+               LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
+               var response = new Response();
+               response.isBase64Encoded = true;
+               response.statusCode = "200";
+               response.body = JsonConvert.SerializeObject(resp);
+               return response;
+           }
+           catch(Exception e)
+           {
+               LambdaLogger.Log("Error: " + e.Message);
+               var response = new Response();
+               response.isBase64Encoded = true;
+               response.statusCode = "500";
+               response.body = "Error processing request: " + ". Error Details: " + e.Message + e.StackTrace;
+               return response;
+           }
+       }
        
        public Response GetHelpRequestExceptions(APIGatewayProxyRequest request, ILambdaContext context)
        {
@@ -312,7 +337,7 @@ namespace CV19INeedHelp.Boundary.V1
                 if (resp == null)
                 {
                     LambdaLogger.Log("No batch available for date specified.");
-                    response.statusCode = "404";
+                    response.statusCode = "200";
                 }
                 else
                 {
@@ -381,7 +406,6 @@ namespace CV19INeedHelp.Boundary.V1
       public string statusCode { get; set; }
       public string headers { get; set; }
       public string body { get; set; }
-
       public Response()
       {
       }
