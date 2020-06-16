@@ -5,6 +5,8 @@ using CV19INeedHelp.UseCases.V1;
 using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Models;
 using CV19INeedHelp.Models.V1;
+using AutoFixture;
+using CV19INeedHelp.Boundary.V1.Responses;
 using FluentAssertions;
 using NUnit.Framework;
 using Moq;
@@ -16,6 +18,7 @@ namespace CV19INeedHelpTest.UseCases.V1
     {
         private readonly IGetHelpRequestsUseCase _classUnderTest;
         private readonly Mock<IINeedHelpGateway> _fakeGateway;
+        private readonly Fixture _fixture = new Fixture();
         private readonly List<ResidentSupportAnnex> _responseData = new List<ResidentSupportAnnex>()
             {
                 new ResidentSupportAnnex()
@@ -95,6 +98,15 @@ namespace CV19INeedHelpTest.UseCases.V1
             var response = _classUnderTest.GetHelpRequests(uprn, postcode, isMaster);
 
             response.Should().BeEquivalentTo(_responseData);
+        }
+
+        [Test]
+        public void GetsSummaryDataWhenRequested()
+        {
+            var summaryResponse = _fixture.Create <AnnexSummaryResponse>();
+            _fakeGateway.Setup(x => x.GetHelpRequestsSummary()).Returns(summaryResponse);
+            var response = _classUnderTest.GetHelpRequestsSummary();
+            response.ActiveCases.Should().Be(summaryResponse.ActiveCases);
         }
     }
 }
