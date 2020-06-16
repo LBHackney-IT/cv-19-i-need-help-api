@@ -52,7 +52,45 @@ namespace CV19INeedHelpTest.Gateways.V1
             response.Count.Should().Be(1);
             response.First().AnnexId.Should().Be(annexRecord.Id);
         }
+
+        [Test]
+        public void WhenSuppliedADateReturnsTheFirstRecordWithThatDate()
+        {
+            var batch = _fixture.Create<DeliveryBatch>();
+            batch.DeliveryDate = DateTime.Now.AddDays(1);
+            InsertIntoDeliveryBatchTable(batch);
+            var response = _classUnderTest.FindExistingBatchForDate(DateTime.Now.AddDays(1));
+            response.Should().BeEquivalentTo(batch);
+        }
         
+        [Test]
+        public void WhenSuppliedADateNotRecordedReturnsNull()
+        {
+            var batch = _fixture.Create<DeliveryBatch>();
+            batch.DeliveryDate = DateTime.Now.AddDays(1);
+            InsertIntoDeliveryBatchTable(batch);
+            var response = _classUnderTest.FindExistingBatchForDate(DateTime.Now);
+            response.Should().BeNull();
+        }
+
+        [Test]
+        public void WhenIdOfExistingBatchRecordIsSuppliedReturnsWithBatchRecord()
+        {
+            var batch = _fixture.Create<DeliveryBatch>();
+            InsertIntoDeliveryBatchTable(batch);
+            var response = _classUnderTest.GetBatchById(batch.Id);
+            response.Should().BeEquivalentTo(batch);
+        }
+        
+        [Test]
+        public void WhenIdIsSuppliedThatDoesNotExistReturnsWithNull()
+        {
+            var batch = _fixture.Create<DeliveryBatch>();
+            InsertIntoDeliveryBatchTable(batch);
+            var response = _classUnderTest.GetBatchById(batch.Id+10);
+            response.Should().BeNull();
+        }
+
         private void ClearResidentSupportAnnexTable()
         {
             var addedEntities = _context.ResidentSupportAnnex;
@@ -77,6 +115,12 @@ namespace CV19INeedHelpTest.Gateways.V1
         private void InsertIntoResidentSupportAnnexTable(ResidentSupportAnnex request)
         {
             _context.ResidentSupportAnnex.Add(request);
+            _context.SaveChanges();
+        }
+        
+        private void InsertIntoDeliveryBatchTable(DeliveryBatch batchRecord)
+        {
+            _context.DeliveryBatch.Add(batchRecord);
             _context.SaveChanges();
         }
     }
