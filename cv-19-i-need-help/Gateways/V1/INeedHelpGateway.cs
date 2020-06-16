@@ -249,6 +249,51 @@ namespace CV19INeedHelp.Gateways.V1
             return GetData(limit);
         }
 
+        public void UpdateAnnexWithDeliveryDates(List<DeliveryReportItem> data)
+        {
+            foreach (var item in data)
+            {
+                var annexRecord = _dbContext.ResidentSupportAnnex.Find(item.AnnexId);
+                annexRecord.LastConfirmedFoodDelivery = item.DeliveryDate;
+            }
+            _dbContext.SaveChanges();
+        }
+
+        public void DeleteBatch(int id)
+        {
+            var batchRecord = _dbContext.DeliveryBatch.Find(id);
+            if (batchRecord == null) return;
+            var data = _dbContext.DeliveryReportData.Where(x => x.BatchId == batchRecord.Id);
+            RevertAnnexDeliveryDates(data.ToList());
+            _dbContext.DeliveryReportData.RemoveRange(data);
+            _dbContext.SaveChanges();
+            _dbContext.DeliveryBatch.Remove(batchRecord);
+            _dbContext.SaveChanges();
+        }
+
+        private void RevertAnnexDeliveryDates(List<DeliveryReportItem> data)
+        {
+            foreach (var item in data)
+            {
+                var annexRecord = _dbContext.ResidentSupportAnnex.Find(item.AnnexId);
+                annexRecord.LastConfirmedFoodDelivery = item.LastConfirmedDeliveryDate;
+            }
+            _dbContext.SaveChanges();
+        }
+
+        public DeliveryBatch FindExistingBatchForDate(DateTime deliveryDay)
+        {
+            LambdaLogger.Log($"Searching for an existing delivery batch with date {deliveryDay.Date}");
+            var batchSearch = _dbContext.DeliveryBatch.FirstOrDefault(x => x.DeliveryDate == deliveryDay.Date);
+            return batchSearch;
+        }
+        
+        public DeliveryBatch GetBatchById(int id)
+        {
+            var batchRecord = _dbContext.DeliveryBatch.Find(id);
+            return batchRecord;
+        }
+
         private List<ResidentSupportAnnex> GetData(int limit)
         {
             var helper = new UtilityHelper();

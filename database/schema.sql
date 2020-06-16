@@ -14,6 +14,102 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: delivery_batch id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.delivery_batch (
+    "id" int4 NOT NULL,
+    "delivery_date" date,
+    "delivery_packages" int4,
+    "report_file_id" varchar,
+    "status" varchar,
+    PRIMARY KEY ("id")
+);
+
+ALTER TABLE public.delivery_batch OWNER TO postgres;
+
+-- Sequence and defined type
+CREATE SEQUENCE public.delivery_batch_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+--
+-- Name: delivery_batch id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+    
+ALTER TABLE public.delivery_batch_id_seq OWNER TO postgres;
+
+--
+-- Name: delivery_batch id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.delivery_batch_id_seq OWNED BY public.delivery_batch.id;
+
+--
+-- Name: delivery_batch id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.delivery_batch ALTER COLUMN id SET DEFAULT nextval('public.delivery_batch_id_seq'::regclass);
+
+-----
+--
+-- Name: delivery_report_data id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.delivery_report_data (
+    "id" int4 NOT NULL,
+    "annex_id" int4,
+    "num_of_packages" int4,
+    "full_name" varchar,
+    "contact_telephone_number" varchar,
+    "contact_mobile_number" varchar,
+    "full_address" varchar,
+    "postcode" varchar,
+    "uprn" varchar,
+    "any_food_household_cannot_eat" varchar,
+    "delivery_notes" text,
+    "delivery_date" date,
+    "last_confirmed_delivery_date" date,
+    "batch_id" int4,
+    PRIMARY KEY ("id")
+);
+
+ALTER TABLE public.delivery_report_data OWNER TO postgres;
+
+-- Sequence and defined type
+CREATE SEQUENCE public.delivery_report_data_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+--
+-- Name: delivery_report_data id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+    
+ALTER TABLE public.delivery_report_data_id_seq OWNER TO postgres;
+
+--
+-- Name: delivery_report_data id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.delivery_report_data_id_seq OWNED BY public.delivery_report_data.id;
+
+--
+-- Name: delivery_report_data id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.delivery_report_data ALTER COLUMN id SET DEFAULT nextval('public.delivery_report_data_id_seq'::regclass);
+
+-----
+
+--
 -- Name: resident_support_annex; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -70,7 +166,6 @@ CREATE TABLE public.resident_support_annex (
     delivery_notes text
 );
 
-
 ALTER TABLE public.resident_support_annex OWNER TO postgres;
 
 --
@@ -84,7 +179,6 @@ CREATE SEQUENCE public.resident_support_annex_id_seq
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
-
 
 ALTER TABLE public.resident_support_annex_id_seq OWNER TO postgres;
 
