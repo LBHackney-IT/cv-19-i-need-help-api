@@ -331,7 +331,6 @@ namespace CV19INeedHelp.Gateways.V1
 
         private List<ResidentSupportAnnex> GetData(int limit, DateTime nextWorkingDay)
         {
-            var helper = new UtilityHelper(this);
             var response = _dbContext.ResidentSupportAnnex
                 .Where(x => x.RecordStatus.ToUpper() == "MASTER"
                             && x.IsDuplicate.ToUpper() == "FALSE"
