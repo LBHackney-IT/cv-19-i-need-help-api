@@ -113,6 +113,11 @@ namespace CV19INeedHelpTest.Gateways.V1
             response.ActiveCases.Should().Be(2);
         }
 
+        public void CanGetNextBankHolidayFromDBIfPresent()
+        {
+            
+        }
+
         private void ClearResidentSupportAnnexTable()
         {
             var addedEntities = _context.ResidentSupportAnnex;
