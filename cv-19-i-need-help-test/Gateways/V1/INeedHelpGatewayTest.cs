@@ -37,6 +37,7 @@ namespace CV19INeedHelpTest.Gateways.V1
             ClearResidentSupportAnnexTable();
             ClearDeliveryBatchTable();
             ClearDeliveryReportDataTable();
+            ClearBankHolidays();
         }
 
         [Test]
@@ -113,9 +114,56 @@ namespace CV19INeedHelpTest.Gateways.V1
             response.ActiveCases.Should().Be(2);
         }
 
+        [Test]
         public void CanGetNextBankHolidayFromDBIfPresent()
         {
-            
+            var holiday1 = _fixture.Create<BankHoliday>();
+            holiday1.Date = DateTime.Today.AddDays(1);
+            InsertIntoBankHolidaysTable(holiday1);
+            var holiday2 = _fixture.Create<BankHoliday>();
+            holiday2.Date = DateTime.Today.AddDays(2);
+            InsertIntoBankHolidaysTable(holiday2);
+            var response = _classUnderTest.GetNextBankHoliday();
+            response.Date.Should().Be(DateTime.Today.AddDays(1));
+        }
+        
+        [Test]
+        public void DoesNotReturnBankHolidayAlreadyGone()
+        {
+            var holiday1 = _fixture.Create<BankHoliday>();
+            holiday1.Date = DateTime.Today.AddDays(1);
+            InsertIntoBankHolidaysTable(holiday1);
+            var holiday2 = _fixture.Create<BankHoliday>();
+            holiday2.Date = DateTime.Today.AddDays(2);
+            InsertIntoBankHolidaysTable(holiday2);
+            var holiday3 = _fixture.Create<BankHoliday>();
+            holiday3.Date = DateTime.Today.AddDays(-1);
+            InsertIntoBankHolidaysTable(holiday3);
+            var response = _classUnderTest.GetNextBankHoliday();
+            response.Date.Should().Be(DateTime.Today.AddDays(1));
+        }
+
+        [Test]
+        public void ReturnsNullIfNoBankHolidayDates()
+        {
+            var response = _classUnderTest.GetNextBankHoliday();
+            response.Should().BeNull();
+        }
+        
+        [Test]
+        public void ReturnsNullIfBankHolidaysAlreadyGone()
+        {
+            var holiday1 = _fixture.Create<BankHoliday>();
+            holiday1.Date = DateTime.Today.AddDays(-1);
+            InsertIntoBankHolidaysTable(holiday1);
+            var holiday2 = _fixture.Create<BankHoliday>();
+            holiday2.Date = DateTime.Today.AddDays(-2);
+            InsertIntoBankHolidaysTable(holiday2);
+            var holiday3 = _fixture.Create<BankHoliday>();
+            holiday3.Date = DateTime.Today.AddDays(-3);
+            InsertIntoBankHolidaysTable(holiday3);
+            var response = _classUnderTest.GetNextBankHoliday();
+            response.Should().BeNull();
         }
 
         private void ClearResidentSupportAnnexTable()
@@ -139,6 +187,13 @@ namespace CV19INeedHelpTest.Gateways.V1
             _context.SaveChanges();
         }
 
+        private void ClearBankHolidays()
+        {
+            var addedEntities = _context.BankHolidays;
+            _context.BankHolidays.RemoveRange(addedEntities);
+            _context.SaveChanges();
+        }
+
         private void InsertIntoResidentSupportAnnexTable(ResidentSupportAnnex request)
         {
             _context.ResidentSupportAnnex.Add(request);
@@ -148,6 +203,12 @@ namespace CV19INeedHelpTest.Gateways.V1
         private void InsertIntoDeliveryBatchTable(DeliveryBatch batchRecord)
         {
             _context.DeliveryBatch.Add(batchRecord);
+            _context.SaveChanges();
+        }
+
+        private void InsertIntoBankHolidaysTable(BankHoliday holiday)
+        {
+            _context.BankHolidays.Add(holiday);
             _context.SaveChanges();
         }
     }

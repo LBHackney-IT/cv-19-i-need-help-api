@@ -396,5 +396,13 @@ namespace CV19INeedHelp.Gateways.V1
             
             return response.OrderBy(x => x.Id).ToList();
         }
+
+        public BankHoliday GetNextBankHoliday()
+        {
+            var response = _dbContext.BankHolidays
+                .OrderBy(x => x.Date)
+                .FirstOrDefault(x => x.Date > DateTime.Today);
+            return response;
+        }
     }
 }
