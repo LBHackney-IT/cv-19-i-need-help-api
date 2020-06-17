@@ -13,11 +13,12 @@ namespace CV19INeedHelp.UseCases.V1
     {
         private readonly IINeedHelpGateway _iFoodDeliveriesGateway;
         private readonly IFormatHelper _formatHelper;
-        private IDriveHelper _driveHelper;
+        private readonly IDriveHelper _driveHelper;
         public DeliveryScheduleUseCase(IINeedHelpGateway iFoodDeliveriesGateway, IDriveHelper driveHelper)
         {
             _iFoodDeliveriesGateway = iFoodDeliveriesGateway;
             _driveHelper = driveHelper;
+            _formatHelper = new FormatHelper();
         }
         
         public object CreateDeliverySchedule(int limit, bool confirmed, DateTime deliveryDay)
