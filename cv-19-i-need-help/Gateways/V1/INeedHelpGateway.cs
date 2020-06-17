@@ -397,11 +397,11 @@ namespace CV19INeedHelp.Gateways.V1
             return response.OrderBy(x => x.Id).ToList();
         }
 
-        public BankHoliday GetNextBankHoliday()
+        public BankHoliday GetNextBankHoliday(DateTime date)
         {
             var response = _dbContext.BankHolidays
                 .OrderBy(x => x.Date)
-                .FirstOrDefault(x => x.Date > DateTime.Today);
+                .FirstOrDefault(x => x.Date > date);
             return response;
         }
     }

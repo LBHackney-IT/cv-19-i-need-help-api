@@ -23,5 +23,6 @@ namespace CV19INeedHelp.Gateways.V1
         void DeleteBatch(int id);
         DeliveryBatch GetBatchById(int id);
         AnnexSummaryResponse GetHelpRequestsSummary();
+        BankHoliday GetNextBankHoliday(DateTime date);
     }
 }

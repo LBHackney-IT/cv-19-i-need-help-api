@@ -123,7 +123,7 @@ namespace CV19INeedHelpTest.Gateways.V1
             var holiday2 = _fixture.Create<BankHoliday>();
             holiday2.Date = DateTime.Today.AddDays(2);
             InsertIntoBankHolidaysTable(holiday2);
-            var response = _classUnderTest.GetNextBankHoliday();
+            var response = _classUnderTest.GetNextBankHoliday(DateTime.Today);
             response.Date.Should().Be(DateTime.Today.AddDays(1));
         }
         
@@ -139,14 +139,14 @@ namespace CV19INeedHelpTest.Gateways.V1
             var holiday3 = _fixture.Create<BankHoliday>();
             holiday3.Date = DateTime.Today.AddDays(-1);
             InsertIntoBankHolidaysTable(holiday3);
-            var response = _classUnderTest.GetNextBankHoliday();
+            var response = _classUnderTest.GetNextBankHoliday(DateTime.Today);
             response.Date.Should().Be(DateTime.Today.AddDays(1));
         }
 
         [Test]
         public void ReturnsNullIfNoBankHolidayDates()
         {
-            var response = _classUnderTest.GetNextBankHoliday();
+            var response = _classUnderTest.GetNextBankHoliday(DateTime.Today);
             response.Should().BeNull();
         }
         
@@ -162,9 +162,11 @@ namespace CV19INeedHelpTest.Gateways.V1
             var holiday3 = _fixture.Create<BankHoliday>();
             holiday3.Date = DateTime.Today.AddDays(-3);
             InsertIntoBankHolidaysTable(holiday3);
-            var response = _classUnderTest.GetNextBankHoliday();
+            var response = _classUnderTest.GetNextBankHoliday(DateTime.Today);
             response.Should().BeNull();
         }
+        
+        
 
         private void ClearResidentSupportAnnexTable()
         {
