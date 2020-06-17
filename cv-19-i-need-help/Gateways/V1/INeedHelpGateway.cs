@@ -230,12 +230,10 @@ namespace CV19INeedHelp.Gateways.V1
                 .ToList();
         }
 
-        public List<DeliveryReportItem> CreateDeliverySchedule(int limit, string spreadsheet)
+        public List<DeliveryReportItem> CreateDeliverySchedule(int limit, string spreadsheet, DateTime deliveryDate)
         {
-            var helper = new UtilityHelper();
-            var deliveryDate = helper.GetNextWorkingDay();
             var deliveryData = new List<DeliveryReportItem>();
-            var data = GetData(limit);
+            var data = GetData(limit, deliveryDate);
             var batch = new DeliveryBatch
             {
                 DeliveryDate = deliveryDate,
@@ -269,9 +267,9 @@ namespace CV19INeedHelp.Gateways.V1
             return deliveryData;
         }
 
-        public List<ResidentSupportAnnex> CreateTemporaryDeliveryData(int limit)
+        public List<ResidentSupportAnnex> CreateTemporaryDeliveryData(int limit, DateTime deliveryDate)
         {
-            return GetData(limit);
+            return GetData(limit, deliveryDate);
         }
 
         public void UpdateAnnexWithDeliveryDates(List<DeliveryReportItem> data)
@@ -331,9 +329,9 @@ namespace CV19INeedHelp.Gateways.V1
             };
         }
 
-        private List<ResidentSupportAnnex> GetData(int limit)
+        private List<ResidentSupportAnnex> GetData(int limit, DateTime nextWorkingDay)
         {
-            var helper = new UtilityHelper();
+            var helper = new UtilityHelper(this);
             var response = _dbContext.ResidentSupportAnnex
                 .Where(x => x.RecordStatus.ToUpper() == "MASTER"
                             && x.IsDuplicate.ToUpper() == "FALSE"
@@ -354,7 +352,7 @@ namespace CV19INeedHelp.Gateways.V1
                 .Where(x => x.RecordStatus.ToUpper() == "MASTER"
                             && x.IsDuplicate.ToUpper() == "FALSE"
                             && x.OngoingFoodNeed == true
-                            && (x.LastConfirmedFoodDelivery <= helper.GetNextWorkingDay().AddDays(-7)))
+                            && (x.LastConfirmedFoodDelivery <= nextWorkingDay.AddDays(-7)))
                 .OrderBy(x => x.Id)
                 .Take(remainingCapacity).ToList();
             response.AddRange(output);
@@ -371,7 +369,7 @@ namespace CV19INeedHelp.Gateways.V1
                 .Where(x => x.RecordStatus.ToUpper() == "MASTER"
                             && x.IsDuplicate.ToUpper() == "FALSE"
                             && x.OngoingFoodNeed == true
-                            && (x.LastConfirmedFoodDelivery > helper.GetNextWorkingDay().AddDays(-7) && x.LastConfirmedFoodDelivery <= helper.GetNextWorkingDay().AddDays(-6)))
+                            && (x.LastConfirmedFoodDelivery > nextWorkingDay.AddDays(-7) && x.LastConfirmedFoodDelivery <= nextWorkingDay.AddDays(-6)))
                 .OrderBy(x => x.Id)
                 .Take(remainingCapacity).ToList();
             LambdaLogger.Log($"Final priority returned {response.Count + output.Count} records against a limit of {limit}.");
@@ -388,7 +386,7 @@ namespace CV19INeedHelp.Gateways.V1
                 .Where(x => x.RecordStatus.ToUpper() == "MASTER"
                             && x.IsDuplicate.ToUpper() == "FALSE"
                             && x.OngoingFoodNeed == true
-                            && (x.LastConfirmedFoodDelivery > helper.GetNextWorkingDay().AddDays(-6) && x.LastConfirmedFoodDelivery <= helper.GetNextWorkingDay().AddDays(-5)))
+                            && (x.LastConfirmedFoodDelivery > nextWorkingDay.AddDays(-6) && x.LastConfirmedFoodDelivery <= nextWorkingDay.AddDays(-5)))
                 .OrderBy(x => x.Id)
                 .Take(remainingCapacity).ToList();
             LambdaLogger.Log($"Final priority returned {response.Count + output.Count} records against a limit of {limit}.");
