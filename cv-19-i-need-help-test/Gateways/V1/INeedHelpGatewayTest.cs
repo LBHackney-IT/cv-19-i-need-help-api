@@ -26,6 +26,9 @@ namespace CV19INeedHelpTest.Gateways.V1
             const string connectionString = "Host=localhost;Database=i-need-help-test;Username=postgres;Password=mypassword";
             _context= new Cv19SupportDbContext(_connectionString ?? connectionString);
             ClearResidentSupportAnnexTable();
+            ClearDeliveryBatchTable();
+            ClearDeliveryReportDataTable();
+            ClearBankHolidays();
             if (_connectionString == null) Environment.SetEnvironmentVariable("CV_19_DB_CONNECTION", connectionString);
             _classUnderTest = new INeedHelpGateway(_context);
         }
@@ -43,13 +46,14 @@ namespace CV19INeedHelpTest.Gateways.V1
         [Test]
         public void WhenCreatingADeliveryScheduleReturnAListOfDeliveriesMeetingRequiredCriteria()
         {
+            var deliveryDate = DateTime.Today.AddDays(1);
             var annexRecord = _fixture.Create<ResidentSupportAnnex>();
             //annex record should not have a confirmed delivery
             annexRecord.LastConfirmedFoodDelivery = null;
             //annex record should have an ongoing food need of true
             annexRecord.OngoingFoodNeed = true;
             InsertIntoResidentSupportAnnexTable(annexRecord);
-            var response = _classUnderTest.CreateDeliverySchedule(10, "test");
+            var response = _classUnderTest.CreateDeliverySchedule(10, "test", deliveryDate);
             response.Count.Should().Be(1);
             response.First().AnnexId.Should().Be(annexRecord.Id);
         }
