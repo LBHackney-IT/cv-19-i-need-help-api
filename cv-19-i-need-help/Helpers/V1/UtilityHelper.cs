@@ -33,6 +33,7 @@ namespace CV19INeedHelp.Helpers.V1
             }
             else
             {
+                LambdaLogger.Log($"Next bank holiday returned: {nextBankHoliday}");
                 return nextBankHoliday.Date == date;
             }
         }
