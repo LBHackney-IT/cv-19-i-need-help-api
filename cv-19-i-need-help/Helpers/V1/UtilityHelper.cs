@@ -1,4 +1,5 @@
 using System;
+using Amazon.Lambda.Core;
 using CV19INeedHelp.Gateways.V1;
 using CV19INeedHelp.Models.V1;
 
@@ -13,11 +14,13 @@ namespace CV19INeedHelp.Helpers.V1
         }
         public DateTime GetNextWorkingDay(DateTime date)
         {
+            LambdaLogger.Log($"Date requested: {date}");
             var nextDay = date.AddDays(1);
             while (nextDay.DayOfWeek == DayOfWeek.Saturday || nextDay.DayOfWeek == DayOfWeek.Sunday || IsBankHoliday(nextDay))
             {
                 nextDay = nextDay.AddDays(1);
             }
+            LambdaLogger.Log($"Next working day: {nextDay}");
             return nextDay;
         }
 
