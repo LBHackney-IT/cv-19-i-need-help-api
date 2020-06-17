@@ -22,6 +22,7 @@ namespace CV19INeedHelp.Data.V1
         public virtual DbSet<FoodDelivery> FoodDeliveries { get; set; }
         public virtual DbSet<DeliveryBatch> DeliveryBatch { get; set; }
         public virtual DbSet<DeliveryReportItem> DeliveryReportData { get; set; }
+        public virtual DbSet<BankHoliday> BankHolidays { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -274,6 +275,15 @@ namespace CV19INeedHelp.Data.V1
                 entity.Property(e => e.BatchId).HasColumnName("batch_id");
             });
 
+            modelBuilder.Entity<BankHoliday>(entity =>
+            {
+                entity.ToTable("bank_holidays");
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Date).HasColumnName("date");
+                entity.Property(e => e.Description)
+                    .HasColumnName("description")
+                    .HasColumnType("character varying");
+            });
 
             OnModelCreatingPartial(modelBuilder);
         }
