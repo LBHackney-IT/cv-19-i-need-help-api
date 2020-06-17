@@ -39,8 +39,8 @@ namespace CV19INeedHelp.UseCases.V1
                     ReportFileId = "https://docs.google.com/spreadsheets/d/" + spreadsheet
                 };
             }
-            var getHelpRequests = _iFoodDeliveriesGateway.CreateTemporaryDeliveryData(limit, deliveryDay).ToList();
-            return _formatHelper.FormatDraftOutput(getHelpRequests, deliveryDay);
+            var helpRequests = _iFoodDeliveriesGateway.CreateTemporaryDeliveryData(limit, deliveryDay).ToList();
+            return _formatHelper.FormatDraftOutput(helpRequests, deliveryDay);
         }
 
         public DeliveryBatchResponse GetDeliveryBatch(DateTime deliveryDay)
