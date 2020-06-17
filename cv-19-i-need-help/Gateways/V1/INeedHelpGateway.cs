@@ -398,7 +398,7 @@ namespace CV19INeedHelp.Gateways.V1
         {
             var response = _dbContext.BankHolidays
                 .OrderBy(x => x.Date)
-                .FirstOrDefault(x => x.Date > date);
+                .FirstOrDefault(x => x.Date >= date);
             return response;
         }
     }
