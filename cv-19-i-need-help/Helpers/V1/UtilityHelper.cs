@@ -28,13 +28,13 @@ namespace CV19INeedHelp.Helpers.V1
         {
             LambdaLogger.Log($"Checking db for next bank holiday after: {date}");
             var nextBankHoliday = _iHelperGateway.GetNextBankHoliday(date);
+            LambdaLogger.Log($"Next bank holiday returned: {nextBankHoliday}");
             if (nextBankHoliday == null)
             {
                 return false;
             }
             else
             {
-                LambdaLogger.Log($"Next bank holiday returned: {nextBankHoliday}");
                 return nextBankHoliday.Date == date.Date;
             }
         }
