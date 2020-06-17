@@ -26,6 +26,7 @@ namespace CV19INeedHelp.Helpers.V1
 
         private bool IsBankHoliday(DateTime date)
         {
+            LambdaLogger.Log($"Checking db for next bank holiday after: {date}");
             var nextBankHoliday = _iHelperGateway.GetNextBankHoliday(date);
             if (nextBankHoliday == null)
             {
@@ -34,7 +35,7 @@ namespace CV19INeedHelp.Helpers.V1
             else
             {
                 LambdaLogger.Log($"Next bank holiday returned: {nextBankHoliday}");
-                return nextBankHoliday.Date == date;
+                return nextBankHoliday.Date == date.Date;
             }
         }
     }
