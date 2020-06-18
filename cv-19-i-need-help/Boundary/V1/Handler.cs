@@ -220,13 +220,15 @@ namespace CV19INeedHelp.Boundary.V1
        {
            var getRequestGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
            var driveHelper = new DriveHelper();
+           var utilityHelper = new UtilityHelper(getRequestGateway);
            var deliveryScheduleObject = new DeliveryScheduleUseCase(getRequestGateway, driveHelper);
            try
            {
                var request_params = request.QueryStringParameters;
                var limit = Int32.Parse(request_params["limit"]);
                var confirmed = bool.Parse(request_params["confirmed"]);
-               var resp = deliveryScheduleObject.CreateDeliverySchedule(limit, confirmed);
+               var deliveryDay = utilityHelper.GetNextWorkingDay(DateTime.Today);
+               var resp = deliveryScheduleObject.CreateDeliverySchedule(limit, confirmed,deliveryDay);
                LambdaLogger.Log(("Records retrieval success: " + resp.ToString()));
                var response = new Response();
                response.isBase64Encoded = true;
@@ -329,9 +331,11 @@ namespace CV19INeedHelp.Boundary.V1
         {
             var getBatchGateway = new INeedHelpGateway(new Cv19SupportDbContext(_connectionString));
             var getBatchObject = new DeliveryScheduleUseCase(getBatchGateway, null);
+            var utilityHelper = new UtilityHelper(getBatchGateway);
             try
             {
-                var resp = getBatchObject.GetDeliveryBatch();
+                var deliveryDay = utilityHelper.GetNextWorkingDay(DateTime.Today);
+                var resp = getBatchObject.GetDeliveryBatch(deliveryDay);
                 var response = new Response();
                 response.isBase64Encoded = true;
                 if (resp == null)

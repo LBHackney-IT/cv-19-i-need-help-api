@@ -16,12 +16,13 @@ namespace CV19INeedHelp.Gateways.V1
         void UpdateFoodDelivery(FoodDelivery data);
         void PatchHelpRequest(int id, ResidentSupportAnnexPatch dataItems);
         List<ResidentSupportAnnex> GetRequestExceptions();
-        List<DeliveryReportItem> CreateDeliverySchedule(int limit, string spreadsheet);
-        List<ResidentSupportAnnex> CreateTemporaryDeliveryData(int limit);
+        List<DeliveryReportItem> CreateDeliverySchedule(int limit, string spreadsheet, DateTime deliveryDate);
+        List<ResidentSupportAnnex> CreateTemporaryDeliveryData(int limit, DateTime deliveryDate);
         void UpdateAnnexWithDeliveryDates(List<DeliveryReportItem> data);
         DeliveryBatch FindExistingBatchForDate(DateTime deliveryDay);
         void DeleteBatch(int id);
         DeliveryBatch GetBatchById(int id);
         AnnexSummaryResponse GetHelpRequestsSummary();
+        BankHoliday GetNextBankHoliday(DateTime date);
     }
 }

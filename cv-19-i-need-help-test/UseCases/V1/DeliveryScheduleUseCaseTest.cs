@@ -100,11 +100,12 @@ namespace CV19INeedHelpTest.UseCases.V1
             _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object, _fakeDriveHelper.Object);
             var limit = 10;
             var spreadsheet = "test";
+            var date = new DateTime();
             _fakeDriveHelper.Setup(x => x.CreateSpreadsheet(It.IsAny<string>())).Returns(spreadsheet);
-            _fakeGateway.Setup(s => s.CreateDeliverySchedule(limit,spreadsheet)).Returns(_reportData);
-            _classUnderTest.CreateDeliverySchedule(limit,true);
-            _fakeGateway.Verify(m => m.CreateDeliverySchedule(limit,spreadsheet), Times.Once);
-            _fakeGateway.Verify(m => m.CreateTemporaryDeliveryData(limit), Times.Never);
+            _fakeGateway.Setup(s => s.CreateDeliverySchedule(limit,spreadsheet,date)).Returns(_reportData);
+            _classUnderTest.CreateDeliverySchedule(limit,true, date);
+            _fakeGateway.Verify(m => m.CreateDeliverySchedule(limit,spreadsheet,date), Times.Once);
+            _fakeGateway.Verify(m => m.CreateTemporaryDeliveryData(limit,date), Times.Never);
         }
         
         [TestCase]
@@ -114,10 +115,11 @@ namespace CV19INeedHelpTest.UseCases.V1
             _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object, new DriveHelper());
             var limit = 10;
             var spreadsheet = "test";
-            _fakeGateway.Setup(s => s.CreateTemporaryDeliveryData(limit)).Returns(_responseData);
-            _classUnderTest.CreateDeliverySchedule(limit, false);
-            _fakeGateway.Verify(m => m.CreateTemporaryDeliveryData(limit), Times.Once);
-            _fakeGateway.Verify(m => m.CreateDeliverySchedule(limit, spreadsheet), Times.Never);
+            var date = new DateTime();
+            _fakeGateway.Setup(s => s.CreateTemporaryDeliveryData(limit,date)).Returns(_responseData);
+            _classUnderTest.CreateDeliverySchedule(limit, false,date);
+            _fakeGateway.Verify(m => m.CreateTemporaryDeliveryData(limit,date), Times.Once);
+            _fakeGateway.Verify(m => m.CreateDeliverySchedule(limit, spreadsheet,date), Times.Never);
         }
         
         [TestCase]
@@ -125,19 +127,21 @@ namespace CV19INeedHelpTest.UseCases.V1
         {
             _fakeGateway = new Mock<IINeedHelpGateway>();
             _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object, new DriveHelper());
+            var date = new DateTime();
             var limit = 10;
-            _fakeGateway.Setup(s => s.CreateTemporaryDeliveryData(limit)).Returns(_responseData);
-            _classUnderTest.CreateDeliverySchedule(limit, false);
+            _fakeGateway.Setup(s => s.CreateTemporaryDeliveryData(limit,date)).Returns(_responseData);
+            _classUnderTest.CreateDeliverySchedule(limit, false,date);
         }
         
         [TestCase]
         public void CallingCreateDeliveryScheduleWithConfirmedFalseReturnsAListOfFoodDeliveryDraftObjects()
         {
+            var date = new DateTime();
             _fakeGateway = new Mock<IINeedHelpGateway>();
             _classUnderTest = new DeliveryScheduleUseCase(_fakeGateway.Object, new DriveHelper());
             var limit = 10;
-            _fakeGateway.Setup(s => s.CreateTemporaryDeliveryData(limit)).Returns(_responseData);
-            var response = _classUnderTest.CreateDeliverySchedule(limit, false);
+            _fakeGateway.Setup(s => s.CreateTemporaryDeliveryData(limit,date)).Returns(_responseData);
+            var response = _classUnderTest.CreateDeliverySchedule(limit, false,date);
             response.Should().BeOfType(typeof(List<FoodDeliveryDraft>));
         }
     }

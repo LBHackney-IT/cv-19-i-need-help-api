@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Amazon.Lambda.Core;
 using CV19INeedHelp.Boundary.V1.Responses;
@@ -12,23 +13,21 @@ namespace CV19INeedHelp.UseCases.V1
     {
         private readonly IINeedHelpGateway _iFoodDeliveriesGateway;
         private readonly IFormatHelper _formatHelper;
-        private IDriveHelper _driveHelper;
+        private readonly IDriveHelper _driveHelper;
         public DeliveryScheduleUseCase(IINeedHelpGateway iFoodDeliveriesGateway, IDriveHelper driveHelper)
         {
             _iFoodDeliveriesGateway = iFoodDeliveriesGateway;
-            _formatHelper = new FormatHelper();
             _driveHelper = driveHelper;
+            _formatHelper = new FormatHelper();
         }
         
-        public object CreateDeliverySchedule(int limit, bool confirmed)
+        public object CreateDeliverySchedule(int limit, bool confirmed, DateTime deliveryDay)
         {
             if (confirmed)
             {
-                UtilityHelper helper = new UtilityHelper();
-                var deliveryDay = helper.GetNextWorkingDay();
                 var spreadsheet =
                     _driveHelper.CreateSpreadsheet($"Delivery Report - {deliveryDay:dd-MM-yyyy}");
-                var data = _iFoodDeliveriesGateway.CreateDeliverySchedule(limit, spreadsheet);
+                var data = _iFoodDeliveriesGateway.CreateDeliverySchedule(limit, spreadsheet, deliveryDay);
                 _driveHelper.PopulateSpreadsheet(spreadsheet, data);
                 var responseDetails = data.FirstOrDefault();
                 _iFoodDeliveriesGateway.UpdateAnnexWithDeliveryDates(data);
@@ -40,14 +39,12 @@ namespace CV19INeedHelp.UseCases.V1
                     ReportFileId = "https://docs.google.com/spreadsheets/d/" + spreadsheet
                 };
             }
-            var getHelpRequests = _iFoodDeliveriesGateway.CreateTemporaryDeliveryData(limit).ToList();
-            return _formatHelper.FormatDraftOutput(getHelpRequests);
+            var helpRequests = _iFoodDeliveriesGateway.CreateTemporaryDeliveryData(limit, deliveryDay).ToList();
+            return _formatHelper.FormatDraftOutput(helpRequests, deliveryDay);
         }
 
-        public DeliveryBatchResponse GetDeliveryBatch()
+        public DeliveryBatchResponse GetDeliveryBatch(DateTime deliveryDay)
         {
-            UtilityHelper helper = new UtilityHelper();
-            var deliveryDay = helper.GetNextWorkingDay();
             var alreadyGenerated = _iFoodDeliveriesGateway.FindExistingBatchForDate(deliveryDay);
             if (alreadyGenerated != null)
             {

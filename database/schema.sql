@@ -13,6 +13,7 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
+----- DELIVERY BATCH -----
 --
 -- Name: delivery_batch id; Type: DEFAULT; Schema: public; Owner: postgres
 --
@@ -55,7 +56,8 @@ ALTER SEQUENCE public.delivery_batch_id_seq OWNED BY public.delivery_batch.id;
 
 ALTER TABLE ONLY public.delivery_batch ALTER COLUMN id SET DEFAULT nextval('public.delivery_batch_id_seq'::regclass);
 
------
+
+----- DELIVERY REPORT DATA -----
 --
 -- Name: delivery_report_data id; Type: DEFAULT; Schema: public; Owner: postgres
 --
@@ -107,7 +109,49 @@ ALTER SEQUENCE public.delivery_report_data_id_seq OWNED BY public.delivery_repor
 
 ALTER TABLE ONLY public.delivery_report_data ALTER COLUMN id SET DEFAULT nextval('public.delivery_report_data_id_seq'::regclass);
 
------
+----- BANK HOLIDAYS -----
+
+--
+-- Name: bank_holidays id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.bank_holidays (
+    "id" int4 NOT NULL,
+    "date" date,
+    "description" varchar,
+    PRIMARY KEY ("id")
+);
+
+ALTER TABLE public.bank_holidays OWNER TO postgres;
+
+-- Sequence and defined type
+CREATE SEQUENCE public.bank_holidays_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+--
+-- Name: bank_holidays id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+    
+ALTER TABLE public.bank_holidays_id_seq OWNER TO postgres;
+
+--
+-- Name: bank_holidays id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.bank_holidays_id_seq OWNED BY public.bank_holidays.id;
+
+--
+-- Name: bank_holidays id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bank_holidays ALTER COLUMN id SET DEFAULT nextval('public.bank_holidays_id_seq'::regclass);
+
+----- RESIDENT SUPPORT ANNEX -----
 
 --
 -- Name: resident_support_annex; Type: TABLE; Schema: public; Owner: postgres
